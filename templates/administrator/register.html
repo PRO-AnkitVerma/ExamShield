@@ -2,14 +2,26 @@
 
 {% block title %}ExamShield | Register{% endblock %}
 {% block style %}
-    <style>
-        p {
-            color: mediumvioletred;
-        }
-    </style>
+
 {% endblock %}
 {% block main %}
-    {# TODO: Complete Administrator Registration Page #}
+    TODO: Complete Administrator Registration Page
 
-    <p>Hello from Administrator Registration Page!</p>
+
+    <form action="{% url 'administrator:register' %}" method="post">
+        {% csrf_token %}
+        <div>
+            {{ user_form.as_p }}
+        </div>
+        <div>
+            {{ administrator_form.as_p }}
+
+        </div>
+        <div>
+            {{ institute_form.as_p }}
+
+        </div>
+        <input type="submit" value="Register" class="btn btn-block btn-primary"/>
+
+    </form>
 {% endblock %}
