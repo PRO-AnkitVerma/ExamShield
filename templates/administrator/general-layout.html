@@ -1,6 +1,7 @@
 {% extends  'base.html' %}
 {% block style %}
     {% include 'administrator/css/main_css.html' %}
+    
 {% endblock %}
 {% block main %}
     {# TODO: Complete Create Dashboard Page #}
@@ -8,7 +9,7 @@
     <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
         <div class="app-header header-shadow" style="background-color: #D8CEF6;">
             <div class="app-header__logo">
-                <div class="logo-src"><h5 style="color: rgb(73, 66, 66);font-weight: 700;">VIDHYAN</h5></div>
+                <div class="logo-src"><h5 style="color: rgb(73, 66, 66);font-weight: 700;">VIDHYAM</h5></div>
                 <div class="header__pane ml-auto">
                     <div>
                         <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
@@ -100,48 +101,47 @@
                     <ul class="vertical-nav-menu">
                         <li class="app-sidebar__heading"><a href="{% url 'administrator:dashboard' %}">Dashboards</a></li>
 
-                        <li class="app-sidebar__heading">MANAGE COURSE</li>
+                        <li class="app-sidebar__heading">MANAGE FACULTY</li>
                         <li>
                             <a href="#">
-                                 <i class="metismenu-icon pe-7s-display2"></i>
-                                 Course
-                                <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                <span><i class="fa fa-user"></i></span>&nbsp;
+                                <span> Faculty </span>
+                                     
                             </a>
                             <ul>
                                 <li>
-                                    <a href="#" data-toggle="modal" data-target="#modalForAddCourse">
-                                        <i class="fa fa-user"></i>
-                                        Add Course
+                                    <a href="{% url 'administrator:create-faculty' %}">
+                                        
+                                        Add Faculty
                                     </a>
                                 </li>
                                 <li>
                                     <a href="home.php?page=manage-course">
                                         <i class="metismenu-icon">
-                                        </i>Manage Course
+                                        </i>View Faculty Details
                                     </a>
                                 </li>
                                
                             </ul>
                         </li>
                        
-                        <li class="app-sidebar__heading">MANAGE EXAM</li>
+                        <li class="app-sidebar__heading">MANAGE STUDENTS</li>
                         <li>
                             <a href="#">
-                                 <i class="metismenu-icon pe-7s-display2"></i>
-                                 Exam
-                                <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                <span><i class="fa fa-users"></i></span>&nbsp;
+                                <span> Students </span>
                             </a>
                             <ul>
                                 <li>
-                                    <a href="#" data-toggle="modal" data-target="#modalForExam">
+                                    <a href="{% url 'administrator:create-student' %}">
                                         <i class="metismenu-icon"></i>
-                                        Add Exam
+                                        Add Student
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="home.php?page=manage-exam">
+                                    <a href="#">
                                         <i class="metismenu-icon">
-                                        </i>Manage Exam
+                                        </i>View Student Details
                                     </a>
                                 </li>
                                
@@ -149,44 +149,14 @@
                         </li>
                    
                  
-                        <li class="app-sidebar__heading">MANAGE EXAMINEE</li>
+                        <li class="app-sidebar__heading">Institute Detail</li>
                         <li>
-                            <a href="" data-toggle="modal" data-target="#modalForAddExaminee">
-                                <i class="metismenu-icon pe-7s-add-user">
-                                </i>Add Examinee
+                            <a href="{% url 'administrator:edit-institute-profile' %}">
+                                <span><i class="fa fa-university"></i></span>&nbsp;
+                                <span> Edit Institute Detail </span>
                             </a>
                         </li>
-                        <li>
-                            <a href="home.php?page=manage-examinee">
-                                <i class="metismenu-icon pe-7s-users">
-                                </i>Manage Examinee
-                            </a>
-                        </li>
-                        <li class="app-sidebar__heading">RANKING</li>
-                        <li>
-                            <a href="home.php?page=ranking-exam">
-                                <i class="metismenu-icon pe-7s-cup">
-                                </i>Ranking By Exam
-                            </a>
-                        </li>
-
-
-                        <li class="app-sidebar__heading">REPORTS</li>
-                        <li>
-                            <a href="home.php?page=examinee-result">
-                                <i class="metismenu-icon pe-7s-cup">
-                                </i>Examinee Result
-                            </a>
-                        </li>
-                      
-
-                         <li class="app-sidebar__heading">FEEDBACKS</li>
-                        <li>
-                            <a href="home.php?page=feedbacks">
-                                <i class="metismenu-icon pe-7s-chat">
-                                </i>All Feedbacks
-                            </a>
-                        </li>
+                        
                         
                     </ul>
                 </div>
