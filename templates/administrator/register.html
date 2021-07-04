@@ -5,20 +5,8 @@
 
 {% endblock %}
 {% block main %}
-    {# TODO: Complete Administrator Registration Page #}
-    {#    <div>#}
-    {#        {% if user_form.errors %}#}
-    {#            {{ user_form.errors }}#}
-    {#        {% endif %}#}
-    {##}
-    {#        {% if institute_form.errors %}#}
-    {#            {{ institute_form.errors }}#}
-    {#        {% endif %}#}
-    {##}
-    {#        {% if administrator_form.errors %}#}
-    {#            {{ administrator_form.errors }}#}
-    {#        {% endif %}#}
-    {#    </div>#}
+    TODO: Complete Administrator Registration Page
+
 
     <form action="{% url 'administrator:register' %}" method="post">
         {% csrf_token %}
@@ -36,79 +24,4 @@
         <input type="submit" value="Register" class="btn btn-block btn-primary"/>
 
     </form>
-
-
-    {#    <div class="overlay">#}
-    {#        <div class="row">#}
-    {#            <div class="col"><br><br>#}
-    {#                <img src="{% static 'img/registration.jpg' %}" alt="">#}
-    {#            </div>#}
-    {#            <div class="col">#}
-    {#                <div class="container">#}
-    {#                    <div class="card mt-5">#}
-    {#                        <div class="card-body">#}
-    {#                            <div class="card-title py-3">#}
-    {#                                <h4>Register for a account</h4>#}
-    {#                                <h5>Please Note this is registration for admin only</h5>#}
-    {#                            </div>#}
-    {#                            <form action="{% url 'administrator:register' %}" method="post"#}
-    {#                                  enctype="multipart/form-data">#}
-    {#                                {% csrf_token %}#}
-    {#                                {% include 'partials/_messages.html' %}#}
-    {#                                <div class="messages">#}
-    {#                                    {% for message in messages %}#}
-    {#                                        <div {% if message.tags %}#}
-    {#                                            class="alert alert-sm alert-{{ message.tags }}"{% endif %}>{{ message }}</div>#}
-    {#                                    {% endfor %}#}
-    {#                                </div>#}
-    {#                                <div class="form-group">#}
-    {#                                    <label for="username">{{ user_form.username.label_tag }} </label>#}
-    {#                                    {{ user_form.username }}#}
-    {#                                </div>#}
-    {##}
-    {#                                <div class="invalid-feedback " style="display: none;">#}
-    {#                                    <p>#}
-    {##}
-    {#                                    </p>#}
-    {#                                </div>#}
-    {##}
-    {#                                <p class="text-sm text-success usernamevalidOut"></p>#}
-    {##}
-    {#                                <div class="form-group">#}
-    {#                                    <label for="email">Email</label>#}
-    {#                                    {{ administrator_form.email }}#}
-    {#                                </div>#}
-    {##}
-    {#                                <div class="email-feedback invalid-feedback" style="display: none">#}
-    {#                                    <p>#}
-    {##}
-    {#                                    </p>#}
-    {#                                </div>#}
-    {##}
-    {#                                <div>#}
-    {#                                    {{ institute_form.as_p }}#}
-    {#                                </div>#}
-    {#                                <div class="form-group">#}
-    {#                                    <label for="password">{{ user_form.password.label_tag }} </label>#}
-    {#                                    {{ user_form.password }}#}
-    {#                                    <small class="float-right py-2 showPasswordToggle">SHOW</small>#}
-    {#                                </div>#}
-    {##}
-    {#                                    <input type="submit" value="Register" class="btn btn-block btn-primary"/>#}
-    {##}
-    {#                            </form>#}
-    {##}
-    {#                            <div class="container">#}
-    {#                                <span class="text-lead lead"> Already have an account? </span><a#}
-    {#                                    href="{% url 'administrator:login' %}" class="">Login</a>#}
-    {#                            </div>#}
-    {##}
-    {#                        </div>#}
-    {#                    </div>#}
-    {#                </div>#}
-    {##}
-    {#            </div>#}
-    {#            <div class="col-md-4"></div>#}
-    {#        </div>#}
-    {#    </div>#}
 {% endblock %}

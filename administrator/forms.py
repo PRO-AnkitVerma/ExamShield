@@ -14,7 +14,7 @@ class UserForm(forms.ModelForm):
         widgets = {
             'username': forms.TextInput(
                 attrs={
-                    'id': 'usernamefield', 'class': 'form-control',
+                    'id': 'usernamefield', 'class': 'form-control un',
                 }
             ),
 
@@ -30,6 +30,9 @@ class InstituteForm(forms.ModelForm):
     class Meta:
         model = Institute
         fields = '__all__'
+        widgets = {
+            'website_url': forms.URLInput(),
+        }
 
 
 class AdministratorForm(forms.ModelForm):

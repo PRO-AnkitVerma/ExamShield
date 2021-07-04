@@ -1,4 +1,5 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.views import View
 from .forms import (
     UserForm,
@@ -45,7 +46,7 @@ class Register(View):
             administrator.save()
 
             # redirecting to login page
-            return redirect('administrator:login')
+            return HttpResponseRedirect(reverse('administrator:login'))
 
         # invalid data sent via request
         context = {
@@ -69,6 +70,7 @@ def create_student(request):
 
 
 def edit_institute_profile(request):
+    # TODO: update institute profile
     return render(request, 'administrator/edit-institute-profile.html')
 
 
