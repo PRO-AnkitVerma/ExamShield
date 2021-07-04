@@ -12,6 +12,8 @@ class Institute(models.Model):
     state = models.CharField(max_length=200, help_text='Enter state')
     country = models.CharField(max_length=200, help_text='Enter country')
 
+    # TODO: add attributes: website, type, unique code autogenerate
+
     def __str__(self):
         return self.name
 
