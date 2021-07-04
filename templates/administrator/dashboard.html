@@ -1,15 +1,35 @@
-{% extends  'base.html' %}
-
-{% block title %}ExamShield | Dashboard{% endblock %}
-{% block style %}
-    <style>
-        p {
-            color: mediumvioletred;
-        }
-    </style>
+{% extends  'administrator/general-layout.html' %}
+{% block title %}ExamShield | Dashboard
 {% endblock %}
-{% block main %}
-    {# TODO: Complete Create Dashboard Page #}
-
-    <p>Hello from Create Dashboard Page!</p>
-{% endblock %}
+{% block app-main %}
+    <div class="row">
+        <div class="col-md-6 col-12">
+            <div class="card text-white bg-info mb-3" style="max-width: 100%;height: 250px;">
+              <div class="card-body">
+                <i class="fas fas-user fa-3x text-danger"></i>college details
+              </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="card text-white bg-success mb-3" style="max-width: 100%;height: 250px;">
+              <div class="card-body">
+                  number of student
+              </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="card text-white bg-secondary mb-3" style="max-width: 100%;height: 250px;">
+              <div class="card-body">
+                  number of subject
+              </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="card text-white bg-warning mb-3" style="max-width: 100%;height: 250px;">
+              <div class="card-body">
+                    number of faculty
+              </div>
+            </div>
+        </div>
+    </div>
+{%endblock%}
