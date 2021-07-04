@@ -2,133 +2,81 @@
 
 {% block title %}ExamShield | Home{% endblock %}
 {% block style %}
-    <style>
-        * {
-            margin: 0px;
-            padding: 0px;
-            font-family: sans-serif;
-        }
 
-        .menu ul {
-            display: inline-flex;
-            margin: 20px;
-        }
-
-        .menu ul li {
-            list-style: none;
-            margin: 0 20px;
-            color: black;
-            cursor: pointer;
-        }
-
-        .signup {
-            top: 40px;
-            right: 80px;
-            position: absolute;
-            text-decoration: none;
-            color: black;
-            margin-top: -27px;
-
-        }
-
-        .signup span {
-            display: block;
-            padding: 8px 22px;
-        }
-
-        li a:hover {
-
-            color: white;
-            background-color: #9966CC;
-        }
-
-        .container {
-            width: 80%;
-            height: 70%;
-            top: 25%;
-            left: 130px;
-            position: absolute;
-            color: black;
-        }
-
-        .app-text {
-            width: 50%;
-            float: left;
-        }
-
-        .app-text h1 {
-            font-size: 43px;
-            width: 640px;
-            position: relative;
-            margin-left: 40px;
-        }
-
-        .app-text p {
-            font-family: sans-serif;
-            width: 75%;
-            font-size: 20px;
-            margin: 30px 0 30px 40px;
-            line-height: 25px;
-            text-align: justify;
-            text-justify: inter-word;
-
-        }
-
-        .app-img {
-            width: 50%;
-            float: right;
-            position: relative;
-        }
-
-        .app-img img {
-            width: 100%;
-            margin-top: -60px;
-            margin-left: 50px;
-            border-radius: 20px;
-        }
-
-        li a {
-            display: block;
-            color: black;
-            text-align: center;
-            text-decoration: none;
-            padding: 8px 14px;
-
-        }
-    </style>
 {% endblock %}
 {% block main %}
     {# TODO: Complete Home Page #}
 
-    <div class="menu" id="mymenu">
-        <nav style="background-color: #D8CEF5;">
-            <b></b>
-            <ul>
-                <h1 style="margin-right: 100px;">Vidhyam</h1><br>
-                <li><a href="#admin">Admin</a></li>
-                <li><a href="#faculty">Faculty</a></li>
-                <li><a href="#student">Student</a></li>
-                <li><a href="#home">Contact Us</a></li>
-                <li><a href="#home">About Us</a></li>
-                <li><a href="" class="signup"><span>Sing up</span></a></li>
-            </ul>
-        </nav>
-    </div>
-    <div class="container">
-        <div class="app-text">
-            <h1>Vidhyam</h1>
-            <p>Vidhyam prevents user from opening any other window while examination is in progress. <br>This also
-                blocks
-                access to different shortcut keys such as cut ,copy , paste etc.. As student started giving exam
-                from different remote locations, the supervision for these exam became difficult. <br>Faculty can also
-                post
-                assignments to student and give remarks to submitted assignments so that examination will conduct
-                fairly. </p>
-        </div></b>
-        <div class="app-img">
-            <img src="logo.jpg">
-        </div>
+    <nav id="navbar">
+        <ul>
+            <li class="item"><a href="#">Home</a></li>
+            <li class="item"><a href="../Admin/login.html">Admin</a></li>
+            <li class="item"><a href="../Faculty/login.html">Faculty</a></li>
+            <li class="item"><a href="../Student/login.html">Student</a></li>
+            <li class="item"><a href="#aboutus">About Us</a></li>
+            <li class="item"><a href="#contact">Contact Us</a></li>
 
-    </div></b>
+        </ul>
+    </nav>
+
+    <section id="home">
+        <h1 class="h-primary">Vidyam</h1>
+        <p>For online examination and submissions</p>
+        <button class="btn" onclick="location.href  = '../Admin/register.html'">Sign up</button>
+    </section>
+
+    <section id="aboutus" style="padding-top: 75px;">
+        <h1 class="h-primary center">About Us</h1>
+        <div id="services">
+            <div class="box">
+                <h2 class="h-secondary center">Smart Examination</h2>
+                <p class="center">Vidhyam prevents user from opening any other window while examination is in progress.
+                    This also blocks access to different shortcut keys such as cut ,copy , paste etc.. As student started giving exam
+                    from different remote locations, the supervision for these exam became difficult.
+                </p>
+            </div>
+            <div class="box">
+                <h2 class="h-secondary center">Smart Submissions</h2>
+                <p class="center">Students can submit assignments by subjects in any file  format, whereas faculty can upload the
+                    definition of the assignment. Student will be able to see submissions given by faculty.</p>
+            </div>
+            <div class="box">
+                <h2 class="h-secondary center">Remarking</h2>
+                <p class="center">Additionally, the oral exam (VIVA) can be marked. The feature allow faculty to  give  marking  on assignment is  also possible.
+                    Student can also see their marks.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" style="padding-top: 75px;">
+        <h1 class="h-primary center">Contact Us</h1>
+        <div id="contact-box">
+            <form action="">
+                <div class="form-group">
+                    <label for="name">Name: </label>
+                    <input type="text" name="name" id="name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email: </label>
+                    <input type="email" name="name" id="email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number: </label>
+                    <input type="phone" name="name" id="phone" placeholder="Enter your phone">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message: </label>
+                    <textarea name="message" id="message" cols="30" rows="10"></textarea>
+                </div>
+                <center><button class="btn">Submit</button></center>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="center">
+            Created by Team Prastigh
+        </div>
+    </footer>
 
 {% endblock %}

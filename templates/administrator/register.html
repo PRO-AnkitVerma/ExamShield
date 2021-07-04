@@ -113,35 +113,39 @@
     {% endblock %}
 {% block main %}
     {# TODO: Complete Login Page #}
-HTML CSSResult Skip Results Iframe
-EDIT ON
-<head>
-  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<nav id="navbar">
+        <ul>
+            <li class="item"><a href="../Home/home.html">Home</a></li>
+            <li class="item"><a href="../Admin/login.html">Admin</a></li>
+            <li class="item"><a href="../Faculty/login.html">Faculty</a></li>
+            <li class="item"><a href="../Student/login.html">Student</a></li>
+            <li class="item"><a href="../Home/home.html">About Us</a></li>
+            <li class="item"><a href="../Home/home.html">Contact Us</a></li>
 
-  <title>register in vidhyam</title>
-</head>
+        </ul>
+    </nav>
+    <div class="main">
+        <p class="sign" align="center">Admin Registration</p>
+        <form class="form1">
+            <input class="un " type="text" align="center" placeholder="Username">
+            <input class="pass" type="password" align="center" placeholder="Password">
+            <input class="un " type="text" align="center" placeholder="email">
+            <input class="un " type="text" align="center" placeholder="Institute name">
+            <input class="un " type="number" align="center" placeholder="Institute code">
+            <input type="radio" name="type" align="center" placeholder="Institute" value="Institute" style="width: 50px;">
+            <label for="Institute" class="un">Institute</label>
+            <input type="radio" align="center" name="type" placeholder="Tution" value="Tution" style="width: 50px;">
+            <label for="Institute" class="un">Tution</label>
+            <br><br>
 
-<body>
-  <div class="main">
-    <p class="sign" align="center">Admin Login</p>
-    <form class="form1">
-      <input class="un " type="text" align="center" placeholder="Username">
-      <input class="pass" type="password" align="center" placeholder="Password">
-      <input class="un " type="text" align="center" placeholder="email">
-      <input class="un " type="text" align="center" placeholder="Institute name">
-      <label for="Institute" class="un">Institute</label><input  type="radio" name="type" align="center" placeholder="Institute" value="Institute">
-        <label for="Institute" class="un">Tution</label><input  type="radio" align="center" name="type" placeholder="Tution" value="Tution">
-<br><br><br>
-        <input class="un " type="number" align="center" placeholder="Institute code">
-
-      <a class="submit" align="center">Sign up</a>
-        <p class="forgot" align="center"><a href="login.html">Already have an account?</p>
+            <a class="submit" align="center">Sign up</a>
+            <p class="forgot" align="center"><a href="login.html">Already have an account?</p>
     </div>
 
-</body>
+    <footer>
+        <div class="center">
+            Created by Team Prastigh
+        </div>
+    </footer>
 
-
-
-    <p>Hello from Administrator Registration Page!</p>
 {% endblock %}
