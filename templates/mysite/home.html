@@ -1,4 +1,5 @@
 {% extends  'base.html' %}
+{% load static %}
 {% block link %}<link href="https://fonts.googleapis.com/css?family=Baloo+Bhai|Bree+Serif&display=swap" rel="stylesheet">{% endblock %}
 {% block title %}ExamShield | Home{% endblock %}
 {% block style %}
@@ -35,7 +36,7 @@ html{
     left:0px;
     height: 100%;
     width:100%;
-    z-index: -6;
+    z-index: -1;
     opacity: 1;
 }
 
@@ -83,7 +84,7 @@ html{
 #home::before{ 
     content: "";
     position: absolute;
-    background: url('../background.jpg') no-repeat center center/cover;
+    background: url("{% static 'img/background.jpg' %}") no-repeat center center/cover;
     height: 642px;
     top:0px;
     left:0px;
@@ -115,6 +116,19 @@ html{
     margin: 2px 55px;
     border-radius: 28px;
     background:#D8CEF5 ;;
+    margin-bottom: 100px;
+}
+#contact-page{
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#contact-page .box{ 
+    border: 2px solid #9966CC;
+    padding: 34px;
+    margin: 2px 55px;
+    border-radius: 28px;
+    background:#D8CEF5 ;;
     margin-bottom: 20px;
 }
 
@@ -132,12 +146,7 @@ html{
 
 /* Contact Section */
 
-.card {
-    padding: 8%;
-    padding-top: 35px;
-    margin-top: 60px;
-    margin-bottom: 80px;
-}
+
 
 textarea[name="message"] {
     resize: none;
@@ -262,6 +271,16 @@ footer{
     margin: 2px 0px; 
     margin-bottom: 20px;
 }
+#contact-page{
+    width: 80%;
+    flex-direction: column;
+}
+
+#contact-page .box { 
+    padding: 14px;
+    margin: 2px 0px; 
+    margin-bottom: 20px;
+}
 
 
 
@@ -324,48 +343,37 @@ footer{
     </section>
 
     <section id="contact">
-        
-            <div class="container">
-              <div class="row justify justify-content-center">
-                <div class="col-11 col-md-8 col-lg-6 col-xl-5">
-                  <form method="post">
-                    <div class="card" style="background-color: #D8CEF5;border: 2px solid #9966CC;">
-                      <div id="feed"></div>
-                      <div class="row mt-0">
-                        <div class="col-md-12 ">
-                          <h4 class="mb-1 text-center" style="font-size: 40px;color: purple;">Contact Us</h4><br>
-                          <p class="mb-1">Use the form below to share your questions, ideas, comments and feedback</p>
-                        </div>
-                      </div>
-                      <div class="form-group row mb-3">
-                        <div class="col-md-12 mb-0">
-                          <p class="mb-1">Name :</p> <input id="name" type="text" placeholder="Enter your name" name="name" class="form-control input-box rm-border" required>
-                        </div>
-                      </div>
-                      <div class="form-group row mb-3">
-                        <div class="col-md-12 mb-0">
-                          <p class="mb-1">Email :</p> <input id="e-mail" type="text" placeholder="Enter your email" name="email" class="form-control input-box rm-border" required>
-                        </div>
-                      </div>
-                      <div class="form-group row mb-3">
-                        <div class="col-md-12 mb-0">
-                          <p class="mb-1">Phone Number :</p> <input id="phone" type="text" placeholder="Enter your Phone No." name="phone" class="form-control input-box rm-border" required>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <div class="col-md-12 mb-2">
-                          <p class="mb-1">Message :</p> <textarea id="message" type="text" placeholder="Enter your message" name="msg" class="form-control input-box rm-border" required></textarea>
-                        </div>
-                      </div>
-                      <div class="form-group row justify-content-center mb-0">
-                        <div class="col-md-12 px-3"> <button id="pppp" name="submit" class="btn" style="background-color: #9966CC;color: white;font-weight: 700;cursor: pointer;">Submit</button> </div>
-                      </div>
+          <div id="contact-page">
+            <div class="box">
+                <h4 class="mb-1 text-center" style="font-size: 40px;color: purple;">Contact Us</h4><br>
+                <div class="form-group row mb-3">
+                    <div class="col-md-12 mb-0">
+                      <p class="mb-1">Name :</p> <input id="name" type="text" placeholder="Enter your name" name="name" class="form-control input-box rm-border" required>
                     </div>
-                  </form>
                 </div>
-              </div>
-         
-          </div>
+                <div class="form-group row mb-3">
+                    <div class="col-md-12 mb-0">
+                      <p class="mb-1">Email :</p> <input id="e-mail" type="text" placeholder="Enter your email" name="email" class="form-control input-box rm-border" required>
+                    </div>
+                  </div>
+                  <div class="form-group row mb-3">
+                    <div class="col-md-12 mb-0">
+                      <p class="mb-1">Phone Number :</p> <input id="phone" type="text" placeholder="Enter your Phone No." name="phone" class="form-control input-box rm-border" required>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-md-12 mb-2">
+                      <p class="mb-1">Message :</p> <textarea id="message" type="text" placeholder="Enter your message" name="msg" class="form-control input-box rm-border" required></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group row justify-content-center mb-0">
+                    <div class="col-md-12 px-3"> <button id="pppp" name="submit" class="btn" style="background-color: #9966CC;color: white;font-weight: 700;cursor: pointer;">Submit</button> </div>
+                  </div>
+                  
+            </div>
+            
+        </div>
+
     </section>
 
     <footer>
