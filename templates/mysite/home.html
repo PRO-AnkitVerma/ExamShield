@@ -1,18 +1,292 @@
 {% extends  'base.html' %}
-
+{% block link %}<link href="https://fonts.googleapis.com/css?family=Baloo+Bhai|Bree+Serif&display=swap" rel="stylesheet">{% endblock %}
 {% block title %}ExamShield | Home{% endblock %}
 {% block style %}
+    <style>
+        /* CSS Reset */
+*{
+    margin: 0;
+    padding: 0;
+}
 
+html{
+    scroll-behavior: smooth;
+}
+
+/* CSS Variables */
+:root{
+    --navbar-height: 59px;
+}
+
+/* Navigation Bar */
+#navbar{
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0px;
+    height: 75px;
+}
+
+#navbar::before{
+    content: "";
+    background-color: #D8CEF5;
+    position: absolute;
+    top:0px;
+    left:0px;
+    height: 100%;
+    width:100%;
+    z-index: -6;
+    opacity: 1;
+}
+
+
+/* Navigation Bar: List Styling */
+
+#navbar ul{
+    display: flex;
+    font-family: 'Baloo Bhai';
+}
+
+#navbar ul li{
+    list-style: none;
+    font-size: 1.3rem;
+}
+
+#navbar ul li a{
+    color: black;
+    display: block;
+    padding: 3px 22px;
+    border-radius: 20px;
+    text-decoration: none;
+}
+
+.item{
+    margin-top: 5px;;
+}
+
+#navbar ul li a:hover{
+    color: white;
+     background-color: #9966CC;
+}
+
+/* Home Section */
+#home{
+    display: flex;
+    flex-direction: column;
+    padding:3px 200px;
+    margin-right: 500px;
+    height: 550px;
+    justify-content: center;
+    align-items: center;
+}
+
+#home::before{
+    content: "";
+    position: absolute;
+    background: url('../background.jpg') no-repeat center center/cover;
+    height: 642px;
+    top:0px;
+    left:0px;
+    width: 100%;
+    z-index: -1;
+    opacity:0.89;
+}
+
+#home h1{
+    color:black;
+    text-align: center;
+    font-family: 'Bree Serif', serif;
+}
+
+#home p{
+    color:black;
+    text-align: center;
+    font-size: 1.5rem;
+    font-family: 'Bree Serif', serif;
+}
+/* Services Section */
+#services{
+    margin: 34px;
+    display: flex;
+}
+#services .box{
+    border: 2px solid #9966CC;
+    padding: 34px;
+    margin: 2px 55px;
+    border-radius: 28px;
+    background:#D8CEF5 ;;
+    margin-bottom: 20px;
+}
+
+#services .box img{
+   height: 160px;
+   margin: auto;
+   display: block;
+}
+
+#services .box p{
+    font-family: 'Bree Serif', serif;
+
+}
+
+
+/* Contact Section */
+
+.card {
+    padding: 8%;
+    padding-top: 35px;
+    margin-top: 60px;
+    margin-bottom: 80px;
+}
+
+textarea[name="message"] {
+    resize: none;
+}
+
+#e-mail {
+    height: 45px;
+}
+
+#message {
+    height: 120px;
+}
+
+input.input-box,
+textarea.input-box {
+    background-color: #ffffff;
+    border: 1px solid#0e0d0d;
+    color: #BDBDBD;
+}
+
+
+.rm-border:focus {
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+form .form-control::-webkit-input-placeholder {
+    color: #9E9E9E;
+
+}
+
+::-moz-placeholder {
+    color: #6d6b6b;
+}
+
+input.btn-purple {
+    background-color: #5C6BC0;
+    color: #ffffff;
+}
+.mb-1{
+    color: rgb(0, 0, 0);
+    font-weight: 700;
+}
+
+/* footer */
+footer{
+    background: black;
+    color: white;
+    padding: 9px 20px;
+}
+
+/* Utility Classes */
+.h-primary{
+    font-family: 'Bree Serif', serif;
+    font-size: 3.8rem;
+    padding: 12px;
+}
+
+.h-secondary{
+    font-family: 'Bree Serif', serif;
+    font-size: 2.3rem;
+    padding: 12px;
+}
+
+.btn{
+    padding: 6px 20px;
+    border: 2px solid #9966CC;
+    background-color: #9966CC;
+    color: white;
+    margin: 17px;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    cursor:pointer;
+}
+
+.btn:hover{
+    border: 2px solid #D8CEF5;
+    color: black;
+     background-color: #D8CEF5;
+}
+
+.center{
+    text-align: center;
+}
+
+/* media query */
+@media (max-width:1170px){
+    /* Navigation */
+#navbar {
+    flex-direction: column;
+    padding-top: 15px;
+}
+
+#navbar ul li a{
+    font-size: 1rem;
+    padding: 0px 7px;
+    padding-bottom: 8px;
+}
+/* Home section */
+#home{
+    height: 370px;
+    padding: 10px 0px 10px 66px;
+    width: 90%;
+}
+
+#home::before{
+    height: 480px;
+}
+
+#home p{
+    font-size: 13px;
+}
+
+/* Services section  */
+#services{
+    flex-direction: column;
+}
+
+#services .box {
+    padding: 14px;
+    margin: 2px 0px;
+    margin-bottom: 20px;
+}
+
+
+
+/* Footer */
+
+/* Utility classes */
+.h-primary{
+    font-size:26px;
+}
+.btn{
+    font-size: 13px;
+    padding: 4px 8px;
+}
+}
+
+</style>
 {% endblock %}
 {% block main %}
     {# TODO: Complete Home Page #}
 
     <nav id="navbar">
         <ul>
-            <li class="item"><a href="#">Home</a></li>
-            <li class="item"><a href="../Admin/login.html">Admin</a></li>
-            <li class="item"><a href="../Faculty/login.html">Faculty</a></li>
-            <li class="item"><a href="../Student/login.html">Student</a></li>
+            <li class="item"><a href="{% url 'administrator:login' %}">Admin</a></li>
+            <li class="item"><a href="{% url 'faculty:login' %}">Faculty</a></li>
+            <li class="item"><a href="{% url 'student:login' %}">Student</a></li>
             <li class="item"><a href="#aboutus">About Us</a></li>
             <li class="item"><a href="#contact">Contact Us</a></li>
 
@@ -22,7 +296,8 @@
     <section id="home">
         <h1 class="h-primary">Vidyam</h1>
         <p>For online examination and submissions</p>
-        <button class="btn" onclick="location.href  = '../Admin/register.html'">Sign up</button>
+        <a href="{% url 'administrator:register' %}"><button class="btn">Sign up</button></a>
+
     </section>
 
     <section id="aboutus" style="padding-top: 75px;">
@@ -48,29 +323,49 @@
         </div>
     </section>
 
-    <section id="contact" style="padding-top: 75px;">
-        <h1 class="h-primary center">Contact Us</h1>
-        <div id="contact-box">
-            <form action="">
-                <div class="form-group">
-                    <label for="name">Name: </label>
-                    <input type="text" name="name" id="name" placeholder="Enter your name">
+    <section id="contact">
+
+            <div class="container">
+              <div class="row justify justify-content-center">
+                <div class="col-11 col-md-8 col-lg-6 col-xl-5">
+                  <form method="post">
+                    <div class="card" style="background-color: #D8CEF5;border: 2px solid #9966CC;">
+                      <div id="feed"></div>
+                      <div class="row mt-0">
+                        <div class="col-md-12 ">
+                          <h4 class="mb-1 text-center" style="font-size: 40px;color: purple;">Contact Us</h4><br>
+                          <p class="mb-1">Use the form below to share your questions, ideas, comments and feedback</p>
+                        </div>
+                      </div>
+                      <div class="form-group row mb-3">
+                        <div class="col-md-12 mb-0">
+                          <p class="mb-1">Name :</p> <input id="name" type="text" placeholder="Enter your name" name="name" class="form-control input-box rm-border" required>
+                        </div>
+                      </div>
+                      <div class="form-group row mb-3">
+                        <div class="col-md-12 mb-0">
+                          <p class="mb-1">Email :</p> <input id="e-mail" type="text" placeholder="Enter your email" name="email" class="form-control input-box rm-border" required>
+                        </div>
+                      </div>
+                      <div class="form-group row mb-3">
+                        <div class="col-md-12 mb-0">
+                          <p class="mb-1">Phone Number :</p> <input id="phone" type="text" placeholder="Enter your Phone No." name="phone" class="form-control input-box rm-border" required>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-md-12 mb-2">
+                          <p class="mb-1">Message :</p> <textarea id="message" type="text" placeholder="Enter your message" name="msg" class="form-control input-box rm-border" required></textarea>
+                        </div>
+                      </div>
+                      <div class="form-group row justify-content-center mb-0">
+                        <div class="col-md-12 px-3"> <button id="pppp" name="submit" class="btn" style="background-color: #9966CC;color: white;font-weight: 700;cursor: pointer;">Submit</button> </div>
+                      </div>
+                    </div>
+                  </form>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email: </label>
-                    <input type="email" name="name" id="email" placeholder="Enter your email">
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone Number: </label>
-                    <input type="phone" name="name" id="phone" placeholder="Enter your phone">
-                </div>
-                <div class="form-group">
-                    <label for="message">Message: </label>
-                    <textarea name="message" id="message" cols="30" rows="10"></textarea>
-                </div>
-                <center><button class="btn">Submit</button></center>
-            </form>
-        </div>
+              </div>
+
+          </div>
     </section>
 
     <footer>
@@ -78,5 +373,4 @@
             Created by Team Prastigh
         </div>
     </footer>
-
 {% endblock %}

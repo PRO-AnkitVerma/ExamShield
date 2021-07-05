@@ -2,128 +2,184 @@
 
 {% block title %}ExamShield | Student Login{% endblock %}
 {% block style %}
-<style>
-     body {
-            background-color: white;
-            font-family: 'Ubuntu', sans-serif;
-        }
+    <style>
+               body {
+           background-color: #F3EBF6;
+           font-family: 'Ubuntu', sans-serif;
+       }
 
-        .main {
-            background-color: #FFFFFF;
-            width: 400px;
-            height: 400px;
-            margin: 7em auto;
-            border-radius: 1.5em;
-            box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
-        }
+       .main {
+           background-color: #FFFFFF;
+           width: 400px;
+           height: 400px;
+           margin: 7em auto;
+           border-radius: 1.5em;
+           box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+       }
 
-        .sign {
-            padding-top: 40px;
-            color: #8C55AA;
-            font-family: 'Ubuntu', sans-serif;
-            font-weight: bold;
-            font-size: 23px;
-        }
+       .sign {
+           padding-top: 40px;
+           color: #8C55AA;
+           font-family: 'Ubuntu', sans-serif;
+           font-weight: bold;
+           font-size: 23px;
+       }
 
-        form.form1 {
-            padding-top: 40px;
-        }
+       .un {
+       width: 76%;
+       color: rgb(38, 50, 56);
+       font-weight: 700;
+       font-size: 14px;
+       letter-spacing: 1px;
+       background: rgba(136, 126, 126, 0.04);
+       padding: 10px 20px;
+       border: none;
+       border-radius: 20px;
+       outline: none;
+       box-sizing: border-box;
+       border: 2px solid rgba(0, 0, 0, 0.02);
+       margin-bottom: 50px;
+       margin-left: 46px;
+       text-align: center;
+       margin-bottom: 27px;
+       font-family: 'Ubuntu', sans-serif;
+       }
 
-        input {
-            width: 76%;
-            color: rgb(38, 50, 56);
-            font-weight: 700;
-            font-size: 14px;
-            letter-spacing: 1px;
-            background: rgba(136, 126, 126, 0.04);
-            padding: 10px 20px;
-            border: none;
-            border-radius: 20px;
-            outline: none;
-            box-sizing: border-box;
-            border: 2px solid rgba(0, 0, 0, 0.02);
-            margin-bottom: 50px;
-            margin-left: 46px;
-            text-align: center;
-            margin-bottom: 27px;
-            font-family: 'Ubuntu', sans-serif;
-        }
+       form.form1 {
+           padding-top: 40px;
+       }
+
+       .pass {
+               width: 76%;
+       color: rgb(38, 50, 56);
+       font-weight: 700;
+       font-size: 14px;
+       letter-spacing: 1px;
+       background: rgba(136, 126, 126, 0.04);
+       padding: 10px 20px;
+       border: none;
+       border-radius: 20px;
+       outline: none;
+       box-sizing: border-box;
+       border: 2px solid rgba(0, 0, 0, 0.02);
+       margin-bottom: 50px;
+       margin-left: 46px;
+       text-align: center;
+       margin-bottom: 27px;
+       font-family: 'Ubuntu', sans-serif;
+       }
 
 
-        .un:focus,
-        .pass:focus {
-            border: 2px solid rgba(0, 0, 0, 0.18) !important;
+       .un:focus, .pass:focus {
+           border: 2px solid rgba(0, 0, 0, 0.18) !important;
 
-        }
+       }
 
-        .submit {
-            cursor: pointer;
-            border-radius: 5em;
-            color: #fff;
-            background: linear-gradient(to right, #9900CC, #9999CC);
-            border: 0;
+       .submit {
+         cursor: pointer;
+           border-radius: 5em;
+           color: #fff;
+           background: linear-gradient(to right, #9900CC,#9999CC);
+           border: 0;
 
-            padding-left: 40px;
-            padding-right: 40px;
-            padding-bottom: 10px;
-            padding-top: 10px;
-            font-family: 'Ubuntu', sans-serif;
-            margin-left: 35%;
-            font-size: 13px;
-            box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
-        }
+           padding-left: 40px;
+           padding-right: 40px;
+           padding-bottom: 10px;
+           padding-top: 10px;
+           font-family: 'Ubuntu', sans-serif;
+           margin-left: 35%;
+           font-size: 13px;
+           box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+       }
 
-        .submit:hover {
-            color: black;
-        }
+       .forgot {
+           text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+           color: #8C55AA;
+           padding-top: 15px;
+       }
 
-        .forgot {
-            text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
-            color: #8C55AA;
-            padding-top: 30px;
-        }
+       a {
+           text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+           color: #cd4ee4;
+           text-decoration: none
+       }
 
-        a {
-            text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
-            color: #E1BEE7;
-            text-decoration: none;
-        }
-
-        @media (max-width: 600px) {
-            .main {
-                border-radius: 0px;
-            }
-        }
-</style>
-    {% endblock %}
+       @media (max-width: 600px) {
+           .main {
+               border-radius: 0px;
+           }
+       }
+    </style>
+{% endblock %}
 {% block main %}
     {# TODO: Complete Login Page #}
 
-  <nav id="navbar">
-        <ul>
-            <li class="item"><a href="../Home/home.html">Home</a></li>
-            <li class="item"><a href="../Admin/login.html">Admin</a></li>
-            <li class="item"><a href="../Faculty/login.html">Faculty</a></li>
-            <li class="item"><a href="#">Student</a></li>
-            <li class="item"><a href="../Home/home.html">About Us</a></li>
-            <li class="item"><a href="../Home/home.html">Contact Us</a></li>
-
-        </ul>
-    </nav>
-
     <div class="main">
-        <p class="sign" align="center">Student Login</p>
-        <form class="form1">
-            <input class="un " type="text" align="center" placeholder="Username">
-            <input class="pass" type="password" align="center" placeholder="Password">
-            <a class="submit" align="center">Sign in</a>
-            <p class="forgot" align="center"><a href="#">Forgot Password?</p>
-    </div>
+      <div>
+              <p class="sign" align="center">Student Login</p>
+              <form class="form1">
+                <input class="un " type="text" align="center" placeholder="Username">
+                <input class="pass" type="password" align="center" placeholder="Password">
+                <a class="submit" align="center">Sign in</a>
+              </form>
+              <div class="mt-4" style="margin-left: 32%;">
+                <div class="form-group">
+                  <div class="input-group">
+                      <a href="" data-bs-toggle="modal" data-bs-target="#forgotpassword">Forgot password?</a>
+                  </div>
+                </div>
+              </div>
+      </div>
+  </div>
 
-    <footer>
-        <div class="center">
-            Created by Team Prastigh
+          <!-- Modal for forgot password -->
+<div class="modal fade" id="forgotpassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-primary" id="exampleModalLabel">Change Password</h5>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">&times;</button>
+      </div>
+      <form id="form4">
+        <div class="modal-body">
+                <div class="form-group mb-3" id="rm_email">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <span><img src="https://image.flaticon.com/icons/png/128/1177/1177568.png" height="20" width="20"></span>
+                            </span>
+                        </div>
+                        <input type="email" id="femail" class="form-control" name="femail" placeholder="Email Id." required>
+                    </div>
+                </div>
+                <div class="form-group mb-3" id="rm_pass">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <span><img src="https://image.flaticon.com/icons/png/128/3064/3064211.png" height="20" width="20"></span>
+                            </span>
+                        </div>
+                        <input type="password" id="fpass" class="form-control" name="fpass" placeholder="Password" required>
+                    </div>
+                </div>
+                <div class="form-group" id="rm_cpass">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <span><img src="https://image.flaticon.com/icons/png/128/3064/3064211.png" height="20" width="20"></span>
+                            </span>
+                        </div>
+                        <input type="password" id="fcpass" class="form-control" name="fcpass" placeholder="Confirm Password" required>
+                    </div>
+                </div>
         </div>
-    </footer>
-
+        <div class="d-flex justify-content-center" id="rm_update_btn">
+            <div class="modal-footer">
+                <button id="forgotbtn" type="submit" class="btn btn-primary"><i class="fa fa-spinner fa-spin d-none forgot-spinner" aria-hidden="true"></i> Update</button>
+            </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
