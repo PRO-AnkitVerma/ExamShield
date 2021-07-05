@@ -1,15 +1,12 @@
-{% extends  'base.html' %}
-
-{% block title %}ExamShield | Create Student{% endblock %}
-{% block style %}
-    <style>
-        p {
-            color: mediumvioletred;
-        }
-    </style>
+{% extends  'administrator/general-layout.html' %}
+{% block title %}ExamShield | Create Student
 {% endblock %}
-{% block main %}
-    {# TODO: Complete Create Student Page #}
-
-    <p>Hello from Create Student Page!</p>
+{% block app-main %}
+<div class="main-add-stu">
+    <p class="sign" align="center">Add Student</p>
+    <form class="form1">
+        <input  type="text" align="center" placeholder="Username">
+        <input  type="password" align="center" placeholder="Password">
+        <a class="share" align="center">Share</a>
+</div>
 {% endblock %}

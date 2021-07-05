@@ -19,6 +19,7 @@ from . import views
 app_name = 'administrator'
 
 urlpatterns = [
+    path('',views.dashboard,name='dashboard'),# TODO: remove later
     path('login/', views.login, name='login'),
     # TODO: add redirect for '' to login
     path('register/', views.Register.as_view(), name='register'),
