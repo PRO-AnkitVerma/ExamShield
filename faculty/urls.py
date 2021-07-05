@@ -21,4 +21,5 @@ app_name = 'faculty'
 urlpatterns = [
     path('login/', views.login, name='login'),
     # TODO: add redirect for '' to login
+    path('dashboard/', views.dashboard, name='dashboard'),
 ]
