@@ -8,3 +8,6 @@ def login(request):
 
 def dashboard(request):
     return render(request, 'faculty/dashboard.html')
+
+def add_subject(request):
+    return render(request, 'faculty/add-subject.html')
