@@ -80,14 +80,17 @@ class Login(View):
         return render(request, 'administrator/login.html')
 
 
+@allowed_users(allowed_groups=['administrator'])
 def create_faculty(request):
     return render(request, 'administrator/create-faculty.html')
 
 
+@allowed_users(allowed_groups=['administrator'])
 def create_student(request):
     return render(request, 'administrator/create-student.html')
 
 
+@allowed_users(allowed_groups=['administrator'])
 def edit_institute_profile(request):
     # TODO: update institute profile
     return render(request, 'administrator/edit-institute-profile.html')
@@ -95,7 +98,11 @@ def edit_institute_profile(request):
 
 @allowed_users(allowed_groups=['administrator'])
 def dashboard(request):
-    return render(request, 'administrator/dashboard.html')
+    user = request.user
+    context = {
+        'user': user,
+    }
+    return render(request, 'administrator/dashboard.html', context=context)
 
 
 @login_required(login_url='administrator:login')
