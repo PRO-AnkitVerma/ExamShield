@@ -2,6 +2,8 @@
 
 {% block title %}ExamShield | Faculty Login{% endblock %}
 {% block style %}
+
+{% include 'mysite/css/main.html' %}
     <style>
                body {
            background-color: #F3EBF6;
@@ -113,6 +115,18 @@
 {% endblock %}
 {% block main %}
     {# TODO: Complete Login Page #}
+
+    <nav id="navbar">
+        <ul>
+            <li class="item"><a href="{% url 'mysite:home' %}">Home</a></li>
+            <li class="item"><a href="{% url 'administrator:login' %}">Admin</a></li>
+            <li class="item"><a href="#">Faculty</a></li>
+            <li class="item"><a href="{% url 'student:login' %}">Student</a></li>
+            <li class="item"><a href="{% url 'mysite:home' %}"">About Us</a></li>
+            <li class="item"><a href="{% url 'mysite:home' %}"">Contact Us</a></li>
+
+        </ul>
+    </nav>
 
     <div class="main">
       <div>
