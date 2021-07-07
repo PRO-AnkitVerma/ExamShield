@@ -36,7 +36,7 @@ html{
     left:0px;
     height: 100%;
     width:100%;
-    z-index: -6;
+    z-index: -1;
     opacity: 1;
 }
 
@@ -48,7 +48,7 @@ html{
     font-family: 'Baloo Bhai';
 }
 
-#navbar ul li{ 
+#navbar ul li{
     list-style: none;
     font-size: 1.3rem;
 }
@@ -81,9 +81,10 @@ html{
     align-items: center;
 }
 
-#home::before{ 
+#home::before{
     content: "";
     position: absolute;
+    background: url("{% static 'img/background.jpg' %}") no-repeat center center/cover;
     height: 642px;
     top:0px;
     left:0px;
@@ -91,15 +92,6 @@ html{
     z-index: -1;
     opacity:0.89;
 }
-
-#home div{
-    margin-right: 516px;
-}
-
-#home button{
-    margin-left: 145px;
-}
-
 
 #home h1{
     color:black;
@@ -184,7 +176,7 @@ textarea.input-box {
 
 form .form-control::-webkit-input-placeholder {
     color: #9E9E9E;
-    
+
 }
 
 ::-moz-placeholder {
@@ -262,7 +254,7 @@ footer{
 }
 
 #home::before{
-    height: 480px; 
+    height: 480px;
 }
 
 #home p{
@@ -275,6 +267,16 @@ footer{
 }
 
 #services .box {
+    padding: 14px;
+    margin: 2px 0px;
+    margin-bottom: 20px;
+}
+#contact-page{
+    width: 80%;
+    flex-direction: column;
+}
+
+#contact-page .box {
     padding: 14px;
     margin: 2px 0px;
     margin-bottom: 20px;
@@ -310,12 +312,10 @@ footer{
         </ul>
     </nav>
 
-    <section id="home" style="background-image: url('{% static 'img/background.jpg' %}')">
-        <div>
-            <h1 class="h-primary">Vidyam</h1>
-            <p>For online examination and submissions</p>
-            <a href="{% url 'administrator:register' %}"><button class="btn">Sign up</button></a>
-        </div>
+    <section id="home">
+        <h1 class="h-primary">Vidyam</h1>
+        <p>For online examination and submissions</p>
+        <a href="{% url 'administrator:register' %}"><button class="btn">Sign up</button></a>
 
     </section>
 
