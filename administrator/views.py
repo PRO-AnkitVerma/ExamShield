@@ -5,6 +5,7 @@ from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.urls import reverse
 from django.views import View
 from mysite.decorators import allowed_users
+from .models import Administrator
 from .forms import (
     UserForm,
     InstituteForm,
@@ -99,8 +100,13 @@ def edit_institute_profile(request):
 @allowed_users(allowed_groups=['administrator'])
 def dashboard(request):
     user = request.user
+
     context = {
         'user': user,
+        'total_faculties': Administrator.objects.all().count(),
+        'total_subjects': Administrator.objects.all().count(),
+        'total_students': Administrator.objects.all().count(),
+        'institute': user.administrator.institute,
     }
     return render(request, 'administrator/dashboard.html', context=context)
 
