@@ -1,16 +1,16 @@
-from django.shortcuts import render, HttpResponse, HttpResponseRedirect
+from django.contrib import auth
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
+from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.urls import reverse
 from django.views import View
+from mysite.decorators import allowed_users
+from .models import Administrator
 from .forms import (
     UserForm,
     InstituteForm,
     AdministratorForm
 )
-
-
-# Create your views here.
-def register(request):
-    return render(request, 'administrator/register.html')
 
 
 class Register(View):
@@ -45,6 +45,10 @@ class Register(View):
             administrator.institute = institute
             administrator.save()
 
+            # adding to administrator group
+            administrator_group = Group.objects.get(name='administrator')
+            administrator_group.user_set.add(administrator.user)
+
             # redirecting to login page
             return HttpResponseRedirect(reverse('administrator:login'))
 
@@ -57,22 +61,57 @@ class Register(View):
         return render(request, 'administrator/register.html', context=context)
 
 
-def login(request):
-    return render(request, 'administrator/login.html')
+class Login(View):
+    def get(self, request):
+        return render(request, 'administrator/login.html')
+
+    def post(self, request):
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+
+        if username and password:
+            user = auth.authenticate(username=username, password=password)
+
+            if user:
+                auth.login(request, user)
+                return redirect('administrator:dashboard')
+            else:
+                return render(request, 'administrator/login.html')
+
+        return render(request, 'administrator/login.html')
 
 
+@allowed_users(allowed_groups=['administrator'])
 def create_faculty(request):
     return render(request, 'administrator/create-faculty.html')
 
 
+@allowed_users(allowed_groups=['administrator'])
 def create_student(request):
     return render(request, 'administrator/create-student.html')
 
 
+@allowed_users(allowed_groups=['administrator'])
 def edit_institute_profile(request):
     # TODO: update institute profile
     return render(request, 'administrator/edit-institute-profile.html')
 
 
+@allowed_users(allowed_groups=['administrator'])
 def dashboard(request):
-    return render(request, 'administrator/dashboard.html')
+    user = request.user
+
+    context = {
+        'user': user,
+        'total_faculties': Administrator.objects.all().count(),
+        'total_subjects': Administrator.objects.all().count(),
+        'total_students': Administrator.objects.all().count(),
+        'institute': user.administrator.institute,
+    }
+    return render(request, 'administrator/dashboard.html', context=context)
+
+
+@login_required(login_url='administrator:login')
+def logout(request):
+    auth.logout(request)
+    return redirect('administrator:login')
