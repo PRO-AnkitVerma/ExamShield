@@ -21,3 +21,20 @@ class Administrator(models.Model):
 
     def __str__(self):
         return f'{self.user}@{self.institute.name}'
+class StudentInfo(models.Model):
+    user=models.CharField(max_length=200,
+                            null=False,
+                            blank=False,
+                            help_text='Enter ID')
+    institute = models.OneToOneField('Institute', on_delete=models.CASCADE)
+    def __str__(self):
+        return f'{self.user}@{self.institute.name}'
+
+class FacultyInfo(models.Model):
+    user=models.CharField(max_length=200,
+                            null=False,
+                            blank=False,
+                            help_text='Enter faculty ID')
+    institute = models.OneToOneField('Institute', on_delete=models.CASCADE)
+    def __str__(self):
+        return f'{self.user}@{self.institute.name}'
