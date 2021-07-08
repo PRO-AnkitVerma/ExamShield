@@ -118,8 +118,8 @@ def faculty_exam_view(request):
     return render(request, 'faculty/faculty_exam.html')
 
 
-@login_required(login_url='faculty/login')
-@user_passes_test(is_faculty)
+#@login_required(login_url='faculty/login')
+#@user_passes_test(is_faculty)
 def faculty_add_exam_view(request):
     courseForm = QFORM.CourseForm()
     if request.method == 'POST':
