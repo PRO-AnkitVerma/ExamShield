@@ -1,16 +1,18 @@
 import student as student
 from django.db import models
-
+from student.models import student as Student_from_database
+from administrator.models import Institute
+from subject.models import Subject
 
 class Course(models.Model):
     course_name = models.CharField(max_length=50)
     question_number = models.PositiveIntegerField()
     total_marks = models.PositiveIntegerField()
-    institute = models.OneToOneField('Institute', on_delete=models.CASCADE)
+    course_code=models.PositiveIntegerField()
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.course_name
-
 
 class Question(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -25,7 +27,7 @@ class Question(models.Model):
 
 
 class Result(models.Model):
-    student = models.ForeignKey(student, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student_from_database, on_delete=models.CASCADE)
     exam = models.ForeignKey(Course, on_delete=models.CASCADE)
     marks = models.PositiveIntegerField()
     date = models.DateTimeField(auto_now=True)

@@ -58,7 +58,7 @@ class Register(View):
 
 
 def login(request):
-    return render(request, 'administrator/login.html')
+    return render(request, 'administrator/dashboard.html')
 
 
 def create_faculty(request):
