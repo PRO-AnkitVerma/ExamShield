@@ -66,6 +66,8 @@ def create_faculty(request):
 
 
 def create_student(request):
+
+
     return render(request, 'administrator/create-student.html')
 
 

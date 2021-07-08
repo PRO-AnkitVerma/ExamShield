@@ -2,12 +2,14 @@
 
 {% block title %}ExamShield | Faculty Login{% endblock %}
 {% block style %}
+
+{% include 'mysite/css/main.html' %}
     <style>
                body {
            background-color: #F3EBF6;
            font-family: 'Ubuntu', sans-serif;
        }
-   
+
        .main {
            background-color: #FFFFFF;
            width: 400px;
@@ -16,7 +18,7 @@
            border-radius: 1.5em;
            box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
        }
-   
+
        .sign {
            padding-top: 40px;
            color: #8C55AA;
@@ -24,7 +26,7 @@
            font-weight: bold;
            font-size: 23px;
        }
-   
+
        .un {
        width: 76%;
        color: rgb(38, 50, 56);
@@ -44,11 +46,11 @@
        margin-bottom: 27px;
        font-family: 'Ubuntu', sans-serif;
        }
-   
+
        form.form1 {
            padding-top: 40px;
        }
-   
+
        .pass {
                width: 76%;
        color: rgb(38, 50, 56);
@@ -68,20 +70,20 @@
        margin-bottom: 27px;
        font-family: 'Ubuntu', sans-serif;
        }
-   
-   
+
+
        .un:focus, .pass:focus {
            border: 2px solid rgba(0, 0, 0, 0.18) !important;
-   
+
        }
-   
+
        .submit {
          cursor: pointer;
            border-radius: 5em;
            color: #fff;
            background: linear-gradient(to right, #9900CC,#9999CC);
            border: 0;
-   
+
            padding-left: 40px;
            padding-right: 40px;
            padding-bottom: 10px;
@@ -91,19 +93,19 @@
            font-size: 13px;
            box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
        }
-   
+
        .forgot {
            text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
            color: #8C55AA;
            padding-top: 15px;
        }
-   
+
        a {
            text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
            color: #cd4ee4;
            text-decoration: none
        }
-   
+
        @media (max-width: 600px) {
            .main {
                border-radius: 0px;
@@ -113,6 +115,18 @@
 {% endblock %}
 {% block main %}
     {# TODO: Complete Login Page #}
+
+    <nav id="navbar">
+        <ul>
+            <li class="item"><a href="{% url 'mysite:home' %}">Home</a></li>
+            <li class="item"><a href="{% url 'administrator:login' %}">Admin</a></li>
+            <li class="item"><a href="#">Faculty</a></li>
+            <li class="item"><a href="{% url 'student:login' %}">Student</a></li>
+            <li class="item"><a href="{% url 'mysite:home' %}"">About Us</a></li>
+            <li class="item"><a href="{% url 'mysite:home' %}"">Contact Us</a></li>
+
+        </ul>
+    </nav>
 
     <div class="main">
       <div>
@@ -141,7 +155,7 @@
         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">&times;</button>
       </div>
       <form id="form4">
-        <div class="modal-body"> 
+        <div class="modal-body">
                 <div class="form-group mb-3" id="rm_email">
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -182,4 +196,10 @@
     </div>
   </div>
 </div>
+
+<footer>
+    <div class="center">
+            Created by Team Prastigh
+        </div>
+    </footer>
 {% endblock %}
