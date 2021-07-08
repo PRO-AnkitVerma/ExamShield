@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, reverse
 # from.import forms, models
 # from django.db.models import Sum
@@ -13,7 +14,7 @@ from django.shortcuts import render, redirect, reverse
 # from faculty import forms as TFORM
 # from django import forms as SFORM
 # from django.contrib.auth.models import User
-"""
+
 
 def home_view(request):
     return render(request, 'quiz/index.html')
@@ -33,7 +34,7 @@ def is_student(user):
 def admin_course_view(request):
     return render(request, 'quiz/admin_course.html')
 
-
+""""
 @login_required(login_url='faculty/login')
 def admin_add_course_view(request):
     courseForm = forms.CourseForm()
