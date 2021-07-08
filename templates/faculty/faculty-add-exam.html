@@ -1,0 +1,16 @@
+{% extends  'faculty/general-layout.html' %}
+
+{% block app-main %}
+<div class="faculty-add-exam">
+    <p class="sign" align="center">Add Exam</p>
+    <form class="form1" method="POST">
+        <div class="form-group">
+            <input  type="text" align="center" name="course_name" id="course_name" placeholder="Exam Name">
+            <input  type="number" align="center" name="question" id="question_number" placeholder="Total Question">
+            <input  type="number" align="center" name="total_marks" id="total_marks" placeholder="Total Marks">
+        </div>
+        <a class="add" align="center" href="{% url 'faculty:faculty-question' %}">Add</a>
+    </form>
+</div>
+
+{% endblock %}

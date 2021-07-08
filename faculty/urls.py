@@ -23,4 +23,11 @@ urlpatterns = [
     # TODO: add redirect for '' to login
     path('dashboard/', views.dashboard, name='dashboard'),
     path('add-subject/', views.add_subject, name='add-subject'),
+    path('faculty-question/', views.faculty_question, name='faculty-question'),
+    path('faculty-add-question/', views.faculty_add_question, name='faculty-add-question'),
+    path('faculty-view-question/', views.faculty_view_question, name='faculty-view-question'),
+    path('see-question/', views.see_question, name='see-question'),
+    path('faculty-add-exam/', views.faculty_add_exam, name='faculty-add-exam'),
+    path('faculty-view-exam/', views.faculty_view_exam, name='faculty-view-exam'),
+    path('faculty-exam/', views.faculty_exam, name='faculty-exam'),
 ]
