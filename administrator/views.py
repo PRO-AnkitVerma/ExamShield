@@ -1,16 +1,19 @@
 from django.contrib import auth
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
-from django.shortcuts import render, HttpResponseRedirect, redirect
+from django.db import IntegrityError
+from django.shortcuts import render, HttpResponseRedirect, redirect, HttpResponse
 from django.urls import reverse
 from django.views import View
 from mysite.decorators import allowed_users
-from .models import Administrator
+from .models import Administrator, User
 from .forms import (
     UserForm,
     InstituteForm,
     AdministratorForm
 )
+from utils.random_password import generate_random_password
 
 
 class Register(View):
@@ -83,7 +86,31 @@ class Login(View):
 
 @allowed_users(allowed_groups=['administrator'])
 def create_faculty(request):
-    return render(request, 'administrator/create-faculty.html')
+    if request.method == 'GET':
+        password = generate_random_password()
+        print(password)
+        context = {
+            'user_form': UserForm(initial={'password': password}),
+            'password': password,
+        }
+        return render(request, 'administrator/create-faculty.html', context=context)
+
+    elif request.method == 'POST':
+        # getting data to create user
+        faculty_username = request.POST.get('username', '')
+        faculty_password = request.POST.get('password', '')
+        if faculty_username and faculty_password:
+            try:
+                new_user = User.objects.create_user(username=faculty_username, password=faculty_password)
+                messages.success(request, 'User Created Successfully!')
+            except IntegrityError as ie:
+                # i.e if user exists in database
+                messages.error(request, f'User can\'t be created! User with {faculty_username} already exists!')
+
+        return render(request, 'administrator/create-faculty.html')
+
+    # tried requesting page using any other methods
+    return HttpResponse('BAD REQUEST')
 
 
 @allowed_users(allowed_groups=['administrator'])

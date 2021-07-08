@@ -2,11 +2,26 @@
 {% block title %}ExamShield | Add Faculty
 {% endblock %}
 {% block app-main %}
-<div class="main-add-stu">
-    <p class="sign" align="center">Add Faculty</p>
-    <form class="form1">
-        <input  type="text" align="center" placeholder="Username">
-        <input  type="password" align="center" placeholder="Password">
-        <a class="share" align="center">Share</a>
-</div>
+    <div class="main-add-stu">
+        <p class="sign" align="center">Add Faculty</p>
+        <form class="form1" method="POST" action="{% url 'administrator:create-faculty' %}">
+            {% csrf_token %}
+
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div {% if message.tags %}
+                            class="alert alert-sm alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <input type="text" align="center" placeholder="Username" name="username">
+            {#                        {{ user_form.username }}#}
+            {#                        {{ user_form.password }}#}
+            {#            {{ user_form.as_p }}#}
+            <input type="text" align="center" placeholder="Password" name="password" value="{{ password }}">
+            <button class="share" align="center" type="submit">Share</button>
+        </form>
+    </div>
 {% endblock %}

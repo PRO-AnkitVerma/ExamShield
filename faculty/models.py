@@ -8,7 +8,11 @@ class faculty(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     status = models.BooleanField(default=False)
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE)
+    email = models.EmailField(unique=True, null=False, blank=False)
+    enroll_no = models.PositiveIntegerField(unique=True, null=False, blank=False)
 
-    @property
-    def get_name(self):
-        return self.user.first_name + " " + self.user.last_name
+    class Meta:
+        verbose_name_plural = 'faculties'
+
+    def __str__(self):
+        return f'faculty-{self.enroll_no}@{self.institute}'
