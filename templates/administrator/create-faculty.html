@@ -7,19 +7,11 @@
         <form class="form1" method="POST" action="{% url 'administrator:create-faculty' %}">
             {% csrf_token %}
 
-            {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                        <div {% if message.tags %}
-                            class="alert alert-sm alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
+            {% include 'messages.html' %}
 
-            <input type="text" align="center" placeholder="Username" name="username">
-            {#                        {{ user_form.username }}#}
-            {#                        {{ user_form.password }}#}
-            {#            {{ user_form.as_p }}#}
+            {{ faculty_form.email }}
+            {{ faculty_form.enroll_no }}
+
             <input type="text" align="center" placeholder="Password" name="password" value="{{ password }}">
             <button class="share" align="center" type="submit">Share</button>
         </form>

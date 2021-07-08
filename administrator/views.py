@@ -6,6 +6,11 @@ from django.db import IntegrityError
 from django.shortcuts import render, HttpResponseRedirect, redirect, HttpResponse
 from django.urls import reverse
 from django.views import View
+from student.models import student as Student
+from faculty.models import faculty as Faculty
+from subject.models import Subject
+from faculty.forms import FacultyForm
+from student.forms import StudentForm
 from mysite.decorators import allowed_users
 from .models import Administrator, User
 from .forms import (
@@ -86,28 +91,62 @@ class Login(View):
 
 @allowed_users(allowed_groups=['administrator'])
 def create_faculty(request):
+    password = generate_random_password()
+
     if request.method == 'GET':
-        password = generate_random_password()
-        print(password)
         context = {
-            'user_form': UserForm(initial={'password': password}),
             'password': password,
+            'faculty_form': FacultyForm(),
         }
         return render(request, 'administrator/create-faculty.html', context=context)
 
     elif request.method == 'POST':
-        # getting data to create user
-        faculty_username = request.POST.get('username', '')
+        # getting data to create faculty
         faculty_password = request.POST.get('password', '')
-        if faculty_username and faculty_password:
+        faculty_form = FacultyForm(data=request.POST)
+
+        if faculty_form.is_valid() and faculty_password:
+            # data is valid 
+            faculty_username = faculty_form.cleaned_data['email']
+
             try:
+                # creating faculty
                 new_user = User.objects.create_user(username=faculty_username, password=faculty_password)
-                messages.success(request, 'User Created Successfully!')
+                faculty = faculty_form.save(commit=False)
+                faculty.user = new_user
+                faculty.institute = request.user.administrator.institute
+                faculty.save()
+
+                # adding faculty to faculty group
+                faculty_group = Group.objects.get(name='faculty')
+                faculty_group.user_set.add(faculty.user)
+
+                messages.success(request, 'Faculty Created Successfully!')
+
             except IntegrityError as ie:
                 # i.e if user exists in database
-                messages.error(request, f'User can\'t be created! User with {faculty_username} already exists!')
+                messages.error(request,
+                               f'Faculty can\'t be created! An user with username {faculty_username} already exists!')
 
-        return render(request, 'administrator/create-faculty.html')
+            context = {
+                'password': password,
+                'faculty_form': FacultyForm(),
+            }
+            return render(request, 'administrator/create-faculty.html', context=context)
+
+        else:
+            # if invalid data passed
+            context = {
+                'password': password,
+                'faculty_form': faculty_form,
+            }
+
+            error_message = f'''
+            Faculty can't be created because
+            {faculty_form.errors.as_text()}
+            '''
+            messages.error(request, error_message)
+            return render(request, 'administrator/create-faculty.html', context=context)
 
     # tried requesting page using any other methods
     return HttpResponse('BAD REQUEST')
@@ -115,7 +154,65 @@ def create_faculty(request):
 
 @allowed_users(allowed_groups=['administrator'])
 def create_student(request):
-    return render(request, 'administrator/create-student.html')
+    password = generate_random_password()
+
+    if request.method == 'GET':
+        context = {
+            'password': password,
+            'student_form': StudentForm(),
+        }
+        return render(request, 'administrator/create-student.html', context=context)
+
+    elif request.method == 'POST':
+        # getting data to create student
+        student_password = request.POST.get('password', '')
+        student_form = StudentForm(data=request.POST)
+
+        if student_form.is_valid() and student_password:
+            # data is valid
+            student_username = student_form.cleaned_data['email']
+
+            try:
+                # creating student
+                new_user = User.objects.create_user(username=student_username, password=student_password)
+                student = student_form.save(commit=False)
+                student.user = new_user
+                student.institute = request.user.administrator.institute
+                student.save()
+
+                # adding student to student group
+                student_group = Group.objects.get(name='student')
+                student_group.user_set.add(student.user)
+
+                messages.success(request, 'Student Created Successfully!')
+
+            except IntegrityError as ie:
+                # i.e if user exists in database
+                messages.error(request,
+                               f'Student can\'t be created! An user with username {student_username} already exists!')
+
+            context = {
+                'password': password,
+                'student_form': StudentForm(),
+            }
+            return render(request, 'administrator/create-student.html', context=context)
+
+        else:
+            # if invalid data passed
+            context = {
+                'password': password,
+                'student_form': student_form,
+            }
+
+            error_message = f'''
+                Student can't be created because
+                {student_form.errors.as_text()}
+                '''
+            messages.error(request, error_message)
+            return render(request, 'administrator/create-student.html', context=context)
+
+    # tried requesting page using any other methods
+    return HttpResponse('BAD REQUEST')
 
 
 @allowed_users(allowed_groups=['administrator'])
@@ -130,9 +227,9 @@ def dashboard(request):
 
     context = {
         'user': user,
-        'total_faculties': Administrator.objects.all().count(),
-        'total_subjects': Administrator.objects.all().count(),
-        'total_students': Administrator.objects.all().count(),
+        'total_faculties': Faculty.objects.all().count(),
+        'total_subjects': Subject.objects.all().count(),
+        'total_students': Student.objects.all().count(),
         'institute': user.administrator.institute,
     }
     return render(request, 'administrator/dashboard.html', context=context)

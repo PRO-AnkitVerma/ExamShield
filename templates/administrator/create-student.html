@@ -2,11 +2,18 @@
 {% block title %}ExamShield | Create Student
 {% endblock %}
 {% block app-main %}
-<div class="main-add-stu">
-    <p class="sign" align="center">Add Student</p>
-    <form class="form1">
-        <input  type="text" align="center" placeholder="Username">
-        <input  type="password" align="center" placeholder="Password">
-        <a class="share" align="center">Share</a>
-</div>
+    <div class="main-add-stu">
+        <p class="sign" align="center">Add Student</p>
+        <form class="form1" method="POST" action="{% url 'administrator:create-student' %}">
+            {% csrf_token %}
+
+            {% include 'messages.html' %}
+
+            {{ student_form.email }}
+            {{ student_form.enroll_no }}
+
+            <input type="text" align="center" placeholder="Password" name="password" value="{{ password }}">
+            <button class="share" align="center" type="submit">Share</button>
+        </form>
+    </div>
 {% endblock %}

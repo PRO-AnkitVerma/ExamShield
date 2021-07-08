@@ -1,17 +1,11 @@
 from django import forms
 from django.contrib.auth.models import User
 
+from utils.form_helper import create_attributes
 from .models import (
     Administrator,
     Institute
 )
-
-
-def create_attributes(placeholder='', classes=[]):
-    attrs = {'placeholder': placeholder, 'class': 'un'}
-    attrs['class'] += ' '.join(classes)
-    attrs['align'] = 'center'
-    return attrs
 
 
 # 'class': 'form-control'
