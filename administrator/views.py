@@ -79,13 +79,14 @@ class Login(View):
 
         if username and password:
             user = auth.authenticate(username=username, password=password)
-
-            if user:
+            if user and user.groups.filter(name='administrator'):
                 auth.login(request, user)
                 return redirect('administrator:dashboard')
             else:
+                messages.error(request, 'Error: Invalid Credentials!')
                 return render(request, 'administrator/login.html')
 
+        messages.warning(request, 'Please enter credentials to login')
         return render(request, 'administrator/login.html')
 
 

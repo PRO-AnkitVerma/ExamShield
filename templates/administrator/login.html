@@ -118,6 +118,7 @@
             <p class="sign" align="center">Admin Login</p>
             <form class="form1" method="post" action="{% url 'administrator:login' %}">
                 {% csrf_token %}
+                {% include 'messages.html' %}
                 <input class="un " type="text" align="center" placeholder="Username" name="username">
                 <input class="pass" type="password" align="center" placeholder="Password" name="password">
                 <button type="submit" class="submit" align="center">Sign in</button>

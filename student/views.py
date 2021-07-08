@@ -9,7 +9,9 @@ from student import models
 def login(request):
     return render(request, 'student/login.html')
 
+
 def is_student(user):
+    # TODO: ask about this group!
     return user.groups.filter(name='STUDENT').exists()
 
 
