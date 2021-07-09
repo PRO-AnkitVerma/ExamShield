@@ -225,13 +225,13 @@ def edit_institute_profile(request):
 @allowed_users(allowed_groups=['administrator'])
 def dashboard(request):
     user = request.user
-
+    institute = user.administrator.institute
     context = {
         'user': user,
-        'total_faculties': Faculty.objects.all().count(),
-        'total_subjects': Subject.objects.all().count(),
-        'total_students': Student.objects.all().count(),
-        'institute': user.administrator.institute,
+        'total_faculties': Faculty.objects.filter(institute=institute).count(),
+        'total_subjects': Subject.objects.filter(institute=institute).count(),
+        'total_students': Student.objects.filter(institute=institute).count(),
+        'institute': institute,
     }
     return render(request, 'administrator/dashboard.html', context=context)
 
@@ -240,3 +240,17 @@ def dashboard(request):
 def logout(request):
     auth.logout(request)
     return redirect('administrator:login')
+
+
+@login_required(login_url='administrator:login')
+def list_faculties(request):
+    institute = request.user.administrator.institute
+    faculties = Faculty.objects.filter(institute=institute)
+    return render(request, 'administrator/view-faculty-details.html', context={'faculties': faculties})
+
+
+@login_required(login_url='administrator:login')
+def list_students(request):
+    institute = request.user.administrator.institute
+    students = Student.objects.filter(institute=institute)
+    return render(request, 'administrator/view-student-details.html', context={'students': students})
