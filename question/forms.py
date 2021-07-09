@@ -2,6 +2,11 @@ from django.contrib.admin import models
 
 from django import forms
 
+class CourseForm(forms.ModelForm):
+    class Meta:
+        model=models.Course
+        fields=['course_name','question_number','total_marks','subject']
+
 
 class QuestionForm(forms.ModelForm):
     # this will show dropdown __str__ method course model is shown on html so override it
@@ -15,3 +20,4 @@ class QuestionForm(forms.ModelForm):
         widgets = {
             'question': forms.Textarea(attrs={'rows': 3, 'cols': 50})
         }
+
