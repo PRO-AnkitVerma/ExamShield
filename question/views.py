@@ -2,7 +2,11 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from question import models as QMODEL
-from django import forms as QFORM
+#from django import forms as QFORM
+from question.forms import CourseForm , QuestionForm
+from question.models import Course
+from faculty.models import faculty as Faculty
+from subject.models import Subject
 
 
 def home_view(request):
@@ -25,51 +29,37 @@ def admin_course_view(request):
 # @login_required(login_url='faculty/login')
 # @user_passes_test(is_faculty)
 def faculty_exam_view(request):
-    return render(request, 'quiz/faculty_exam.html')
+    return render(request, 'quiz/faculty-exam.html')
 
 
 # @login_required(login_url='faculty/login')
 # @user_passes_test(is_faculty)
-def faculty_add_exam_view(request):
-    courseForm = QFORM.CourseForm()
-    print('hello')
-    if request.method == 'POST':
-        courseForm = QFORM.CourseForm(request.POST)
-        if courseForm.is_valid():
-            courseForm.save()
-        else:
-            print("form is invalid")
-        return HttpResponseRedirect('/question/faculty-view-exam')
-    # return render(request, 'quiz/faculty_add_exam.html', {'courseForm': courseForm})
-    return HttpResponse('hello world')
-
-
 # @login_required(login_url='faculty/login')
 # @user_passes_test(is_faculty)
 def faculty_view_exam_view(request):
-    courses = QMODEL.Course.objects.all()
-    return render(request, 'quiz/faculty_view_exam.html', {'courses': courses})
+    courses = Course.objects.all()
+    return render(request, 'quiz/faculty-view-exam.html', {'courses': courses})
 
 
 # @login_required(login_url='faculty/login')
 # @user_passes_test(is_faculty)
 def delete_exam_view(request, pk):
-    course = QMODEL.Course.objects.get(id=pk)
+    course = Course.objects.get(id=pk)
     course.delete()
     return HttpResponseRedirect('/question/faculty-view-exam')
 
 
 # @login_required(login_url='faculty/login')
 def faculty_question_view(request):
-    return render(request, 'quiz/faculty_question.html')
+    return render(request, 'quiz/faculty-question.html')
 
 
 # @login_required(login_url='faculty/login')
 # @user_passes_test(is_faculty)
 def faculty_add_question_view(request):
-    questionForm = QFORM.QuestionForm()
+    questionForm =QuestionForm()
     if request.method == 'POST':
-        questionForm = QFORM.QuestionForm(request.POST)
+        questionForm = QuestionForm(request.POST)
         if questionForm.is_valid():
             question = questionForm.save(commit=False)
             course = QMODEL.Course.objects.get(id=request.POST.get('courseID'))
@@ -80,21 +70,21 @@ def faculty_add_question_view(request):
             print("form is invalid")
         return HttpResponseRedirect('/question/faculty-view-question')
 
-    return render(request, 'quiz/faculty_add_question.html', {'questionForm': questionForm})
+    return render(request, 'quiz/faculty-add-question.html', {'questionForm': questionForm})
 
 
 # @login_required(login_url='faculty/login')
 # @user_passes_test(is_faculty)
 def faculty_view_question_view(request):
     courses = QMODEL.Course.objects.all()
-    return render(request, 'quiz/faculty_view_question.html', {'courses': courses})
+    return render(request, 'quiz/faculty-view-question.html', {'courses': courses})
 
 
 # @login_required(login_url='faculty/login')
 # @user_passes_test(is_faculty)
 def see_question_view(request, pk):
     questions = QMODEL.Question.objects.all().filter(course_id=pk)
-    return render(request, 'question/see_question.html', {'questions': questions})
+    return render(request, 'question/see-question.html', {'questions': questions})
 
 
 # @login_required(login_url='faculty/login')
@@ -108,21 +98,36 @@ def remove_question_view(request, pk):
 # @login_required(login_url='faculty/login')
 # @user_passes_test(is_faculty)
 def faculty_view_exam(request):
-    return render(request, 'quiz/faculty_exam.html')
+    return render(request, 'quiz/faculty-exam.html')
 
 
 # @login_required(login_url='faculty/login')
 # @user_passes_test(is_faculty)
 def faculty_add_exam_view(request):
-    courseForm = QFORM.CourseForm()
+
     if request.method == 'POST':
-        courseForm = QFORM.CourseForm(request.POST)
-        if courseForm.is_valid():
-            courseForm.save()
+        subject_id =  request.POST.get('subject_id', '')
+        courseForm = CourseForm(request.POST)
+        if courseForm.is_valid() and subject_id:
+            course = courseForm.save(commit=False)
+            course.subject = Subject.objects.get(id=subject_id)
+            course.save()
         else:
-            print("form is invalid")
-        return HttpResponseRedirect('/question/faculty-view-exam')
-    return render(request, 'quiz/faculty-add-exam.html', {'courseForm': courseForm})
+
+            return HttpResponse('Try Unsuccessful!')
+
+        return HttpResponseRedirect('question/faculty-view-exam')
+
+    elif request.method == 'GET':
+        courseForm = CourseForm()
+
+        return render(request, 'quiz/test.html', {
+            'subject': Subject.objects.filter(faculty=request.user.faculty),
+            'courseForm': courseForm
+        })
+
+    else:
+        return HttpResponse('BAD REQUEST!')
 
 
 # @login_required(login_url='faculty/login')
@@ -142,15 +147,15 @@ def delete_exam_view(request, pk):
 
 # @login_required(login_url='faculty/login')
 def faculty_question_view(request):
-    return render(request, 'quiz/faculty_question.html')
+    return render(request, 'quiz/faculty-question.html')
 
 
 # @login_required(login_url='faculty/login')
 # @user_passes_test(is_faculty)
 def faculty_add_question_view(request):
-    questionForm = QFORM.QuestionForm()
+    questionForm =QuestionForm()
     if request.method == 'POST':
-        questionForm = QFORM.QuestionForm(request.POST)
+        questionForm = QuestionForm(request.POST)
         if questionForm.is_valid():
             question = questionForm.save(commit=False)
             course = QMODEL.Course.objects.get(id=request.POST.get('courseID'))
@@ -159,21 +164,24 @@ def faculty_add_question_view(request):
         else:
             print("form is invalid")
         return HttpResponseRedirect('/question/faculty-view-question')
-    return render(request, 'quiz/faculty_add_question.html', {'questionForm': questionForm})
+    return render(request, 'quiz/faculty-add-question.html', {'questionForm': questionForm})
 
 
 # @login_required(login_url='faculty/login')
 # @user_passes_test(is_faculty)
 def faculty_view_question_view(request):
     courses = QMODEL.Course.objects.all()
-    return render(request, 'quiz/faculty_view_question.html', {'courses': courses})
+    print("helo")
+    return render(request, 'quiz/faculty-view-question.html', {
+        'courses': courses
+    })
 
 
 # @login_required(login_url='faculty/login')
 # @user_passes_test(is_faculty)
 def see_question_view(request, pk):
     questions = QMODEL.Question.objects.all().filter(course_id=pk)
-    return render(request, 'quiz/see_question.html', {'questions': questions})
+    return render(request, 'quiz/see-question.html', {'questions': questions})
 
 
 # @login_required(login_url='faculty/login')

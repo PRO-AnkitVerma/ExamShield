@@ -1,13 +1,11 @@
-{% extends  'faculty/general-layout.html' %}
+<form class="form1" method="POST" action="{% url 'question:faculty-view-question'%}">
+<div>
 
-{% block app-main %}
-<div class="faculty-view-question">
-
-    <div class="panel panel-primary">
-    <div class="panel-heading">
-      <h6 class="panel-title">Select Course To View Questions</h6>
+    <div>
+    <div >
+      <h6>Select Course To View Questions</h6>
     </div>
-    <table class="table table-hover" id="dev-table">
+    <table>
       <thead>
         <tr>
 
@@ -23,7 +21,7 @@
         <td> {{c.course_name}}</td>
         <td>{{c.question_number}}</td>
         <td>{{c.total_marks}}</td>
-        <td><a class="btn btn-primary btn-xs" href="{% url 'faculty:see-question' c.id %}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+        <td> <a href="{% url 'question:faculty-view-exam' c.id %}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
 
       </tr>
       {% endfor %}
@@ -31,5 +29,4 @@
   </div>
 
 </div>
-
-{% endblock %}
+</form>

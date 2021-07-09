@@ -1,13 +1,16 @@
-{% extends  'faculty/general-layout.html' %}
+<html>
+<form action = "" method = "post">
+    {% csrf_token %}
 
-{% block app-main %}
 <div class="main-add-stu">
     <p class="sign" align="center">Exam</p>
-    <div class="add_exam">
-        <a class="create_exam" href="{% url 'faculty:faculty-add-exam' %}" align="center">Add Exam</a>
+    <div >
+
+        <a class="create_exam" href="{% url 'question:faculty-add-exam' %}" align="center">Add Exam</a>
     </div>
-     <div class="view_exam">
-        <a class="create_exam" href="{% url 'faculty:faculty-view-question' %}" align="center">View View</a>
+     <div >
+        <a class="create_exam" href="{% url 'question:faculty-view-question' %}" align="center">View View</a>
     </div>
 </div>
-{% endblock %}
+</form>
+</html>
