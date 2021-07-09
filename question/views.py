@@ -151,7 +151,7 @@ def faculty_question_view(request):
 
 
 # @login_required(login_url='faculty/login')
-# @user_passes_test(is_faculty)
+@user_passes_test(is_faculty)
 def faculty_add_question_view(request):
     questionForm =QuestionForm()
     if request.method == 'POST':
