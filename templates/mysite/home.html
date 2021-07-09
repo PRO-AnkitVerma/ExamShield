@@ -53,30 +53,32 @@
           <div id="contact-page">
             <div class="box">
                 <h4 class="mb-1 text-center" style="font-size: 40px;color: purple;">Contact Us</h4><br>
-                <div class="form-group row mb-3">
-                    <div class="col-md-12 mb-0">
-                      <p class="mb-1">Name :</p> <input id="name" type="text" placeholder="Enter your name" name="name" class="form-control input-box rm-border" required>
+                <form method="post" action="#">
+                    {% csrf_token %}
+                    <div class="form-group row mb-3">
+                        <div class="col-md-12 mb-0">
+                          <p class="mb-1">Name :</p> <input id="name" type="text" placeholder="Enter your name" name="name" class="form-control input-box rm-border" required>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row mb-3">
-                    <div class="col-md-12 mb-0">
-                      <p class="mb-1">Email :</p> <input id="e-mail" type="text" placeholder="Enter your email" name="email" class="form-control input-box rm-border" required>
-                    </div>
-                  </div>
-                  <div class="form-group row mb-3">
-                    <div class="col-md-12 mb-0">
-                      <p class="mb-1">Phone Number :</p> <input id="phone" type="text" placeholder="Enter your Phone No." name="phone" class="form-control input-box rm-border" required>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <div class="col-md-12 mb-2">
-                      <p class="mb-1">Message :</p> <textarea id="message" type="text" placeholder="Enter your message" name="msg" class="form-control input-box rm-border" required></textarea>
-                    </div>
-                  </div>
-                  <div class="form-group row justify-content-center mb-0">
-                    <div class="col-md-12 px-3" style="margin-left:185px;"> <button id="pppp" name="submit" class="btn" style="background-color: #9966CC;color: white;font-weight: 700;cursor: pointer;">Submit</button> </div>
-                  </div>
-
+                    <div class="form-group row mb-3">
+                        <div class="col-md-12 mb-0">
+                          <p class="mb-1">Email :</p> <input id="email" type="text" placeholder="Enter your email" name="email" class="form-control input-box rm-border" required>
+                        </div>
+                      </div>
+                      <div class="form-group row mb-3">
+                        <div class="col-md-12 mb-0">
+                          <p class="mb-1">Phone Number :</p> <input id="phone" type="text" placeholder="Enter your Phone No." name="phone" class="form-control input-box rm-border" required>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-md-12 mb-2">
+                          <p class="mb-1">Message :</p> <textarea id="message" type="text" placeholder="Enter your message" name="message" class="form-control input-box rm-border" required></textarea>
+                        </div>
+                      </div>
+                      <div class="form-group row justify-content-center mb-0">
+                        <div class="col-md-12 px-3" style="margin-left:185px;"> <button id="pppp" name="submit" class="btn" style="background-color: #9966CC;color: white;font-weight: 700;cursor: pointer;">Submit</button> </div>
+                      </div>
+                </form>
             </div>
 
         </div>
