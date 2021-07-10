@@ -1,3 +1,4 @@
+from django.urls import path
 """Faculty URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -13,18 +14,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
 from . import views
 
 app_name = 'question'
 
 urlpatterns = [
-
-    path('faculty-question/', views.faculty_question, name='faculty-question'),
-    path('faculty-add-question/', views.faculty_add_question, name='faculty-add-question'),
-    path('faculty-view-question/', views.faculty_view_question, name='faculty-view-question'),
-    path('see-question/', views.see_question, name='see-question'),
-    path('faculty-add-exam/', views.faculty_add_exam, name='faculty-add-exam'),
-    path('faculty-view-exam/', views.faculty_view_exam, name='faculty-view-exam'),
-    path('faculty-exam/', views.faculty_exam, name='faculty-exam'),
+    path('faculty-exam', views.faculty_exam_view,name='faculty-exam'),
+    path('faculty-add-exam/', views.faculty_add_exam_view, name='faculty-add-exam'),
+    path('faculty-view-exam/', views.faculty_view_exam_view, name='faculty-view-exam'),
+    path('delete-exam/<int:pk>', views.delete_exam_view,name='faculty-exam'),
+    path('faculty-question/', views.faculty_question_view,name='faculty-question'),
+    path('faculty-add-question', views.faculty_add_question_view,name='faculty-add-question'),
+    path('faculty-view-question', views.faculty_view_question_view,name='faculty-view-question'),
+    path('see-question/<int:pk>', views.see_question_view,name='see-question'),
+    path('remove-question/<int:pk>', views.remove_question_view,name='remove-question'),
 ]
