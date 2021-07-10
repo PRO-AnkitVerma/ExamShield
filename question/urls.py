@@ -19,6 +19,7 @@ from . import views
 app_name = 'question'
 
 urlpatterns = [
+
     path('faculty-question/', views.faculty_question, name='faculty-question'),
     path('faculty-add-question/', views.faculty_add_question, name='faculty-add-question'),
     path('faculty-view-question/', views.faculty_view_question, name='faculty-view-question'),

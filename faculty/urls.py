@@ -22,5 +22,4 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     # TODO: add redirect for '' to login
     path('dashboard/', views.dashboard, name='dashboard'),
-    path('add-subject/', views.add_subject, name='add-subject'),
 ]

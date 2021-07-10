@@ -19,5 +19,6 @@ from . import views
 app_name = 'subject'
 
 urlpatterns = [
-    # TODO: add redirect for '' to login
+    path('add-subject/', views.add_subject, name='add-subject'),
 ]
+

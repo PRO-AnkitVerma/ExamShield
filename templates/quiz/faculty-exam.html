@@ -1,0 +1,13 @@
+{% extends  'faculty/general-layout.html' %}
+
+{% block app-main %}
+<div class="main-add-stu">
+    <p class="sign" align="center">Exam</p>
+    <div class="add_exam">
+        <a class="create_exam" href="{% url 'question:faculty-add-exam' %}" align="center">Add Exam</a>
+    </div>
+     <div class="view_exam">
+        <a class="create_exam" href="{% url 'question:faculty-view-exam' %}" align="center">View Exam</a>
+    </div>
+</div>
+{% endblock %}
