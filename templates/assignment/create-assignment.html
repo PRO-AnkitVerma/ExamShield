@@ -1,25 +1,17 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Create Assignment</title>
-</head>
-<body>
-<div class="main">
-    <p class="assignment" align="center">New Assignment</p>
-    <form class="form1" action="{% url 'assignment:create-assignment' %}">
-        <input type="text" align="center" placeholder="Username">
-        <input type="Text" align="center" placeholder="Address">
-        <input type="text" align="center" placeholder="Contact">
-        <input type="text" align="center" placeholder="Website">
-        <input type="email" align="center" placeholder="Email">
-        <input type="number" min="1" align="center" placeholder="Institute code">
-        <a class="reset" align="center">Reset</a>
-        <a class="done" align="center">Done</a>
+{% extends  'faculty/general-layout.html' %}
+
+{% block app-main %}
+<div class="create-assignment">
+    <p class="sign" align="center">Add Assignment</p>
+    <form class="form1" method="POST">
+        <div class="form-group">
+            <input  type="number" align="center" name="no" id="no"  placeholder="Assignment Number">
+            <input  type="text" align="center" name="question" id="question" placeholder="Assignment Name">
+            <input  type="date" align="center" name="deadline" id="deadline" placeholder="Deadline">
+            <input  type="number" align="center" name="total_marks" id="total_marks" placeholder="Marks">
+        </div>
+        <button type="submit" class="add">Add</button>
     </form>
 </div>
-</body>
-</html>
+
+{% endblock %}

@@ -2,6 +2,8 @@
 
 {% block title %}ExamShield | Register{% endblock %}
 {% block style %}
+
+{% include 'mysite/css/main.html' %}
     <style>
         body {
             background-color: white;
@@ -94,6 +96,18 @@
 {% endblock %}
 {% block main %}
 
+<nav id="navbar">
+        <ul>
+            <li class="item"><a href="{% url 'mysite:home' %}">Home</a></li>
+            <li class="item"><a href="{% url 'administrator:login' %}">Admin</a></li>
+            <li class="item"><a href="{% url 'faculty:login' %}">Faculty</a></li>
+            <li class="item"><a href="{% url 'student:login' %}">Student</a></li>
+            <li class="item"><a href="{% url 'mysite:home' %}">About Us</a></li>
+            <li class="item"><a href="{% url 'mysite:home' %}">Contact Us</a></li>
+
+        </ul>
+    </nav>
+
     <div class="main-reg">
         <p class="sign" align="center">Admin Registration</p>
         <form class="form1" action="{% url 'administrator:register' %}" method="post">
@@ -114,4 +128,10 @@
             <p class="forgot" align="center"><a href="{% url 'administrator:login' %}">Already have an account?</a></p>
         </form>
     </div>
+
+<footer>
+    <div class="center">
+            Created by Team Prastigh
+        </div>
+    </footer>
 {% endblock %}

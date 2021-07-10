@@ -120,3 +120,6 @@ def remove_question_view(request, pk):
 
 def dashboard(request):
     return render(request, 'faculty/dashboard.html')
+
+
+

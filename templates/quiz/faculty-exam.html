@@ -1,3 +1,18 @@
+<<<<<<< HEAD
+{% extends  'faculty/general-layout.html' %}
+
+{% block app-main %}
+<div class="main-add-stu">
+    <p class="sign" align="center">Exam</p>
+    <div class="add_exam">
+        <a class="create_exam" href="{% url 'question:faculty-add-exam' %}" align="center">Add Exam</a>
+    </div>
+     <div class="view_exam">
+        <a class="create_exam" href="{% url 'question:faculty-view-exam' %}" align="center">View Exam</a>
+    </div>
+</div>
+{% endblock %}
+=======
 <html>
 <form action = "" method = "post">
     {% csrf_token %}
@@ -14,3 +29,4 @@
 </div>
 </form>
 </html>
+>>>>>>> a392d45dab75d1f3a58ba573e15a48cb4c7d9594

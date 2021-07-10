@@ -107,7 +107,7 @@ def create_faculty(request):
         faculty_form = FacultyForm(data=request.POST)
 
         if faculty_form.is_valid() and faculty_password:
-            # data is valid 
+            # data is valid
             faculty_username = faculty_form.cleaned_data['email']
 
             try:

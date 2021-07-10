@@ -1,0 +1,296 @@
+{% load static %}
+{% block link %}<link href="https://fonts.googleapis.com/css?family=Baloo+Bhai|Bree+Serif&display=swap" rel="stylesheet">{% endblock %}
+<style>
+        /* CSS Reset */
+*{
+    margin: 0;
+    padding: 0;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+/* CSS Variables */
+:root{
+    --navbar-height: 59px;
+}
+
+/* Navigation Bar */
+#navbar{
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0px;
+    height: 75px;
+}
+
+#navbar::before{
+    content: "";
+    background-color: #D8CEF5;
+    position: absolute;
+    top:0px;
+    left:0px;
+    height: 100%;
+    width:100%;
+    z-index: -1;
+    opacity: 1;
+}
+
+
+/* Navigation Bar: List Styling */
+
+#navbar ul{
+    display: flex;
+    font-family: 'Baloo Bhai';
+}
+
+#navbar ul li{
+    list-style: none;
+    font-size: 1.3rem;
+}
+
+#navbar ul li a{
+    color: black;
+    display: block;
+    padding: 3px 22px;
+    border-radius: 20px;
+    text-decoration: none;
+}
+
+.item{
+    margin-top: 5px;;
+}
+
+#navbar ul li a:hover{
+    color: white;
+     background-color: #9966CC;
+}
+
+/* Home Section */
+#home{
+    display: flex;
+    flex-direction: column;
+    padding:3px 200px;
+    margin-right: 500px;
+    height: 550px;
+    justify-content: center;
+    align-items: center;
+}
+
+#home::before{
+    content: "";
+    position: absolute;
+    background: url("{% static 'img/background.jpg' %}") no-repeat center center/cover;
+    height: 642px;
+    top:0px;
+    left:0px;
+    width: 100%;
+    z-index: -1;
+    opacity:0.89;
+}
+
+#home h1{
+    color:black;
+    text-align: center;
+    font-family: 'Bree Serif', serif;
+}
+
+#home p{
+    color:black;
+    text-align: center;
+    font-size: 1.5rem;
+    font-family: 'Bree Serif', serif;
+}
+/* Services Section */
+#services{
+    margin: 34px;
+    display: flex;
+}
+#services .box{
+    border: 2px solid #9966CC;
+    padding: 34px;
+    margin: 2px 55px;
+    border-radius: 28px;
+    background:#D8CEF5 ;;
+    margin-bottom: 100px;
+}
+#contact-page{
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#contact-page .box{
+    border: 2px solid #9966CC;
+    padding: 34px;
+    margin: 2px 55px;
+    border-radius: 28px;
+    background:#D8CEF5 ;;
+    margin-bottom: 20px;
+}
+
+#services .box img{
+   height: 160px;
+   margin: auto;
+   display: block;
+}
+
+#services .box p{
+    font-family: 'Bree Serif', serif;
+
+}
+
+
+/* Contact Section */
+
+
+
+textarea[name="message"] {
+    resize: none;
+}
+
+#e-mail {
+    height: 45px;
+}
+
+#message {
+    height: 120px;
+}
+
+input.input-box,
+textarea.input-box {
+    background-color: #ffffff;
+    border: 1px solid#0e0d0d;
+    color: #BDBDBD;
+}
+
+
+.rm-border:focus {
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+form .form-control::-webkit-input-placeholder {
+    color: #9E9E9E;
+
+}
+
+::-moz-placeholder {
+    color: #6d6b6b;
+}
+
+input.btn-purple {
+    background-color: #5C6BC0;
+    color: #ffffff;
+}
+.mb-1{
+    color: rgb(0, 0, 0);
+    font-weight: 700;
+}
+
+/* footer */
+footer{
+    background: black;
+    color: white;
+    padding: 9px 20px;
+}
+
+/* Utility Classes */
+.h-primary{
+    font-family: 'Bree Serif', serif;
+    font-size: 3.8rem;
+    padding: 12px;
+}
+
+.h-secondary{
+    font-family: 'Bree Serif', serif;
+    font-size: 2.3rem;
+    padding: 12px;
+}
+
+.btn{
+    padding: 6px 20px;
+    border: 2px solid #9966CC;
+    background-color: #9966CC;
+    color: white;
+    margin: 17px;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    cursor:pointer;
+}
+
+.btn:hover{
+    border: 2px solid #D8CEF5;
+    color: black;
+     background-color: #D8CEF5;
+}
+
+.center{
+    text-align: center;
+}
+
+/* media query */
+@media (max-width:1170px){
+    /* Navigation */
+#navbar {
+    flex-direction: column;
+    padding-top: 15px;
+}
+
+#navbar ul li a{
+    font-size: 1rem;
+    padding: 0px 7px;
+    padding-bottom: 8px;
+}
+/* Home section */
+#home{
+    height: 370px;
+    padding: 10px 0px 10px 66px;
+    width: 90%;
+}
+
+#home::before{
+    height: 480px;
+}
+
+#home p{
+    font-size: 13px;
+}
+
+/* Services section  */
+#services{
+    flex-direction: column;
+}
+
+#services .box {
+    padding: 14px;
+    margin: 2px 0px;
+    margin-bottom: 20px;
+}
+#contact-page{
+    width: 80%;
+    flex-direction: column;
+}
+
+#contact-page .box {
+    padding: 14px;
+    margin: 2px 0px;
+    margin-bottom: 20px;
+}
+
+
+
+/* Footer */
+
+/* Utility classes */
+.h-primary{
+    font-size:26px;
+}
+.btn{
+    font-size: 13px;
+    padding: 4px 8px;
+}
+}
+
+</style>
