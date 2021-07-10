@@ -116,12 +116,14 @@
 
     <div class="main">
       <div>
-              <p class="sign" align="center">Student Login</p>
-              <form class="form1">
-                <input class="un " type="text" align="center" placeholder="Username">
-                <input class="pass" type="password" align="center" placeholder="Password">
-                <a class="submit" align="center">Sign in</a>
-              </form>
+            <p class="sign" align="center">Student Login</p>
+            <form class="form1" action="{% url 'student:login' %}" method="post">
+                {% csrf_token %}
+                {% include 'messages.html' %}
+                <input class="un " type="text" align="center" placeholder="Username" name="username">
+                <input class="pass" type="password" align="center" placeholder="Password" name="password">
+                <button class="submit" align="center" type="submit">Sign in</button>
+            </form>
               <div class="mt-4" style="margin-left: 32%;">
                 <div class="form-group">
                   <div class="input-group">

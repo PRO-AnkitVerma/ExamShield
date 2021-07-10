@@ -1,13 +1,40 @@
+from django.contrib import auth, messages
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.views import View
+
 from question import models as QMODEL
 from student import models
 
 
-# Create your views here.
-def login(request):
-    return render(request, 'student/login.html')
+
+class Login(View):
+    def get(self, request):
+        return render(request, 'student/login.html')
+
+    def post(self, request):
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+
+        if username and password:
+            user = auth.authenticate(username=username, password=password)
+            if user and user.groups.filter(name='student'):
+                auth.login(request, user)
+                return redirect('/student/student_exam_view/')
+            else:
+                messages.error(request, 'Error: Invalid Credentials!')
+                return render(request, 'student/login.html')
+
+        messages.warning(request, 'Please enter credentials to login')
+        return render(request, 'student/login.html')
+
+
+@login_required(login_url='student:login')
+def logout(request):
+    auth.logout(request)
+    return redirect('student:login')
+
 
 
 def is_student(user):
