@@ -1,0 +1,32 @@
+<form class="form1" method="POST" action="{% url 'question:faculty-view-question'%}">
+<div>
+
+    <div>
+    <div >
+      <h6>Select Course To View Questions</h6>
+    </div>
+    <table>
+      <thead>
+        <tr>
+
+          <th>Course Name</th>
+          <th>Total Question</th>
+          <th>Total Marks</th>
+          <th>View Question</th>
+        </tr>
+      </thead>
+      {% for c in courses %}
+      <tr>
+
+        <td> {{c.course_name}}</td>
+        <td>{{c.question_number}}</td>
+        <td>{{c.total_marks}}</td>
+        <td> <a href="{% url 'question:faculty-view-exam' c.id %}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+</div>
+</form>
