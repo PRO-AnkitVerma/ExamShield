@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'administrator.apps.AdministratorConfig',
     'question.apps.QuestionConfig',
     'subject.apps.SubjectConfig',
+    'assignment.apps.AssignmentConfig',
 ]
 
 MIDDLEWARE = [
@@ -134,7 +135,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # showing messages
 
-
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
+
+# for file uploads
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
