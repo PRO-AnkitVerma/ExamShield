@@ -1,4 +1,3 @@
-{% extends 'student/studentbase.html' %}
 {% block content %}
 {%load static%}
 
@@ -15,9 +14,8 @@
     <h1 style="text-align: center;">{{course.course_name}}</h1>
     {% for q in questions%}
     <h3 class="text-info">{{ forloop.counter }}. {{q.question}}</h3><h4 style="text-align: right;">[Marks {{q.marks}}]</h4>
-    
-        <input type="hidden" name="csrfmiddlewaretoken" value="C24rUotmdHawVQJL3KrqiWxvti8UffOFYUc8TRbZtLt36AVLdP3jbkzUVe3beRAa">
-        
+       {# <input type="hidden" name="csrfmiddlewaretoken" value="C24rUotmdHawVQJL3KrqiWxvti8UffOFYUc8TRbZtLt36AVLdP3jbkzUVe3beRAa">#}
+
         
           <div class="form-check mx-4">
             <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option1}}" value="Option1">
@@ -56,8 +54,7 @@
   </div>
 
 <script> 
-    function saveAns(){  
-
+    function saveAns(){
         var ele = document.getElementsByTagName('input'); 
         for(i = 0; i < ele.length; i++) { 
             if(ele[i].type="radio") { 
@@ -65,8 +62,7 @@
                   setCookie(ele[i].name,ele[i].value,3)
                 }
             } 
-        } 
-          
+        }
     }
     
     function setCookie(cname, cvalue, exdays) {
