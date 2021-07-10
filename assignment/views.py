@@ -12,4 +12,5 @@ def create_assignment(request):
     if request.method == 'POST':
         return HttpResponse('Validating Creation of Assignment')
 
-    return HttpResponse('BAD REQUEST!')
+
+    return render(request, 'assignment/create-assignment.html')
