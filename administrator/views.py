@@ -84,7 +84,7 @@ class Login(View):
                 return redirect('administrator:dashboard')
             else:
                 messages.error(request, 'Error: Invalid Credentials!')
-                return render(request, 'administrator/login.html')
+                return render(request, 'administrator/home.html')
 
         messages.warning(request, 'Please enter credentials to login')
         return render(request, 'administrator/login.html')
