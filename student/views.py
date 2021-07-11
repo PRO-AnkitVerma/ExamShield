@@ -77,9 +77,10 @@ def student_marks_view(request):
 def start_exam_view(request, pk):
     course = QMODEL.Course.objects.get(id=pk)
     questions = QMODEL.Question.objects.all().filter(course=course)
+    total_questions = questions.count()
     if request.method == 'POST':
         pass
-    response = render(request, 'student/start-exam.html', {'course': course, 'questions': questions})
+    response = render(request, 'student/start_exam.html', {'course': course, 'questions': questions,'total_questions':total_questions})
     response.set_cookie('course_id', course.id)
     return response
 
