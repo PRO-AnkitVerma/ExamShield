@@ -1,7 +1,7 @@
 {% extends  'student/general-layout.html' %}
 
 {% block app-main %}
-<div class="take-exam">
+<div class="take-exam" id="take_exam">
 
     <div class="jumbotron">
 
@@ -37,7 +37,7 @@
                             <li>You will be told your marks immediately when you submit the answer.</li>
                         </ul>
                     <p></p>
-                    <a href="{% url 'student:start-exam' course.id  %}" class="btn btn-info">Let's Start</a>
+                    <button class="btn btn-info" onclick="Fullscreen(); loadDoc();">Let's Start</button>
                 </div>
                 <div class="card-footer">Best Of Luck</div>
             </div>
@@ -45,5 +45,81 @@
 
     </div>
 </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+
+function ieClicked() {
+            if (document.all) {
+                return false;
+            }
+        }
+        function firefoxClicked(e) {
+            if (document.layers || (document.getElementById && !document.all)) {
+                if (e.which == 2 || e.which == 3) {
+                    return false;
+                }
+            }
+        }
+        if (document.layers) {
+            document.captureEvents(Event.MOUSEDOWN);
+            document.onmousedown = firefoxClicked;
+        } else {
+            document.onmouseup = firefoxClicked;
+            document.oncontextmenu = ieClicked;
+        }
+        document.oncontextmenu = new Function("return false")
+        function disableselect(e) {
+            return false
+        }
+        function reEnable() {
+            return true
+        }
+        document.onselectstart = new Function("return false")
+        if (window.sidebar) {
+            document.onmousedown = disableselect
+            document.onclick = reEnable
+        }
+
+     function getFullscreenElement() {
+            return document.fullscreenElement
+                || document.webkitFullscreenElement
+                || document.mozFullscreenElement
+                || document.msFullscreenElement;
+        }
+
+
+        function exitscreen() {
+            if (getFullscreenElement()) {
+
+                let y = document.exitFullscreen();
+                let s = navigator.keyboard.unlock();
+                if (s == undefined) {
+                    window.location.replace("todo.html");
+                }
+
+            }
+        }
+
+        function Fullscreen() {
+            document.documentElement.requestFullscreen().catch(console.log);
+            navigator.keyboard.lock();
+        }
+
+        function loadDoc() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                document.getElementById("take_exam").innerHTML =
+                    this.responseText;
+            }
+            xhttp.open("GET", "{% url 'student:start-exam' course.id  %}");
+            xhttp.send();
+        }
+
+
+
+    </script>
 
 {% endblock %}
