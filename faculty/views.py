@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, HttpResponse, redirect
 from django.views import View
 
+from mysite.decorators import allowed_users
 from question import models as QMODEL
 from student import models as SMODEL
 from django import forms as QFORM
@@ -118,8 +119,7 @@ def remove_question_view(request, pk):
     return HttpResponseRedirect('/faculty/faculty-view-question')
 
 
+@allowed_users(allowed_groups=['faculty'])
 def dashboard(request):
-    return render(request, 'faculty/dashboard.html')
-
-
-
+    faculty = request.user
+    return render(request, 'faculty/dashboard.html', {'faculty': faculty})

@@ -5,22 +5,24 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Testing</title>
 </head>
 <body>
-<form action = "{% url 'question:faculty-add-exam' %}" method = "post">
+<form action="{% url 'question:faculty-add-exam' %}" method="post">
     {% csrf_token %}
 
-    {{courseForm.as_p }}
+    {{ courseForm.as_p }}
 
-    <select name="subject_id" class="filter-selectbox">
-{% for subject in subjects %}
-    <option value="{{ subject.id }}">{{ subject.name }}</option>
-{% endfor %}
-    </select>
-    <input type="submit" value=Submit">
+    <label>
+        <select name="subject_id" class="filter-selectbox">
+            {% for subject in subjects %}
+                <option value="{{ subject.id }}">{{ subject.name }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <button type="submit">Submit</button>
+    {#    <input type="submit" value=Submit">#}
 </form>
 
-{{ fav }}
 </body>
 </html>

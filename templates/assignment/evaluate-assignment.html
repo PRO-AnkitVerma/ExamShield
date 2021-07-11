@@ -1,0 +1,20 @@
+{% extends  'faculty/general-layout.html' %}
+
+{% block app-main %}
+    <div class="review-assignment">
+        <p class="sign" align="center">Evaluate Assignment</p>
+        Hello :)
+        <div class="assignments">
+            <div class="assignment-{{ assignment.id }}">
+                <p>{{ assignment.no }}</p>
+                <p>{{ assignment.question }}</p>
+                <p>{{ assignment.total_marks }}</p>
+                <p>{{ assignment.subject.name }}</p>
+                <hr>
+                <br>
+            </div>
+        </div>
+
+
+    </div>
+{% endblock %}
