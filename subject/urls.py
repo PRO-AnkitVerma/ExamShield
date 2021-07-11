@@ -20,5 +20,5 @@ app_name = 'subject'
 
 urlpatterns = [
     path('add-subject/', views.add_subject, name='add-subject'),
+    path('all-subjects/', views.all_subjects, name='all-subjects'),
 ]
-
