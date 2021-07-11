@@ -43,10 +43,11 @@
                 {% for q in questions%}
                   <div id="{{forloop.counter}}">
                       <h3>{{ forloop.counter }}. {{q.question}} </h3><br>
-                      <input type="radio" name="{{ forloop.counter }}" id="{{q.option1}}" value="Option1">&nbsp;&nbsp; <label for="{{q.option1}}">Hyper text tranport protocaol</label><br><br>
-                      <input type="radio" name="{{ forloop.counter }}" id="{{q.option2}}" value="Option2">&nbsp;&nbsp; <label for="{{q.option2}}">Hyper text tranport protocaol</label><br><br>
-                      <input type="radio" name="{{ forloop.counter }}" id="{{q.option3}}" value="Option3">&nbsp;&nbsp; <label for="{{q.option3}}">Hyper text tranport protocaol</label><br><br>
-                      <input type="radio" name="{{ forloop.counter }}" id="{{q.option4}}" value="Option4">&nbsp;&nbsp; <label for="{{q.option4}}">Hyper text tranport protocaol</label><br><br>
+                      <input type="radio" name="{{ forloop.counter }}" id="{{q.option1}}" value="Option1">&nbsp;&nbsp; <label for="{{q.option1}}">{{q.option1}}</label><br><br>
+                      <input type="radio" name="{{ forloop.counter }}" id="{{q.option2}}" value="Option2">&nbsp;&nbsp; <label for="{{q.option2}}">{{q.option2}}</label><br><br>
+                      <input type="radio" name="{{ forloop.counter }}" id="{{q.option3}}" value="Option3">&nbsp;&nbsp; <label for="{{q.option3}}">{{q.option3}}</label><br><br>
+                      <input type="radio" name="{{ forloop.counter }}" id="{{q.option4}}" value="Option4">&nbsp;&nbsp; <label for="{{q.option4}}">{{q.option4}}</label><br><br>
+                      <!-- <h1>{{q.answer}}</h1> -->
                   </div>
                 {% endfor %} 
               </div>
@@ -175,7 +176,7 @@ document.getElementById('1').style.display= 'inherit';
       }
       
       function next(){
-          if(a!=2)
+          if(a!={{total_questions}})
           {
           document.getElementById(a).style.display="none";
           a++;
@@ -183,7 +184,7 @@ document.getElementById('1').style.display= 'inherit';
           
           document.getElementById('previous').style.display = "block";
           }
-          if(a==2)
+          if(a=={{total_questions}})
           {
               document.getElementById('next').style.display='none';
               document.getElementById('submit').style.display='block';
