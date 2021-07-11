@@ -1,17 +1,24 @@
 {% extends  'faculty/general-layout.html' %}
 
 {% block app-main %}
-<div class="create-assignment">
-    <p class="sign" align="center">Add Assignment</p>
-    <form class="form1" method="POST">
-        <div class="form-group">
-            <input  type="number" align="center" name="no" id="no"  placeholder="Assignment Number">
-            <input  type="text" align="center" name="question" id="question" placeholder="Assignment Name">
-            <input  type="date" align="center" name="deadline" id="deadline" placeholder="Deadline">
-            <input  type="number" align="center" name="total_marks" id="total_marks" placeholder="Marks">
-        </div>
-        <button type="submit" class="add">Add</button>
-    </form>
-</div>
+    <div class="create-assignment">
+        <p class="sign" align="center">Add Assignment</p>
+        <form class="form1" method="POST">
+            {% csrf_token %}
+            {% include 'messages.html' %}
+            <div class="form-group">
+                {{ assignment_form.as_p }}
+                <p><label for="id_subject">Subject:</label>
+                    <select name="subject" required="required" id="id_subject">
+                        <option value="" selected="">---------</option>
+                        {% for subject in subjects %}
+                            <option class="" value="{{ subject.id }}">{{ subject.name }}</option>
+                        {% endfor %}
+                    </select>
+                </p>
+            </div>
+            <button type="submit" class="add">Add</button>
+        </form>
+    </div>
 
 {% endblock %}

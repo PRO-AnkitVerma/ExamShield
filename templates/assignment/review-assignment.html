@@ -1,0 +1,24 @@
+{% extends  'faculty/general-layout.html' %}
+
+{% block app-main %}
+    <div class="review-assignment">
+        <p class="sign" align="center">Review Assignment</p>
+        Hello :)
+        <div class="assignments">
+            {% for assignment in assignments %}
+                <div class="assignment-{{ assignment.id }}">
+                    <a href="{% url 'assignment:evaluate-assignment' assignment.id %}">
+                        <p>{{ assignment.no }}</p>
+                        <p>{{ assignment.question }}</p>
+                        <p>{{ assignment.total_marks }}</p>
+                        <p>{{ assignment.subject }}</p>
+                    </a>
+                    <hr>
+                    <br>
+                </div>
+            {% endfor %}
+        </div>
+
+
+    </div>
+{% endblock %}
