@@ -15,4 +15,4 @@ class faculty(models.Model):
         verbose_name_plural = 'faculties'
 
     def __str__(self):
-        return f'faculty-{self.enroll_no}@{self.institute}'
+        return f'faculty-{self.enroll_no}@{self.institute}-{self.email}'

@@ -4,6 +4,7 @@ from student.models import student as Student_from_database
 from administrator.models import Institute
 from subject.models import Subject
 
+
 class Course(models.Model):
     course_name = models.CharField(max_length=50)
     question_number = models.PositiveIntegerField()
@@ -12,6 +13,7 @@ class Course(models.Model):
 
     def __str__(self):
         return self.course_name
+
 
 class Question(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
