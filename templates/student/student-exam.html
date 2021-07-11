@@ -1,5 +1,9 @@
-<div class="container">
-  <div class="panel panel-primary">
+{% extends  'student/general-layout.html' %}
+
+{% block app-main %}
+<div class="student-exam">
+
+    <div class="panel panel-primary">
     <div class="panel-heading">
       <h6 class="panel-title">Courses</h6>
     </div>
@@ -8,7 +12,7 @@
         <tr>
 
           <th>Exam Name</th>
-          
+
           <th>Take Exam</th>
         </tr>
       </thead>
@@ -16,11 +20,13 @@
       <tr>
 
         <td> {{t.course_name}}</td>
-        
+
         <td><a href="{% url 'student:take-exam' t.id  %}">here</a></td>
       </tr>
       {% endfor %}
     </table>
   </div>
+
 </div>
 
+{% endblock %}
