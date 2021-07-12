@@ -22,4 +22,5 @@ urlpatterns = [
     path('create-assignment/', views.create_assignment, name='create-assignment'),
     path('review-assignment/', views.review_assignment, name='review-assignment'),
     path('evaluate-assignment/<int:pk>/', views.evaluate_assignment, name='evaluate-assignment'),
+    path('submit-assignment/<int:assignment_no>/', views.submit_assignment_instance, name='submit-assignment'),
 ]

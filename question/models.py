@@ -1,4 +1,3 @@
-import student as student
 from django.db import models
 from student.models import student as Student_from_database
 from administrator.models import Institute

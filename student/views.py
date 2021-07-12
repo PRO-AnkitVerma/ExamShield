@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
-from django.views.decorators.csrf import csrf_exempt
 
 from question import models as QMODEL
 from student import models
@@ -21,7 +20,7 @@ class Login(View):
             user = auth.authenticate(username=username, password=password)
             if user and user.groups.filter(name='student'):
                 auth.login(request, user)
-                return redirect('student:student-exam')
+                return redirect('student:dashboard')
             else:
                 messages.error(request, 'Error: Invalid Credentials!')
                 return render(request, 'student/login.html')
@@ -80,6 +79,8 @@ def start_exam_view(request, pk):
     total_questions = questions.count()
     if request.method == 'POST':
         pass
+    response = render(request, 'student/start_exam.html',
+                      {'course': course, 'questions': questions, 'total_questions': total_questions})
     response = render(request, 'student/start-exam.html', {'course': course, 'questions': questions,'total_questions':total_questions})
     response.set_cookie('course_id', course.id)
     return response
@@ -126,3 +127,30 @@ def calculate_marks_view(request):
         result.save()
 
         return HttpResponseRedirect('view-result')
+
+
+# @login_required(login_url='studentlogin')
+# @user_passes_test(is_student)
+def view_result_view(request):
+    courses = QMODEL.Course.objects.all()
+    return render(request, 'student/view_result.html', {'courses': courses})
+
+
+# @login_required(login_url='studentlogin')
+# @user_passes_test(is_student)
+def check_marks_view(request, pk):
+    course = QMODEL.Course.objects.get(id=pk)
+    student = models.student.objects.get(user_id=request.user.id)
+    results = QMODEL.Result.objects.all().filter(exam=course).filter(student=student)
+    return render(request, 'student/check_marks.html', {'results': results})
+
+
+# @login_required(login_url='studentlogin')
+# @user_passes_test(is_student)
+def student_marks_view(request):
+    courses = QMODEL.Course.objects.all()
+    return render(request, 'student/student_marks.html', {'courses': courses})
+
+
+def dashboard(request):
+    return render(request, 'student/dashboard.html')
