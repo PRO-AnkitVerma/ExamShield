@@ -20,7 +20,7 @@ class Login(View):
             user = auth.authenticate(username=username, password=password)
             if user and user.groups.filter(name='student'):
                 auth.login(request, user)
-                return redirect('student:student-exam')
+                return redirect('student:dashboard')
             else:
                 messages.error(request, 'Error: Invalid Credentials!')
                 return render(request, 'student/login.html')
@@ -79,7 +79,8 @@ def start_exam_view(request, pk):
     total_questions = questions.count()
     if request.method == 'POST':
         pass
-    response = render(request, 'student/start_exam.html', {'course': course, 'questions': questions,'total_questions':total_questions})
+    response = render(request, 'student/start_exam.html',
+                      {'course': course, 'questions': questions, 'total_questions': total_questions})
     response.set_cookie('course_id', course.id)
     return response
 
