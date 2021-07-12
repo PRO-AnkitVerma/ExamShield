@@ -1,16 +1,121 @@
+{% extends  'base.html' %}
+{%load static%}
+{% block title %}ExamShield | Questions{% endblock %}
+{% block style %}
+<style>
+  *{
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+  }
+  body{
+      background-color: rgb(226, 213, 230);;
+  }
+  .question div{
+      display: none;
+  }
+  
+</style>
+{% endblock %}
 
 
 {% block main %}
-<div class="view-result">
 
-    <div class="jumbotron my-4">
+
+<div class="main-block">
+  <div class="container mt-5 p-3 text-white" style="background-color: rgb(102, 42, 143);">
+      <div class="row">
+          <div class="col-md-10 col-8">
+              <h2>{{course.course_name}}</h2>
+          </div>
+          <div class="col-md-2 col-4">
+              <button type="button" class="btn btn-primary">
+                  Timer : <span class="badge text-dark" style="background-color: white;"><span id="hour"></span> : <span id="minute"></span> : <span id="second"></span></span>
+                </button>
+          </div>
+      </div>
+  </div>
+  <div id="clear" class="container py-5 px-3" style="background-color: rgb(255, 255, 255);">
+      <div class="row">
+          <div class="col-md-8 col-12">
+            <form class="form" id="myform" method="post">
+              <div class="question">
+                {% for q in questions%}
+                  <div id="{{forloop.counter}}">
+                      <h3>{{ forloop.counter }}. {{q.question}} </h3><br>
+                      <input type="radio" name="{{ forloop.counter }}" id="{{q.option1}}" value="Option1">&nbsp;&nbsp; <label for="{{q.option1}}">{{q.option1}}</label><br><br>
+                      <input type="radio" name="{{ forloop.counter }}" id="{{q.option2}}" value="Option2">&nbsp;&nbsp; <label for="{{q.option2}}">{{q.option2}}</label><br><br>
+                      <input type="radio" name="{{ forloop.counter }}" id="{{q.option3}}" value="Option3">&nbsp;&nbsp; <label for="{{q.option3}}">{{q.option3}}</label><br><br>
+                      <input type="radio" name="{{ forloop.counter }}" id="{{q.option4}}" value="Option4">&nbsp;&nbsp; <label for="{{q.option4}}">{{q.option4}}</label><br><br>
+                      <!-- <h1>{{q.answer}}</h1> -->
+                  </div>
+                {% endfor %}
+                <input type="text" id="total_score" name="total_score" hidden>
+                <input type="text" id="course_id" name="course_id" hidden>
+                <input type="text" id="course_name" name="course_name" hidden>
+                <input type="text" id="time_submitting" name="time_submitting" hidden>
+              </div>
+            </form>
+              <div class="footer d-flex">
+                  <div>
+                      <button id="previous" class="btn btn-primary mx-2" onclick="pre()">Previous</button>
+                  </div>
+                  <div id="add_btn">
+                      <button id="next" class="btn text-white mx-2" style="background-color: rgb(102, 42, 143);" onclick="next()">Next</button>
+                      <button type="submit" id="submit" style="display: none;" class="btn btn-success mx-2" onclick="showMark()">Submit</button>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4 col-12 col-mt-3 d-flex justify-content-center align-items-center">
+              <div class="personal-info">
+                  <div class="card mb-3" style="max-width: 100%;background-color: rgb(207, 158, 240);">
+                      <video id="video" autoplay></video>
+                  </div>
+                  <div class="card text-white mb-3" style="max-width: 100%;background-color: rgb(102, 42, 143);">
+                      <div class="row g-0">
+                        <div class="col-md-12">
+                          <div class="card-body">
+                            <h5 class="card-title">Student Details</h5>
+                            <p class="card-text">Name : <span>Jil N. Patel</span></p>
+                            <p class="card-text">SID No. : <span>19********47</span></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="container" id="msg" style="display: none;">
+      <div class="message">
+          <div class="alert alert-primary">
+              Result will be publised Soon ! Have a good day.
+          </div>
+      </div>
+  </div>
+  <div class="container" id="if-no-question" style="display: none;">
+      <div class="message">
+          <div class="alert alert-primary">
+              Sorry! There is no questions to show.
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- <div class="jumbotron my-4">
 
   <form class="form" autocomplete="off" onsubmit="return saveAns()"  action="/student/calculate-marks">
     <h1 style="text-align: center;">{{course.course_name}}</h1>
     {% for q in questions%}
     <h3 class="text-info">{{ forloop.counter }}. {{q.question}}</h3><h4 style="text-align: right;">[Marks {{q.marks}}]</h4>
 
-
+        
           <div class="form-check mx-4">
             <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option1}}" value="Option1">
             <label class="form-check-label" for="option1">
@@ -72,142 +177,197 @@
 {% endblock main %}
 {% block scripts %}
 <script type="text/javascript">
-document.getElementById('1').style.display= 'inherit';
+if({{total_questions}} == 0)
+{
+  document.getElementById('if-no-question').style.display = 'block';
+  document.getElementById('clear').style.display = 'none';
 
-      var a=1;
-      if(a==1)
-      {
+}
+else
+{
+  document.getElementById('1').style.display= 'inherit';
 
-          document.getElementById('previous').style.display = "none";
-      }
+    var a=1;
+    if(a==1)
+    {
 
-      function next(){
-          if(a!={{total_questions}})
-          {
-          document.getElementById(a).style.display="none";
-          a++;
-          document.getElementById(a).style.display="inherit";
+        document.getElementById('previous').style.display = "none";
+    }
 
-          document.getElementById('previous').style.display = "block";
-          }
-          if(a=={{total_questions}})
-          {
-              document.getElementById('next').style.display='none';
-              document.getElementById('submit').style.display='block';
+    function next(){
+        if(a!={{total_questions}})
+        {
+        document.getElementById(a).style.display="none";
+        a++;
+        document.getElementById(a).style.display="inherit";
 
-          }
-      }
-      function pre(){
-          if(a!=1)
-          {
-          document.getElementById(a).style.display="none";
-          a--;
-          document.getElementById(a).style.display="inherit";
-          document.getElementById('next').style.display="block";
-          document.getElementById('submit').style.display="none";
-          }
-          if(a==1)
-          {
-              document.getElementById('previous').style.display = "none";
-          }
-      }
-      var h = document.getElementById('hour');
-      var m = document.getElementById('minute');
-      var s = document.getElementById('second');
-      var hour = "00";
-      var min = '01';
-      var sec = "00";
+        document.getElementById('previous').style.display = "block";
+        }
+        if(a=={{total_questions}})
+        {
+            document.getElementById('next').style.display='none';
+            document.getElementById('submit').style.display='block';
 
-     var timer = setInterval(function(){
+        }
+    }
+    function pre(){
+        if(a!=1)
+        {
+        document.getElementById(a).style.display="none";
+        a--;
+        document.getElementById(a).style.display="inherit";
+        document.getElementById('next').style.display="block";
+        document.getElementById('submit').style.display="none";
+        }
+        if(a==1)
+        {
+            document.getElementById('previous').style.display = "none";
+        }
+    }
+    function showMark(){
+      var total_marks = 0;
+      var date = new Date();
+      var time_of_submit = date.toLocaleTimeString();
+      {% for q in questions%}
+            var ele = document.getElementsByName('{{ forloop.counter }}');
 
-
-      if(sec==0)
-      {
-          if(min=="01"){
-              min = "00";
-              sec = 60;
-
-          }
-          else if(min=="00")
-          {
-              min="00";
-              if(hour=="00")
-              {
-                  min="00";
-              }
-              else
-              {
-                  hour--;
-                  if(hour <=9)
+            for(i = 0; i < ele.length; i++) {
+                if(ele[i].checked)
+                {
+                  if(ele[i].value == "{{q.answer}}")
                   {
-                      hour = '0'+hour;
+                    total_marks = total_marks + {{q.marks}};
+
                   }
-                  min="59";
-                  sec=60;
-              }
-          }
-          else{
-              min--;
-              if(min <=9)
-              {
-                  min= '0'+min;
-              }
-              sec = 60;
-          }
-      }
-      else
-      {
-          sec--;
-          if(sec <="9")
-          {
-              sec = '0'+sec;
-          }
-      }
+                  else
+                  {
+                    console.log("false"); // don't touch it and don't comment
+                  }
 
-      if(hour==0 && min==0 && sec<=40 && sec>=0)
-      {
-          h.style.color = "red";
-          m.style.color = "red";
-          s.style.color = "red";
+                }
+            }
+
+      {% endfor %}
+
+      swal("Thank you for your response",`Course name : ${"{{course.id}}"}\nTotal mark : ${total_marks}\nSubmitting time : ${time_of_submit}`,"success")
+      document.getElementById('clear').style.display = 'none'; // don't touch it and don't comment
+      document.getElementById('msg').style.display = 'block'; // don't touch it and don't comment
+      clearInterval(timer); // don't touch it and don't comment
+
+      // TODO : store in database(result)
+      document.getElementById('total_score').value = total_marks;
+      document.getElementById('course_id').value = "{{course.id}}";
+      document.getElementById('time_submitting').value = time_of_submit;
+      document.getElementById('course_name').value = "{{course.course_name}}";
+
+    }
 
 
-      }
-      if(hour==0 && min==0 && sec==0)
-      {
-          swal("Timeout","If you not submit then OK ,It automatically submited!","error");
-          document.getElementById('clear').style.display = 'none';
-          document.getElementById('msg').style.display = 'block';
-          clearInterval(timer);
-      }
-
-      h.innerHTML = hour;
-      m.innerHTML = min;
-      s.innerHTML = sec;
-     },1000);
 
 
-     let video = document.getElementById('video');
-      let model;
-      const setupCamera = () => {
-          navigator.mediaDevices.getUserMedia({
-              video:{width:120,height:70},
-              audio:false
-          }).then(stream=>{
-              video.srcObject = stream;
-          });
-      }
 
-      const faceDetection = async ()=>{
-          const predictions = await model.estimateFaces(video,true);
-          console.log(predictions);
-      }
 
-      setupCamera();
-      video.addEventListener('loadeddata',async ()=>{
-      model = await blazeface.load();
-      setInterval(faceDetection,100);
-      });
+    var h = document.getElementById('hour');
+    var m = document.getElementById('minute');
+    var s = document.getElementById('second');
+    // TODO : dynamic change time
+    var hour = "00";
+    var min = '00';
+    var sec = "10";
 
-      </script>
+    var timer = setInterval(function(){
+
+
+    if(sec==0)
+    {
+        if(min=="01"){
+            min = "00";
+            sec = 60;
+
+        }
+        else if(min=="00")
+        {
+            min="00";
+            if(hour=="00")
+            {
+                min="00";
+            }
+            else
+            {
+                hour--;
+                if(hour <=9)
+                {
+                    hour = '0'+hour;
+                }
+                min="59";
+                sec=60;
+            }
+        }
+        else{
+            min--;
+            if(min <=9)
+            {
+                min= '0'+min;
+            }
+            sec = 60;
+        }
+    }
+    else
+    {
+        sec--;
+        if(sec <="9")
+        {
+            sec = '0'+sec;
+        }
+    }
+
+    if(hour==0 && min==0 && sec<=40 && sec>=0)
+    {
+        h.style.color = "red";
+        m.style.color = "red";
+        s.style.color = "red";
+
+
+    }
+    if(hour==0 && min==0 && sec==0)
+    {
+        swal("Timeout","If you not submit then OK ,It automatically submited!","error");
+        document.getElementById('clear').style.display = 'none';
+        document.getElementById('msg').style.display = 'block';
+        showMark();
+        clearInterval(timer);
+    }
+
+    h.innerHTML = hour;
+    m.innerHTML = min;
+    s.innerHTML = sec;
+    },1000);
+
+
+    let video = document.getElementById('video');
+    let model;
+    const setupCamera = () => {
+        navigator.mediaDevices.getUserMedia({
+            video:{width:120,height:70},
+            audio:false
+        }).then(stream=>{
+            video.srcObject = stream;
+        });
+    }
+
+    const faceDetection = async ()=>{
+        const predictions = await model.estimateFaces(video,true);
+        console.log(predictions);
+    }
+
+    setupCamera();
+    video.addEventListener('loadeddata',async ()=>{
+    model = await blazeface.load();
+    setInterval(faceDetection,100);
+    });
+}
+
+
+</script>
 
 {% endblock %}
