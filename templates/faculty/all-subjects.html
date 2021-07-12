@@ -1,0 +1,13 @@
+{% extends  'faculty/general-layout.html' %}
+{% block title %}ExamShield | All Subject
+{% endblock %}
+{% block app-main %}
+    <div class="main-add-stu">
+        <p class="sign" align="center">All Subject</p>
+        <div>
+            {% for subject in subjects %}
+                <p>{{ subject.name }}</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
