@@ -3,7 +3,7 @@
 {% block title %}ExamShield | Register{% endblock %}
 {% block style %}
 
-{% include 'mysite/css/main.html' %}
+    {% include 'mysite/css/main.html' %}
     <style>
         body {
             background-color: white;
@@ -13,8 +13,7 @@
         .main-reg {
             background-color: #FFFFFF;
             width: 400px;
-            height: 940px;
-            margin: 7em auto;
+        {#height: 940px;#} margin: 7em auto;
             border-radius: 1.5em;
             box-shadow: 0 11px 35px 2px rgba(0, 0, 0, 0.14);
         }
@@ -96,7 +95,7 @@
 {% endblock %}
 {% block main %}
 
-<nav id="navbar">
+    <nav id="navbar">
         <ul>
             <li class="item"><a href="{% url 'mysite:home' %}">Home</a></li>
             <li class="item"><a href="{% url 'administrator:login' %}">Admin</a></li>
@@ -112,6 +111,7 @@
         <p class="sign" align="center">Admin Registration</p>
         <form class="form1" action="{% url 'administrator:register' %}" method="post">
             {% csrf_token %}
+            {% include 'messages.html' %}
             {{ user_form.username }}
             {{ user_form.password }}
             {{ administrator_form.email }}
@@ -124,13 +124,14 @@
             <br>
             <br>
 
-            <button class="submit" type="submit"  align="center">Sign up</button>
-            <p class="forgot" align="center"><a href="{% url 'administrator:login' %}">Already have an account?</a></p>
+            <button class="submit" type="submit" align="center">Sign up</button>
+            <p class="forgot" align="center" style="padding-bottom: 30px"><a href="{% url 'administrator:login' %}">Already
+                have an account?</a></p>
         </form>
     </div>
 
-<footer>
-    <div class="center">
+    <footer>
+        <div class="center">
             Created by Team Prastigh
         </div>
     </footer>

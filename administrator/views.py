@@ -66,6 +66,11 @@ class Register(View):
             'institute_form': institute_form,
             'administrator_form': administrator_form,
         }
+        messages.error(request, f'''Errors: 
+        {user_form.errors.as_text()}
+        {administrator_form.errors.as_text()}
+        {institute_form.errors.as_text()}
+        ''')
         return render(request, 'administrator/register.html', context=context)
 
 

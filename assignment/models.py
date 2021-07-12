@@ -26,6 +26,7 @@ class AssignmentInstance(models.Model):
         upload_to=f'assignments/')
     marks = models.IntegerField(default=0)
     remarks = models.CharField(max_length=200, blank=True, null=True)
+    reviewed = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.student.enroll_no}-{self.assignment}'

@@ -2,8 +2,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 
-from assignment.forms import AssignmentForm
-from assignment.models import Assignment
+from assignment.forms import AssignmentForm, AssignmentInstanceForm
+from assignment.models import Assignment, AssignmentInstance
 from mysite.decorators import allowed_users
 from subject.models import Subject
 
@@ -60,8 +60,16 @@ def review_assignment(request):
 
 @allowed_users(allowed_groups=['faculty'])
 def evaluate_assignment(request, pk):
+    # TODO: to finish after creating assignment instances!
     assignment = get_object_or_404(Assignment, id=pk)
-    context = {
-        'assignment': assignment,
-    }
-    return render(request, 'assignment/evaluate-assignment.html', context=context)
+
+    if request.method == 'GET':
+        context = {
+            'assignment': assignment,
+        }
+        return render(request, 'assignment/evaluate-assignment.html', context=context)
+
+
+@allowed_users(allowed_groups=['student'])
+def submit_assignment_instance(request):
+    return HttpResponse('Submitting  Assignment')
