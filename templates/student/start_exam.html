@@ -9,20 +9,27 @@
       box-sizing: border-box;
   }
   body{
-      background-color: rgb(226, 213, 230);;
+      background-color: rgb(226, 213, 230);
   }
   .question div{
       display: none;
   }
-  
+.main-block{
+  display: none;
+}
+
 </style>
 {% endblock %}
 
 
 {% block main %}
 
+<div id="intro" class="intro">
+<h4>Do not copy</h4>
+  <button class="btn btn-primary" onclick="startExamTime()">Start Exam</button>
+</div>
 
-<div class="main-block">
+<div id="main-block" class="main-block">
   <div class="container mt-5 p-3 text-white" style="background-color: rgb(102, 42, 143);">
       <div class="row">
           <div class="col-md-10 col-8">
@@ -177,197 +184,203 @@
 {% endblock main %}
 {% block scripts %}
 <script type="text/javascript">
-if({{total_questions}} == 0)
-{
-  document.getElementById('if-no-question').style.display = 'block';
-  document.getElementById('clear').style.display = 'none';
 
-}
-else
-{
-  document.getElementById('1').style.display= 'inherit';
+function startExamTime(){
+  document.documentElement.requestFullscreen(); // remove this
 
-    var a=1;
-    if(a==1)
-    {
-        
-        document.getElementById('previous').style.display = "none";
-    }
+  document.getElementById('intro').style.display = 'none';
+  document.getElementById('main-block').style.display = 'inherit';
+  // Timer 
 
-    function next(){
-        if(a!={{total_questions}})
+        var h = document.getElementById('hour');
+        var m = document.getElementById('minute');
+        var s = document.getElementById('second');
+        // TODO : dynamic change time
+        var hour = "00";
+        var min = '00';
+        var sec = "10";
+
+        var timer = setInterval(function(){
+
+
+        if(sec==0)
         {
-        document.getElementById(a).style.display="none";
-        a++;
-        document.getElementById(a).style.display="inherit";
-        
-        document.getElementById('previous').style.display = "block";
-        }
-        if(a=={{total_questions}})
-        {
-            document.getElementById('next').style.display='none';
-            document.getElementById('submit').style.display='block';
-            
-        }
-    }
-    function pre(){
-        if(a!=1)
-        {
-        document.getElementById(a).style.display="none";
-        a--;
-        document.getElementById(a).style.display="inherit";
-        document.getElementById('next').style.display="block";
-        document.getElementById('submit').style.display="none";
-        } 
-        if(a==1)
-        {
-            document.getElementById('previous').style.display = "none";
-        }
-    }
-    function showMark(){
-      var total_marks = 0;
-      var date = new Date();
-      var time_of_submit = date.toLocaleTimeString();
-      {% for q in questions%}
-            var ele = document.getElementsByName('{{ forloop.counter }}');
-            
-            for(i = 0; i < ele.length; i++) {
-                if(ele[i].checked)
-                {
-                  if(ele[i].value == "{{q.answer}}")
-                  {
-                    total_marks = total_marks + {{q.marks}};
-                    
-                  }
-                  else
-                  {
-                    console.log("false"); // don't touch it and don't comment 
-                  }
-                  
-                }
+            if(min=="01"){
+                min = "00";
+                sec = 60;
+                
             }
-
-      {% endfor %}
-      
-      swal("Thank you for your response",`Course name : ${"{{course.id}}"}\nTotal mark : ${total_marks}\nSubmitting time : ${time_of_submit}`,"success")
-      document.getElementById('clear').style.display = 'none'; // don't touch it and don't comment 
-      document.getElementById('msg').style.display = 'block'; // don't touch it and don't comment 
-      clearInterval(timer); // don't touch it and don't comment 
-   
-      // TODO : store in database(result)
-      document.getElementById('total_score').value = total_marks;
-      document.getElementById('course_id').value = "{{course.id}}";
-      document.getElementById('time_submitting').value = time_of_submit;
-      document.getElementById('course_name').value = "{{course.course_name}}";
-        
-    }
-
-
-    
-
-
-
-    var h = document.getElementById('hour');
-    var m = document.getElementById('minute');
-    var s = document.getElementById('second');
-    // TODO : dynamic change time
-    var hour = "00";
-    var min = '00';
-    var sec = "10";
-
-    var timer = setInterval(function(){
-
-
-    if(sec==0)
-    {
-        if(min=="01"){
-            min = "00";
-            sec = 60;
-            
-        }
-        else if(min=="00")
-        {
-            min="00";
-            if(hour=="00")
+            else if(min=="00")
             {
                 min="00";
-            }
-            else
-            {
-                hour--;
-                if(hour <=9)
+                if(hour=="00")
                 {
-                    hour = '0'+hour;
+                    min="00";
                 }
-                min="59";
-                sec=60;
+                else
+                {
+                    hour--;
+                    if(hour <=9)
+                    {
+                        hour = '0'+hour;
+                    }
+                    min="59";
+                    sec=60;
+                }
+            }
+            else{
+                min--;
+                if(min <=9)
+                {
+                    min= '0'+min;
+                }
+                sec = 60;
             }
         }
-        else{
-            min--;
-            if(min <=9)
+        else
+        {
+            sec--;
+            if(sec <="9")
             {
-                min= '0'+min;
+                sec = '0'+sec;
             }
-            sec = 60;
         }
+
+        if(hour==0 && min==0 && sec<=40 && sec>=0)
+        {
+            h.style.color = "red";
+            m.style.color = "red";
+            s.style.color = "red";
+            
+
+        }
+        if(hour==0 && min==0 && sec==0)
+        {
+            document.getElementById('clear').style.display = 'none';
+            document.getElementById('msg').style.display = 'block';
+            clearInterval(timer);
+            showMark();
+        }
+
+        h.innerHTML = hour;
+        m.innerHTML = min;
+        s.innerHTML = sec;
+        },1000);
+
+
+        let video = document.getElementById('video');
+        let model;
+        const setupCamera = () => {
+            navigator.mediaDevices.getUserMedia({
+                video:{width:120,height:70},
+                audio:false
+            }).then(stream=>{
+                video.srcObject = stream;
+            });
+        }
+
+        const faceDetection = async ()=>{
+            const predictions = await model.estimateFaces(video,true);
+            console.log(predictions);
+        }
+
+        setupCamera();
+        video.addEventListener('loadeddata',async ()=>{
+        model = await blazeface.load();
+        setInterval(faceDetection,100);
+        });
+
+        // restriction import here
+
+
+}
+  
+    if({{total_questions}} == 0)
+    {
+      document.getElementById('if-no-question').style.display = 'block';
+      document.getElementById('clear').style.display = 'none';
+
     }
     else
     {
-        sec--;
-        if(sec <="9")
+      document.getElementById('1').style.display= 'inherit';
+
+        var a=1;
+        if(a==1)
         {
-            sec = '0'+sec;
+            
+            document.getElementById('previous').style.display = "none";
+        }
+
+        function next(){
+            if(a!={{total_questions}})
+            {
+            document.getElementById(a).style.display="none";
+            a++;
+            document.getElementById(a).style.display="inherit";
+            
+            document.getElementById('previous').style.display = "block";
+            }
+            if(a=={{total_questions}})
+            {
+                document.getElementById('next').style.display='none';
+                document.getElementById('submit').style.display='block';
+                
+            }
+        }
+        function pre(){
+            if(a!=1)
+            {
+            document.getElementById(a).style.display="none";
+            a--;
+            document.getElementById(a).style.display="inherit";
+            document.getElementById('next').style.display="block";
+            document.getElementById('submit').style.display="none";
+            } 
+            if(a==1)
+            {
+                document.getElementById('previous').style.display = "none";
+            }
+        }
+        function showMark(){
+          var total_marks = 0;
+          var date = new Date();
+          var time_of_submit = date.toLocaleTimeString();
+          {% for q in questions%}
+                var ele = document.getElementsByName('{{ forloop.counter }}');
+                
+                for(i = 0; i < ele.length; i++) {
+                    if(ele[i].checked)
+                    {
+                      if(ele[i].value == "{{q.answer}}")
+                      {
+                        total_marks = total_marks + {{q.marks}};
+                        
+                      }
+                      else
+                      {
+                        console.log("false"); // don't touch it and don't comment 
+                      }
+                      
+                    }
+                }
+
+          {% endfor %}
+          
+          swal("Thank you for your response",`Course name : ${"{{course.id}}"}\nTotal mark : ${total_marks}\nSubmitting time : ${time_of_submit}`,"success")
+          document.getElementById('clear').style.display = 'none'; // don't touch it and don't comment 
+          document.getElementById('msg').style.display = 'block'; // don't touch it and don't comment 
+          clearInterval(timer); // don't touch it and don't comment 
+      
+          // TODO : store in database(result)
+          document.getElementById('total_score').value = total_marks;
+          document.getElementById('course_id').value = "{{course.id}}";
+          document.getElementById('time_submitting').value = time_of_submit;
+          document.getElementById('course_name').value = "{{course.course_name}}";
+            
         }
     }
-
-    if(hour==0 && min==0 && sec<=40 && sec>=0)
-    {
-        h.style.color = "red";
-        m.style.color = "red";
-        s.style.color = "red";
         
-
-    }
-    if(hour==0 && min==0 && sec==0)
-    {
-        swal("Timeout","If you not submit then OK ,It automatically submited!","error");
-        document.getElementById('clear').style.display = 'none';
-        document.getElementById('msg').style.display = 'block';
-        showMark();
-        clearInterval(timer);
-    }
-
-    h.innerHTML = hour;
-    m.innerHTML = min;
-    s.innerHTML = sec;
-    },1000);
-
-
-    let video = document.getElementById('video');
-    let model;
-    const setupCamera = () => {
-        navigator.mediaDevices.getUserMedia({
-            video:{width:120,height:70},
-            audio:false
-        }).then(stream=>{
-            video.srcObject = stream;
-        });
-    }
-
-    const faceDetection = async ()=>{
-        const predictions = await model.estimateFaces(video,true);
-        console.log(predictions);
-    }
-
-    setupCamera();
-    video.addEventListener('loadeddata',async ()=>{
-    model = await blazeface.load();
-    setInterval(faceDetection,100);
-    });
-}
-
-          
 </script>
 
 {% endblock %}
