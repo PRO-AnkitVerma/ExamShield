@@ -12,7 +12,6 @@
         .main {
             background-color: #FFFFFF;
             width: 400px;
-            height: 400px;
             margin: 7em auto;
             border-radius: 1.5em;
             box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
@@ -113,7 +112,6 @@
     </style>
 {% endblock %}
 {% block main %}
-    {# TODO: Complete Login Page #}
 
     <nav id="navbar">
         <ul>
@@ -130,11 +128,13 @@
         <div>
             <p class="sign" align="center">Admin Login</p>
             <form class="form1" method="post" action="{% url 'administrator:login' %}">
-                <input class="un " type="text" align="center" placeholder="Username">
-                <input class="pass" type="password" align="center" placeholder="Password">
-                <a class="submit" align="center" type="submit">Sign in</a>
+                {% csrf_token %}
+                {% include 'messages.html' %}
+                <input class="un " name="username" type="text" align="center" placeholder="Username">
+                <input class="pass" name="password" type="password" align="center" placeholder="Password">
+                <button class="submit" align="center" type="submit">Sign in</button>
             </form>
-            <div class="mt-4" style="margin-left: 32%;">
+            <div class="mt-4" style="margin-left: 32%; padding-bottom: 30px;">
                 <div class="form-group mb-3">
                     <div class="input-group">
                         <a href="{% url 'administrator:register' %}">New here? Sign Up</a>
