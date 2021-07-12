@@ -1,17 +1,31 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-{# TODO: Customise this template #}
+{% extends  'administrator/general-layout.html' %}
 
-{% for faculty in faculties %}
-    {{ faculty }}
-{% endfor %}
-</body>
-</html>
+{% block app-main %}
+<div class="view-faculty-details">
+
+    <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h6 class="panel-title">Faculty Details</h6>
+    </div>
+    <table class="table table-hover" id="dev-table">
+      <thead>
+        <tr>
+
+          <th>Enrollment No.</th>
+          <th>Email Id</th>
+        </tr>
+      </thead>
+      {% for faculty in faculties %}
+      <tr>
+
+        <td> {{faculty.enroll_no}}</td>
+        <td>{{faculty.email}}</td>
+
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+</div>
+
+{% endblock %}
