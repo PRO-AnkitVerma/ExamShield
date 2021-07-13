@@ -3,24 +3,22 @@
 {% block app-main %}
     <div class="submit-assignment">
         <p class="sign" align="center">Submit Assignment</p>
-        <form class="form1" method="POST">
+
+        <div><b>No:</b> {{ assignment.no }}</div>
+        <div><b>Name:</b> {{ assignment.question }}</div>
+        <div><b>Subject:</b> {{ assignment.subject.name }}</div>
+        <div><b>Due:</b> {{ assignment.deadline }}</div>
+        <div><b>Total Marks:</b> {{ assignment.total_marks }}</div>
+
+
+        <form class="form1" method="POST" action="{% url 'assignment:submit-assignment' assignment.id %}"
+              enctype="multipart/form-data">
             <div class="form-group">
-                {##}
-                {#                <label>#}
-                {#                    <select name="assignment_id" class="filter-selectbox">#}
-                {#                        {% for assignment in assignments %}#}
-                {#                            <option value="{{ assignment.id }}">{{ assignment.question }}</option>#}
-                {#                        {% endfor %}#}
-                {#                    </select>#}
-                {#                </label>#}
+                {% csrf_token %}
 
+                {% include 'messages.html' %}
 
-                <label><b>Due</b></label><br/>
-                <label><b>Aim</b></label><br/>
-                <label><b>Marks</b></label>: {{ ass }}<br/>
-                <label><b>Upload Assignment</b></label>
-                <input type="file" align="center" name="file_uploaded" id="file_uploaded"
-                       placeholder="Assignment Number">
+                {{ assignment_instance_form.as_p }}
             </div>
             <button type="submit" class="add">Submit</button>
         </form>
