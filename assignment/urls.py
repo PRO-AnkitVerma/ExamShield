@@ -30,6 +30,8 @@ urlpatterns = [
     # student operations
     path('submit-assignment/<int:assignment_id>/', views.submit_assignment_instance, name='submit-assignment'),
     path('student-view-assignments/', views.student_view_all_given_assignments, name='student-view-assignments'),
+    path('student-view-all-returned-assignment-instances/', views.student_view_all_returned_assignment_instances,
+         name='student-view-all-returned-assignment-instances'),
     # path('student-view-assignments/<int:assignment_instance_no>/', views.view_assignment_instance,
     #      name='student-view-assignment-detail'),
 

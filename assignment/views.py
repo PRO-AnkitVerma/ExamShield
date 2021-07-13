@@ -165,6 +165,14 @@ def student_view_all_given_assignments(request):
     }
     return render(request, 'assignment/student-view-all-given-assignments.html', context=context)
 
+
+def student_view_all_returned_assignment_instances(request):
+    context = {
+        'assignment_instances': AssignmentInstance.objects.filter(student=request.user.student).filter(reviewed=True)
+    }
+    return render(request, 'assignment/student-view-all-returned-assignment-instances.html',
+                  context=context)
+
 #
 # def view_assignment_instance(request, assignment_instance_no):
 #     return HttpResponse('Viewing submitted AssignmentInstance')
