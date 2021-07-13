@@ -109,10 +109,10 @@ def faculty_add_exam_view(request):
             course = courseForm.save(commit=False)
             course.subject = Subject.objects.get(id=subject_id)
             course.save()
-            return render(request, 'quiz/faculty-add-question.html', context={'course': course})
+            return render(request, 'quiz/faculty-add-question.html', context={'courseForm': courseForm})
 
         # invalid data passed!
-        return render(request, 'quiz/faculty-add-exam.html.html', context={
+        return render(request, 'quiz/faculty-add-exam.html', context={
             'courseForm': courseForm,
             'subjects': Subject.objects.filter(faculty=request.user.faculty),
         })

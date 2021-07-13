@@ -52,9 +52,9 @@ def dashboard(request):
 #     return render(request, 'faculty/faculty_exam.html')
 
 
-# @login_required(login_url='faculty/login')
-# @user_passes_test(is_faculty)
-# def faculty_add_exam_view(request):
+#@login_required(login_url='faculty/login')
+#@user_passes_test(is_faculty)
+#def faculty_add_exam_view(request):
 #     courseForm = QFORM.CourseForm()
 #     if request.method == 'POST':
 #         courseForm = QFORM.CourseForm(request.POST)
@@ -63,7 +63,7 @@ def dashboard(request):
 #         else:
 #             print("form is invalid")
 #         return HttpResponseRedirect('/faculty/faculty-view-exam')
-#     return render(request, 'faculty/faculty_add_exam.html', {'courseForm': courseForm})
+#     return render(request, 'faculty/faculty-add-exam.html', {'courseForm': courseForm})
 
 
 # @login_required(login_url='faculty/login')
