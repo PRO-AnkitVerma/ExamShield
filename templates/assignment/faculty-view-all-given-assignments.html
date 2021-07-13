@@ -1,0 +1,37 @@
+{% extends  'faculty/general-layout.html' %}
+
+{% block app-main %}
+    <div class="student-exam">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h6 class="panel-title">Assignments</h6>
+            </div>
+            <table class="table table-hover" id="dev-table">
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>Due</th>
+                    <th>Subject</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for assignment in assignments %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'assignment:review-assignment' assignment.id %}">
+                                {{ assignment.no }}
+                            </a>
+                        </td>
+                        <td>{{ assignment.question }}</td>
+                        <td>{{ assignment.deadline }}</td>
+                        <td>{{ assignment.subject.name }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+{% endblock %}

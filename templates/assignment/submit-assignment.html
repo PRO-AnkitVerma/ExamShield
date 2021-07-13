@@ -10,9 +10,12 @@
         <div><b>Total Marks:</b> {{ assignment.total_marks }}</div>
 
 
-        <form class="form1" method="POST" action="{% url 'assignment:submit-assignment' assignment.id %}">
+        <form class="form1" method="POST" action="{% url 'assignment:submit-assignment' assignment.id %}"
+              enctype="multipart/form-data">
             <div class="form-group">
                 {% csrf_token %}
+
+                {% include 'messages.html' %}
 
                 {##}
                 {#                <label>#}

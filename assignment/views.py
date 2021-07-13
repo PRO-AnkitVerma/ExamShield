@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 
 from assignment.forms import AssignmentForm, AssignmentInstanceForm
@@ -80,15 +80,39 @@ def submit_assignment_instance(request, assignment_id):
             'assignment': assignment,
             'assignment_instance_form': AssignmentInstanceForm(),
             'student': student,
+            'already_submitted': AssignmentInstance.objects.filter(assignment=assignment).exists()
         }
+        messages.info(request, 'You have already submitted this assignment')
         return render(request, 'assignment/submit-assignment.html', context=context)
 
     if request.method == 'POST':
+        assignment_instance_form = AssignmentInstanceForm(request.POST, request.FILES)
+
+        # data is valid so save assignment instance
+        if assignment_instance_form.is_valid():
+            assignment_instance = assignment_instance_form.save(commit=False)
+            assignment_instance.assignment = assignment
+            assignment_instance.student = student
+            assignment_instance.save()
+
+            context = {
+                'assignment': assignment,
+                'assignment_instance_form': assignment_instance_form,
+                'student': student,
+            }
+
+            messages.success(request, 'Assignment submitted successfully!')
+            return render(request, 'assignment/submit-assignment.html', context=context)
+
+        # invalid data provided
         context = {
             'assignment': assignment,
-            'assignment_instance_form': AssignmentInstanceForm(),
+            'assignment_instance_form': assignment_instance_form,
             'student': student,
         }
+        messages.error(request, f'''
+        {assignment_instance_form.errors.as_text()}
+        ''')
         return render(request, 'assignment/submit-assignment.html', context=context)
 
     return HttpResponse('BAD REQUEST')
