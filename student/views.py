@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
 
+from mysite.decorators import allowed_users
 from question import models as QMODEL
 from student import models
 
@@ -113,6 +114,7 @@ def calculate_marks_view(request):
 # @login_required(login_url='studentlogin')
 # @user_passes_test(is_student)
 def view_result_view(request):
+    # TODO: remaining to filter out
     courses = QMODEL.Course.objects.all()
     return render(request, 'student/view_result.html', {'courses': courses})
 
@@ -133,5 +135,6 @@ def student_marks_view(request):
     return render(request, 'student/student_marks.html', {'courses': courses})
 
 
+@allowed_users(allowed_groups=['student'])
 def dashboard(request):
     return render(request, 'student/dashboard.html')
