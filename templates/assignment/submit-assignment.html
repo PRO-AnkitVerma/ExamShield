@@ -1,13 +1,23 @@
-{% extends  'faculty/general-layout.html' %}
+{% extends  'student/general-layout.html' %}
 
 {% block app-main %}
     <div class="submit-assignment">
         <p class="sign" align="center">Submit Assignment</p>
         <form class="form1" method="POST">
             <div class="form-group">
+                {##}
+                {#                <label>#}
+                {#                    <select name="assignment_id" class="filter-selectbox">#}
+                {#                        {% for assignment in assignments %}#}
+                {#                            <option value="{{ assignment.id }}">{{ assignment.question }}</option>#}
+                {#                        {% endfor %}#}
+                {#                    </select>#}
+                {#                </label>#}
+
+
                 <label><b>Due</b></label><br/>
                 <label><b>Aim</b></label><br/>
-                <label><b>Marks</b></label><br/>
+                <label><b>Marks</b></label>: {{ ass }}<br/>
                 <label><b>Upload Assignment</b></label>
                 <input type="file" align="center" name="file_uploaded" id="file_uploaded"
                        placeholder="Assignment Number">
@@ -15,5 +25,11 @@
             <button type="submit" class="add">Submit</button>
         </form>
     </div>
+
+    <script>
+        let showDetails = function (assignment_id) {
+
+        }
+    </script>
 
 {% endblock %}

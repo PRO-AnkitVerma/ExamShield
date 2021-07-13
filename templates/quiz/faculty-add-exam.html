@@ -1,7 +1,9 @@
-<html>
+{% extends  'faculty/general-layout.html' %}
+{% block app-main %}
+
 <div class="faculty-add-exam">
     <p class="sign" align="center">Add Exam</p>
-    <form class="form1" method="POST" action="{% url 'question:faculty_add_exam_view'%}">
+    <form class="form1" method="POST" >
         <div class="form-group">
             <input  type="text" align="center" name="course_name" id="course_name" placeholder="Exam Name">
             <input  type="number" align="center" name="question" id="question_number" placeholder="Total Question">
@@ -10,4 +12,5 @@
         <a class="add" align="center" href="{% url 'question:faculty-question' %}">Add</a>
     </form>
 </div>
-</html>
+
+{% endblock %}
