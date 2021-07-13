@@ -1,4 +1,3 @@
-from django.contrib.auth.decorators import user_passes_test, login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
@@ -7,7 +6,6 @@ from question import models as QMODEL
 # from django import forms as QFORM
 from question.forms import CourseForm, QuestionForm
 from question.models import Course
-from faculty.models import faculty as Faculty
 from subject.models import Subject
 
 
@@ -97,7 +95,7 @@ def faculty_view_exam(request):
 def faculty_add_exam_view(request):
     # TODO: Here on exam to question
     if request.method == 'GET':
-        return render(request, 'quiz/test.html', context={
+        return render(request, 'quiz/faculty-add-exam.html', context={
             'courseForm': CourseForm(),
             'subjects': Subject.objects.filter(faculty=request.user.faculty),
         })
@@ -114,7 +112,7 @@ def faculty_add_exam_view(request):
             return render(request, 'quiz/faculty-add-question.html', context={'course': course})
 
         # invalid data passed!
-        return render(request, 'quiz/test.html', context={
+        return render(request, 'quiz/faculty-add-exam.html.html', context={
             'courseForm': courseForm,
             'subjects': Subject.objects.filter(faculty=request.user.faculty),
         })
