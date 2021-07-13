@@ -1,24 +1,17 @@
 {% extends  'faculty/general-layout.html' %}
 
 {% block app-main %}
-    <div class="faculty-add-question">
-        <p class="sign" align="center">Add Question</p>
+<form method="POST"  class="form1">
 
-        {{ course }}
-        <form class="form1" method="POST">
-            <div class="form-group">
-                <input type="text" align="center" name="question" placeholder="{{ course }}"
-                       value="{{ course }}">
-                <input type="text" align="center" name="question" id="question" placeholder="Question">
-                <input type="number" align="center" name="question" id="question_number" placeholder="Marks">
-                <input type="text" align="center" name="option1" id="option1" placeholder="Option - 1">
-                <input type="text" align="center" name="option2" id="option2" placeholder="Option - 2">
-                <input type="text" align="center" name="option3" id="option3" placeholder="Option - 3">
-                <input type="text" align="center" name="option4" id="option4" placeholder="Option - 4">
-                <input type="text" align="center" name="answer" id="answer" placeholder="Answer">
-            </div>
-            <button type="submit" class="add">Add</button>
-        </form>
+  {% csrf_token %}
+    <div class="form-group">
+    {{ questionForm.as_p }}
+
     </div>
+
+
+    <button type="submit" class="btn btn-primary">ADD</button>
+  </form>
+<br><br><br>
 
 {% endblock %}

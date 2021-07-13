@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse
-from faculty.models import faculty
+from faculty.models import faculty as FMODEL
 from mysite.decorators import allowed_users
 from subject.models import Subject
 from subject.forms import SubjectForm
@@ -19,13 +19,16 @@ def all_subjects(request):
 
 def add_subject(request):
     subjectForm = SubjectForm(request.POST)
+
     if subjectForm.is_valid():
         subject = subjectForm.save(commit=False)
-        Faculty = request.user.faculty
-        subject.Faculty = Faculty
+        subject.faculty=request.user.faculty
+        subject.institute=request.user.faculty.institute
+        subject.save()
 
-        subjectForm.save()
+        return render(request, 'faculty/add-subject.html', context={'subjectForm': subjectForm})
+
     else:
         print("form is invalid")
 
-    return render(request, 'faculty/add-subject.html', {'subjectForm': subjectForm})
+    return render(request, 'faculty/all-subject.html', {'subjectForm': subjectForm})

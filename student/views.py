@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
-
+from question.forms import ResultForm
 from mysite.decorators import allowed_users
 from question import models as QMODEL
 from student import models
@@ -55,7 +55,14 @@ def student_dashboard_view(request):
 # @login_required(login_url='studentlogin')
 # @user_passes_test(is_student)
 def view_result_view(request):
+    resultForm = ResultForm(request.POST)
+    if resultForm.is_valid():
+        resultForm.save()
+    else:
+        print("form is invalid")
+
     courses = QMODEL.Course.objects.all()
+    # totalmarks.courses.save()
     return render(request, 'student/view-result.html', {'courses': courses})
 
 
@@ -65,6 +72,7 @@ def check_marks_view(request, pk):
     course = QMODEL.Course.objects.get(id=pk)
     student = models.student.objects.get(user_id=request.user.id)
     results = QMODEL.Result.objects.all().filter(exam=course).filter(student=student)
+
     return render(request, 'student/check-marks.html', {'results': results})
 
 
@@ -138,23 +146,10 @@ def calculate_marks_view(request):
         return HttpResponseRedirect('view-result')
 
 
-# @login_required(login_url='studentlogin')
-# @user_passes_test(is_student)
-def view_result_view(request):
-    # TODO: remaining to filter out
-    courses = QMODEL.Course.objects.all()
-    return render(request, 'student/view_result.html', {'courses': courses})
 
 
 # @login_required(login_url='studentlogin')
 # @user_passes_test(is_student)
-def check_marks_view(request, pk):
-    course = QMODEL.Course.objects.get(id=pk)
-    student = models.student.objects.get(user_id=request.user.id)
-    results = QMODEL.Result.objects.all().filter(exam=course).filter(student=student)
-    return render(request, 'student/check_marks.html', {'results': results})
-
-
 # @login_required(login_url='studentlogin')
 # @user_passes_test(is_student)
 def student_marks_view(request):

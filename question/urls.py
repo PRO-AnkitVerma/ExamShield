@@ -22,7 +22,7 @@ app_name = 'question'
 urlpatterns = [
     # exam urls
     path('faculty-exam/', views.faculty_exam_view, name='faculty-exam'),
-    path('question/faculty-add-exam/', views.faculty_add_exam_view, name='faculty-add-exam'),
+    path('faculty-add-exam/', views.faculty_add_exam_view, name='faculty-add-exam'),
     path('faculty-view-exam/', views.faculty_view_exam_view, name='faculty-view-exam'),
     path('delete-exam/<int:pk>/', views.delete_exam_view, name='faculty-delete-exam'),
 

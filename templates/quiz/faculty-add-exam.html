@@ -3,13 +3,14 @@
 
 <div class="faculty-add-exam">
     <p class="sign" align="center">Add Exam</p>
-    <form class="form1" method="POST" >
+    <form class="form1" method="POST"  action="{% url 'question:faculty-add-exam' %}">
+          {% csrf_token %}
         <div class="form-group">
-            <input  type="text" align="center" name="course_name" id="course_name" placeholder="Exam Name">
-            <input  type="number" align="center" name="question" id="question_number" placeholder="Total Question">
-            <input  type="number" align="center" name="total_marks" id="total_marks" placeholder="Total Marks">
+
+            {{ courseForm}}
+
         </div>
-        <a class="add" align="center" href="{% url 'question:faculty-question' %}">Add</a>
+    <button type="submit" class="btn btn-primary">ADD</button>
     </form>
 </div>
 
