@@ -94,28 +94,4 @@ def faculty_view_exam(request):
 
 @allowed_users(allowed_groups=['faculty'])
 def faculty_add_exam_view(request):
-    # TODO: Here on exam to question
-    if request.method == 'GET':
-        return render(request, 'quiz/faculty-add-exam.html', context={
-            'courseForm': CourseForm(),
-            'subjects': Subject.objects.filter(faculty=request.user.faculty),
-        })
-
-    if request.method == 'POST':
-        subject_id = request.POST.get('subject_id', '')
-        courseForm = CourseForm(request.POST)
-
-        # exam data is valid
-        if courseForm.is_valid() and subject_id:
-            course = courseForm.save(commit=False)
-            course.subject = Subject.objects.get(id=subject_id)
-            course.save()
-            return render(request, 'quiz/faculty-add-question.html', context={'course': course})
-
-        # invalid data passed!
-        return render(request, 'quiz/faculty-add-exam.html', context={
-            'courseForm': courseForm,
-            'subjects': Subject.objects.filter(faculty=request.user.faculty),
-        })
-
-    return HttpResponse('BAD REQUEST!')
+    return render(request,'quiz/faculty-add-exam.html')

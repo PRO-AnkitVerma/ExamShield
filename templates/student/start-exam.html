@@ -247,6 +247,7 @@ function startExamTime(){
         }
 
         document.documentElement.requestFullscreen().catch(console.log);
+        navigator.keyboard.lock();
 
   document.getElementById('intro').style.display = 'none';
   document.getElementById('main-block').style.display = 'inherit';
@@ -351,14 +352,15 @@ function startExamTime(){
         });
 
         // restriction import here
-              function ieClicked() {
+
+ function ieClicked() {
             if (document.all) {
                 return false;
             }
         }
         function firefoxClicked(e) {
             if (document.layers || (document.getElementById && !document.all)) {
-                if (e.which == 1 || e.which == 2 || e.which == 3) {
+                if ( e.which == 2 || e.which == 3) {
                     return false;
                 }
             }
@@ -383,8 +385,15 @@ function startExamTime(){
             document.onclick = reEnable
         }
 
+        document.addEventListener('keydown', function (event) {
+            if (event.key === "Escape") {
+                showMark();
+            }
+        });
 
 }
+
+
 
     if({{total_questions}} == 0)
     {
