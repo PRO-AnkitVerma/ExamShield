@@ -1,0 +1,19 @@
+{% extends  'administrator/general-layout.html' %}
+{% block title %}ExamShield | Add Faculty
+{% endblock %}
+{% block app-main %}
+    <div class="main-add-stu">
+        <p class="sign" align="center">Add Faculty</p>
+        <form class="form1" method="POST" action="{% url 'administrator:create-faculty' %}">
+            {% csrf_token %}
+
+            {% include 'messages.html' %}
+
+            {{ faculty_form.email }}
+            {{ faculty_form.enroll_no }}
+
+            <input type="text" align="center" placeholder="Password" name="password" value="{{ password }}">
+            <button class="share" align="center" type="submit">Share</button>
+        </form>
+    </div>
+{% endblock %}

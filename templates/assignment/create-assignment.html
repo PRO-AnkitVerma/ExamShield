@@ -1,0 +1,24 @@
+{% extends  'faculty/general-layout.html' %}
+
+{% block app-main %}
+    <div class="create-assignment">
+        <p class="sign" align="center">Add Assignment</p>
+        <form class="form1" method="POST">
+            {% csrf_token %}
+            {% include 'messages.html' %}
+            <div class="form-group">
+                {{ assignment_form.as_p }}
+                <p><label for="id_subject">Subject:</label>
+                    <select name="subject" required="required" id="id_subject">
+                        <option value="" selected="">---------</option>
+                        {% for subject in subjects %}
+                            <option class="" value="{{ subject.id }}">{{ subject.name }}</option>
+                        {% endfor %}
+                    </select>
+                </p>
+            </div>
+            <button type="submit" class="add">Add</button>
+        </form>
+    </div>
+
+{% endblock %}

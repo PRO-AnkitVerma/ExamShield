@@ -1,0 +1,14 @@
+{% extends  'faculty/general-layout.html' %}
+{% block title %}ExamShield | Add Subject
+{% endblock %}
+{% block app-main %}
+<div class="main-add-stu">
+    <p class="sign" align="center">Add Subject</p>
+    <form class="form1" method="POST" >
+          {% csrf_token %}
+        <input  type="number" align="center" name="code" id="code" placeholder="Code">
+        <input  type="text" align="center" name="name" id="name" placeholder="Name">
+        <button id="done" align="center" name="done" class="done" >Done</button>
+    </form>
+</div>
+{% endblock %}

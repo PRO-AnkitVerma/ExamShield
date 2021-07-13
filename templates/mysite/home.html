@@ -1,0 +1,93 @@
+{% extends  'base.html' %}
+{% load static %}
+{% block title %}ExamShield | Home{% endblock %}
+{% block style %}
+{% include 'mysite/css/main.html' %}
+{% endblock %}
+{% block main %}
+    {# TODO: Complete Home Page #}
+
+    <nav id="navbar">
+        <ul>
+            <li class="item"><a href="#">Home</a></li>
+            <li class="item"><a href="{% url 'administrator:login' %}">Admin</a></li>
+            <li class="item"><a href="{% url 'faculty:login' %}">Faculty</a></li>
+            <li class="item"><a href="{% url 'student:login' %}">Student</a></li>
+            <li class="item"><a href="#aboutus">About Us</a></li>
+            <li class="item"><a href="#contact">Contact Us</a></li>
+
+        </ul>
+    </nav>
+
+    <section id="home">
+        <h1 class="h-primary">Vidyam</h1>
+        <p>For online examination and submissions</p>
+        <a href="{% url 'administrator:register' %}"><button class="btn">Sign up</button></a>
+
+    </section>
+
+    <section id="aboutus" style="padding-top: 75px;">
+        <h1 class="h-primary center">About Us</h1>
+        <div id="services">
+            <div class="box">
+                <h2 class="h-secondary center">Smart Examination</h2>
+                <p class="center">Vidhyam prevents user from opening any other window while examination is in progress.
+                    This also blocks access to different shortcut keys such as cut ,copy , paste etc.. As student started giving exam
+                    from different remote locations, the supervision for these exam became difficult.
+                </p>
+            </div>
+            <div class="box">
+                <h2 class="h-secondary center">Smart Submissions</h2>
+                <p class="center">Students can submit assignments by subjects in any file  format, whereas faculty can upload the
+                    definition of the assignment. Student will be able to see submissions given by faculty.</p>
+            </div>
+            <div class="box">
+                <h2 class="h-secondary center">Remarking</h2>
+                <p class="center">Additionally, the oral exam (VIVA) can be marked. The feature allow faculty to  give  marking  on assignment is  also possible.
+                    Student can also see their marks.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+          <div id="contact-page">
+            <div class="box">
+                <h4 class="mb-1 text-center" style="font-size: 40px;color: purple;">Contact Us</h4><br>
+                <form method="post" action="#">
+                    {% csrf_token %}
+                    <div class="form-group row mb-3">
+                        <div class="col-md-12 mb-0">
+                          <p class="mb-1">Name :</p> <input id="name" type="text" placeholder="Enter your name" name="name" class="form-control input-box rm-border" required>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <div class="col-md-12 mb-0">
+                          <p class="mb-1">Email :</p> <input id="email" type="text" placeholder="Enter your email" name="email" class="form-control input-box rm-border" required>
+                        </div>
+                      </div>
+                      <div class="form-group row mb-3">
+                        <div class="col-md-12 mb-0">
+                          <p class="mb-1">Phone Number :</p> <input id="phone" type="text" placeholder="Enter your Phone No." name="phone" class="form-control input-box rm-border" required>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-md-12 mb-2">
+                          <p class="mb-1">Message :</p> <textarea id="message" type="text" placeholder="Enter your message" name="message" class="form-control input-box rm-border" required></textarea>
+                        </div>
+                      </div>
+                      <div class="form-group row justify-content-center mb-0">
+                        <div class="col-md-12 px-3" style="margin-left:185px;"> <button id="pppp" name="submit" class="btn" style="background-color: #9966CC;color: white;font-weight: 700;cursor: pointer;">Submit</button> </div>
+                      </div>
+                </form>
+            </div>
+
+        </div>
+
+    </section>
+
+    <footer>
+        <div class="center">
+            Created by Team Prastigh
+        </div>
+    </footer>
+{% endblock %}
