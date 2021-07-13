@@ -32,8 +32,6 @@ urlpatterns = [
     path('student-view-assignments/', views.student_view_all_given_assignments, name='student-view-assignments'),
     path('student-view-all-returned-assignment-instances/', views.student_view_all_returned_assignment_instances,
          name='student-view-all-returned-assignment-instances'),
-    # path('student-view-assignments/<int:assignment_instance_no>/', views.view_assignment_instance,
-    #      name='student-view-assignment-detail'),
 
     # api urls
     path('api/get-all-assignments/student:<int:student_enroll_no>/', api.get_all_assignments,

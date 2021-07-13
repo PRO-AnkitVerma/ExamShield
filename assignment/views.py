@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 
 from assignment.forms import AssignmentForm, AssignmentInstanceForm
@@ -166,13 +166,10 @@ def student_view_all_given_assignments(request):
     return render(request, 'assignment/student-view-all-given-assignments.html', context=context)
 
 
+@allowed_users(allowed_groups=['student'])
 def student_view_all_returned_assignment_instances(request):
     context = {
         'assignment_instances': AssignmentInstance.objects.filter(student=request.user.student).filter(reviewed=True)
     }
     return render(request, 'assignment/student-view-all-returned-assignment-instances.html',
                   context=context)
-
-#
-# def view_assignment_instance(request, assignment_instance_no):
-#     return HttpResponse('Viewing submitted AssignmentInstance')
