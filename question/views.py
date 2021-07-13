@@ -1,4 +1,3 @@
-from django.contrib.auth.decorators import user_passes_test, login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
@@ -7,7 +6,6 @@ from question import models as QMODEL
 # from django import forms as QFORM
 from question.forms import CourseForm, QuestionForm
 from question.models import Course
-from faculty.models import faculty as Faculty
 from subject.models import Subject
 
 
@@ -92,6 +90,31 @@ def faculty_view_exam(request):
     print('from view exam')
     return render(request, 'quiz/faculty-exam.html')
 
+
 @allowed_users(allowed_groups=['faculty'])
 def faculty_add_exam_view(request):
-    return render(request,'quiz/faculty-add-exam.html')
+    # TODO: Here on exam to question
+    if request.method == 'GET':
+        return render(request, 'quiz/faculty-add-exam.html', context={
+            'courseForm': CourseForm(),
+            'subjects': Subject.objects.filter(faculty=request.user.faculty),
+        })
+
+    if request.method == 'POST':
+        subject_id = request.POST.get('subject_id', '')
+        courseForm = CourseForm(request.POST)
+
+        # exam data is valid
+        if courseForm.is_valid() and subject_id:
+            course = courseForm.save(commit=False)
+            course.subject = Subject.objects.get(id=subject_id)
+            course.save()
+            return render(request, 'quiz/faculty-add-question.html', context={'course': course})
+
+        # invalid data passed!
+        return render(request, 'quiz/faculty-add-exam.html.html', context={
+            'courseForm': courseForm,
+            'subjects': Subject.objects.filter(faculty=request.user.faculty),
+        })
+
+    return HttpResponse('BAD REQUEST!')

@@ -72,4 +72,26 @@ def evaluate_assignment(request, pk):
 
 @allowed_users(allowed_groups=['student'])
 def submit_assignment_instance(request):
-    return HttpResponse('Submitting  Assignment')
+    student = request.user.student
+    if request.method == 'GET':
+        context = {
+            'assignments': Assignment.objects.filter(subject__in=student.subjects.all()),
+        }
+        return render(request, 'assignment/submit-assignment.html', context=context)
+
+    if request.method == 'POST':
+        context = {
+
+        }
+        return render(request, 'assignment/submit-assignment.html', context=context)
+
+    return HttpResponse('BAD REQUEST')
+
+
+@allowed_users(allowed_groups=['student'])
+def student_view_all_given_assignments(request):
+    return HttpResponse('View Assignments')
+
+
+def view_assignment_instance(request, assignment_instance_no):
+    return HttpResponse('Viewing submitted AssignmentInstance')
