@@ -25,7 +25,7 @@ urlpatterns = [
     path('evaluate-assignment/<int:pk>/', views.evaluate_assignment, name='evaluate-assignment'),
 
     # student operations
-    path('submit-assignment/', views.submit_assignment_instance, name='submit-assignment'),
+    path('submit-assignment/<int:assignment_id>/', views.submit_assignment_instance, name='submit-assignment'),
     path('view-assignments/', views.student_view_all_given_assignments, name='view-assignment'),
     path('view-assignments/<int:assignment_instance_no>/', views.view_assignment_instance,
          name='view-assignment-detail'),

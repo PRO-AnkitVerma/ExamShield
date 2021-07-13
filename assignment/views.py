@@ -71,17 +71,23 @@ def evaluate_assignment(request, pk):
 
 
 @allowed_users(allowed_groups=['student'])
-def submit_assignment_instance(request):
+def submit_assignment_instance(request, assignment_id):
+    assignment = get_object_or_404(Assignment, id=assignment_id)
     student = request.user.student
+
     if request.method == 'GET':
         context = {
-            'assignments': Assignment.objects.filter(subject__in=student.subjects.all()),
+            'assignment': assignment,
+            'assignment_instance_form': AssignmentInstanceForm(),
+            'student': student,
         }
         return render(request, 'assignment/submit-assignment.html', context=context)
 
     if request.method == 'POST':
         context = {
-
+            'assignment': assignment,
+            'assignment_instance_form': AssignmentInstanceForm(),
+            'student': student,
         }
         return render(request, 'assignment/submit-assignment.html', context=context)
 
@@ -90,7 +96,11 @@ def submit_assignment_instance(request):
 
 @allowed_users(allowed_groups=['student'])
 def student_view_all_given_assignments(request):
-    return HttpResponse('View Assignments')
+    assignments = Assignment.objects.filter(subject__institute=request.user.student.institute)
+    context = {
+        'assignments': assignments,
+    }
+    return render(request, 'assignment/student-view-all-given-assignments.html', context=context)
 
 
 def view_assignment_instance(request, assignment_instance_no):
