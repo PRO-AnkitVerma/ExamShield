@@ -20,7 +20,7 @@
                 {% for assignment in assignments %}
                     <tr>
                         <td>
-                            <a href="{% url 'assignment:review-assignment' assignment.id %}">
+                            <a href="{% url 'assignment:faculty-view-assignment-instances' assignment.id %}">
                                 {{ assignment.no }}
                             </a>
                         </td>

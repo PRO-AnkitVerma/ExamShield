@@ -51,23 +51,59 @@ def create_assignment(request):
 
 
 @allowed_users(allowed_groups=['faculty'])
-def review_assignment(request):
-    assignments = Assignment.objects.filter(subject__in=Subject.objects.filter(faculty=request.user.faculty))
-    context = {'assignments': assignments, }
-    print(assignments)
-    return render(request, 'assignment/review-assignment.html', context=context)
+def review_assignment_instance(request, assignment_instance_id):
+    assignment_instance = get_object_or_404(AssignmentInstance, id=assignment_instance_id)
+    context = {
+        'assignment': assignment_instance.assignment,
+        'assignment_instance': assignment_instance,
+        'already_reviewed': assignment_instance.reviewed,
+    }
+
+    if request.method == 'GET':
+        if context['already_reviewed']:
+            messages.info(request, 'You have already reviewed this assignment')
+
+        return render(request, 'assignment/review-assignment.html', context=context)
+
+    if request.method == 'POST':
+        marks = request.POST.get('marks', '')
+
+        try:
+            assignment_instance.marks = marks
+            assignment_instance.save()
+
+            assignment_instance.reviewed = True
+            assignment_instance.save()
+
+            messages.success(request, 'Successfully reviewed assignment instance')
+        except Exception as e:
+            messages.error(request, 'Error: Can\'t update assignment instance as reviewed')
+
+        return render(request, 'assignment/review-assignment.html', context=context)
+
+    return HttpResponse('BAD REQUEST')
 
 
 @allowed_users(allowed_groups=['faculty'])
-def evaluate_assignment(request, pk):
-    # TODO: to finish after creating assignment instances!
-    assignment = get_object_or_404(Assignment, id=pk)
+def faculty_view_all_assignment_instances(request, assignment_id):
+    assignment = get_object_or_404(Assignment, id=assignment_id)
+    assignment_instances = AssignmentInstance.objects.filter(assignment=assignment)
+    context = {
+        'assignment': assignment,
+        'assignment_instances': assignment_instances,
+    }
 
-    if request.method == 'GET':
-        context = {
-            'assignment': assignment,
-        }
-        return render(request, 'assignment/evaluate-assignment.html', context=context)
+    return render(request, 'assignment/faculty-view-all-assignment-instances.html', context=context)
+
+
+@allowed_users(allowed_groups=['faculty'])
+def faculty_view_all_given_assignments(request):
+    assignments = Assignment.objects.filter(subject__in=Subject.objects.filter(faculty=request.user.faculty))
+
+    context = {
+        'assignments': assignments,
+    }
+    return render(request, 'assignment/faculty-view-all-given-assignments.html', context=context)
 
 
 @allowed_users(allowed_groups=['student'])
@@ -82,7 +118,10 @@ def submit_assignment_instance(request, assignment_id):
             'student': student,
             'already_submitted': AssignmentInstance.objects.filter(assignment=assignment).exists()
         }
-        messages.info(request, 'You have already submitted this assignment')
+
+        if context['already_submitted']:
+            messages.info(request, 'You have already submitted this assignment')
+
         return render(request, 'assignment/submit-assignment.html', context=context)
 
     if request.method == 'POST':
@@ -126,6 +165,6 @@ def student_view_all_given_assignments(request):
     }
     return render(request, 'assignment/student-view-all-given-assignments.html', context=context)
 
-
-def view_assignment_instance(request, assignment_instance_no):
-    return HttpResponse('Viewing submitted AssignmentInstance')
+#
+# def view_assignment_instance(request, assignment_instance_no):
+#     return HttpResponse('Viewing submitted AssignmentInstance')
