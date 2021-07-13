@@ -21,14 +21,17 @@ app_name = 'assignment'
 urlpatterns = [
     # faculty operations
     path('create-assignment/', views.create_assignment, name='create-assignment'),
-    path('review-assignment/', views.review_assignment, name='review-assignment'),
-    path('evaluate-assignment/<int:pk>/', views.evaluate_assignment, name='evaluate-assignment'),
+    path('review-assignment-instance/<int:assignment_instance_id>/', views.review_assignment_instance,
+         name='review-assignment-instance'),
+    path('faculty-view-assignments/', views.faculty_view_all_given_assignments, name='faculty-view-assignments'),
+    path('faculty-view-assignment-instances/<int:assignment_id>/', views.faculty_view_all_assignment_instances,
+         name='faculty-view-assignment-instances'),
 
     # student operations
-    path('submit-assignment/', views.submit_assignment_instance, name='submit-assignment'),
-    path('view-assignments/', views.student_view_all_given_assignments, name='view-assignment'),
-    path('view-assignments/<int:assignment_instance_no>/', views.view_assignment_instance,
-         name='view-assignment-detail'),
+    path('submit-assignment/<int:assignment_id>/', views.submit_assignment_instance, name='submit-assignment'),
+    path('student-view-assignments/', views.student_view_all_given_assignments, name='student-view-assignments'),
+    path('student-view-all-returned-assignment-instances/', views.student_view_all_returned_assignment_instances,
+         name='student-view-all-returned-assignment-instances'),
 
     # api urls
     path('api/get-all-assignments/student:<int:student_enroll_no>/', api.get_all_assignments,

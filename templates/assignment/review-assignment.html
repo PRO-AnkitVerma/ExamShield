@@ -3,22 +3,35 @@
 {% block app-main %}
     <div class="review-assignment">
         <p class="sign" align="center">Review Assignment</p>
-        Hello :)
-        <div class="assignments">
-            {% for assignment in assignments %}
-                <div class="assignment-{{ assignment.id }}">
-                    <a href="{% url 'assignment:evaluate-assignment' assignment.id %}">
-                        <p>{{ assignment.no }}</p>
-                        <p>{{ assignment.question }}</p>
-                        <p>{{ assignment.total_marks }}</p>
-                        <p>{{ assignment.subject }}</p>
-                    </a>
-                    <hr>
-                    <br>
-                </div>
-            {% endfor %}
-        </div>
+        <div><b>No:</b> {{ assignment.no }}</div>
+        <div><b>Name:</b> {{ assignment.question }}</div>
+        <div><b>Subject:</b> {{ assignment.subject.name }}</div>
+        <div><b>Due:</b> {{ assignment.deadline }}</div>
+        <div><b>Total Marks:</b> {{ assignment.total_marks }}</div>
 
+        <div><b>Student Enroll No:</b> {{ assignment_instance.student.enroll_no }}</div>
+        <div><b>Student Email:</b> {{ assignment_instance.student.email }}</div>
+        {% if already_reviewed %}
+            <div><b>Marks:</b> {{ assignment_instance.marks }}</div>
+        {% endif %}
+        <div><b>File Uploaded:</b> <a href="{{ assignment_instance.file_uploaded.url }}">File Uploaded</a></div>
 
+        <form class="form1" method="POST" action="{% url 'assignment:review-assignment-instance' assignment.id %}">
+            <div class="form-group">
+                {% csrf_token %}
+
+                {% include 'messages.html' %}
+
+                <input type="number" name="marks" id="marks" placeholder="Enter Marks">
+            </div>
+            <button type="submit" class="add">Submit</button>
+        </form>
     </div>
+
+    <script>
+        let showDetails = function (assignment_id) {
+
+        }
+    </script>
+
 {% endblock %}
