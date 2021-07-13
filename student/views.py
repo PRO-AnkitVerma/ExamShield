@@ -1,6 +1,6 @@
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import user_passes_test, login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
@@ -47,7 +47,9 @@ def student_dashboard_view(request):
         'total_course': QMODEL.Course.objects.all().count(),
         'total_question': QMODEL.Question.objects.all().count(),
     }
-    return render(request, 'student/dashboard.html', context=dict)
+    # return HttpResponse('Hello')
+    return render(request, 'student/dashboard.html')
+    # return render(request, 'student/dashboard.html', context=dict)
 
 
 # @login_required(login_url='studentlogin')
@@ -55,6 +57,7 @@ def student_dashboard_view(request):
 def view_result_view(request):
     courses = QMODEL.Course.objects.all()
     return render(request, 'student/view-result.html', {'courses': courses})
+
 
 # @login_required(login_url='studentlogin')
 # @user_passes_test(is_student)
@@ -71,6 +74,7 @@ def student_marks_view(request):
     courses = QMODEL.Course.objects.all()
     return render(request, 'student/student-marks.html', {'courses': courses})
 
+
 # @login_required(login_url='studentlogin')
 # @user_passes_test(is_student)
 # @csrf_exempt
@@ -82,9 +86,11 @@ def start_exam_view(request, pk):
         pass
     response = render(request, 'student/start-exam.html',
                       {'course': course, 'questions': questions, 'total_questions': total_questions})
-    response = render(request, 'student/start-exam.html', {'course': course, 'questions': questions,'total_questions':total_questions})
+    response = render(request, 'student/start-exam.html',
+                      {'course': course, 'questions': questions, 'total_questions': total_questions})
     response.set_cookie('course_id', course.id)
     return response
+
 
 # @login_required(login_url='studentlogin')
 # @user_passes_test(is_student)
@@ -99,11 +105,13 @@ def take_exam_view(request, pk):
     return render(request, 'student/take-exam.html',
                   {'course': course, 'total_questions': total_questions, 'total_marks': total_marks})
 
+
 # @login_required(login_url='studentlogin')
 # @user_passes_test(is_student)
 def student_exam_view(request):
-    courses = QMODEL.Course.objects.all()
+    courses = QMODEL.Course.objects.filter()
     return render(request, 'student/student-exam.html', {'courses': courses})
+
 
 # @login_required(login_url='studentlogin')
 # @user_passes_test(is_student)
