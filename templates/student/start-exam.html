@@ -106,6 +106,7 @@
                         </ul>
                         <p></p>
                         <input type="text" align="center" name="exam_id" id="exam_id" placeholder="Exam ID">
+                        <br/>
                         <button class="btn btn-primary" onclick="startExamTime()">Let's Start</button>
                     </div>
                     <div class="card-footer">Best Of Luck</div>
@@ -219,7 +220,8 @@
 
     <script type="text/javascript">
         var timer;
-        const ROOM_ID = "Room{{ course.id }}";
+        {#const ROOM_ID = "Room{{ course.id }}";#}
+        const ROOM_ID = localStorage.getItem("exam_id");
 
 
         function preventBack() {
