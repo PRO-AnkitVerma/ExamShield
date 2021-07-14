@@ -157,13 +157,6 @@ def save_result(request, course_id):
             date=submitted_time,
             is_given=True,
         )
-        print('Success!')
-        messages.success(request, 'Saved Result')
         return redirect('student:view-result')
-
     except Exception as e:
-        print('Error while creating result', e)
-        messages.error(request, f'''
-        {e}
-        ''')
         return HttpResponse('Unable to save result!')

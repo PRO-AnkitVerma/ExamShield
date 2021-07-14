@@ -29,6 +29,28 @@
             margin-right: 15px;
         }
 
+
+        #exam_id {
+            width: 76%;
+            color: rgb(38, 50, 56);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+            background: rgba(136, 126, 126, 0.04);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+            box-sizing: border-box;
+            border: 2px solid rgba(0, 0, 0, 0.02);
+            margin-bottom: 50px;
+            margin-left: 46px;
+            text-align: center;
+            margin-bottom: 27px;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+
     </style>
     <script defer src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="{% static '/js/socket.io.js' %}" defer></script>
@@ -83,6 +105,7 @@
                             <li>You will be told your marks immediately when you submit the answer.</li>
                         </ul>
                         <p></p>
+                        <input type="text" align="center" name="exam_id" id="exam_id" placeholder="Exam ID">
                         <button class="btn btn-primary" onclick="startExamTime()">Let's Start</button>
                     </div>
                     <div class="card-footer">Best Of Luck</div>
@@ -210,9 +233,9 @@
         };
 
         function startExamTime() {
+            localStorage.setItem('exam_id', document.getElementById('exam_id').value);
+
             //Fullscreen
-
-
             function getFullscreenElement
             () {
                 return document.fullscreenElement
