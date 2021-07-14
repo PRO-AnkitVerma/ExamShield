@@ -2,12 +2,34 @@
 {% block title %}ExamShield | All Subject
 {% endblock %}
 {% block app-main %}
-    <div class="main-add-stu">
-        <p class="sign" align="center">All Subject</p>
-        <div>
-            {% for subject in subjects %}
-                <p>{{ subject.name }}</p>
-            {% endfor %}
+    <div class="all-subject">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h6 class="panel-title">All Subjects</h6>
+            </div>
+            <table class="table table-hover" id="dev-table">
+                <thead>
+                <tr>
+
+                    <th>Subject Code</th>
+                    <th>Subject Name</th>
+
+
+                </tr>
+                </thead>
+                {% for subject in subjects %}
+                    <tr>
+
+                        <td> {{ subject.code }}</td>
+                        <td> {{ subject.name }}</td>
+
+
+                    </tr>
+                {% endfor %}
+            </table>
         </div>
+
     </div>
+
 {% endblock %}

@@ -43,7 +43,10 @@ def logout(request):
 @allowed_users(allowed_groups=['faculty'])
 def dashboard(request):
     faculty = request.user
-    return render(request, 'faculty/dashboard.html', {'faculty': faculty})
+    return render(request, 'faculty/dashboard.html', {
+        'faculty': faculty,
+        'institute': request.user.faculty.institute.name,
+    })
 
 #
 # @login_required(login_url='faculty/login')
