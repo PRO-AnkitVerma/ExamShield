@@ -21,7 +21,7 @@
 
         <td> {{t.course_name}}</td>
 
-        <td><a href="{% url 'student:take-exam' t.id  %}">here</a></td>
+        <td><a href="{% url 'student:start-exam' t.id  %}">here</a></td>
       </tr>
       {% endfor %}
     </table>

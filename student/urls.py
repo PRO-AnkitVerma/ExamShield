@@ -25,7 +25,7 @@ urlpatterns = [
     # path('', views.login, redirect('student:login')),
     # TODO: add redirect for '' to login
     path('dashboard/', views.student_dashboard_view, name='dashboard'),
-    path('view-result', views.view_result_view,name='view-result'),
+    path('view-result/', views.view_result_view,name='view-result'),
     path('check-marks/<int:pk>/', views.check_marks_view,name='check-marks'),
     path('student-marks', views.student_marks_view,name='student-marks'),
     path('start-exam/<int:pk>/', views.start_exam_view,name='start-exam'),

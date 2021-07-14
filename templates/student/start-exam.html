@@ -27,7 +27,7 @@
 <div id="intro" class="intro">
     <div class="jumbotron">
 
-	      <h3 class="text-info text-center">Before you start the Exam, here are the rules</h3>
+	      <h3 class="text-primary text-center">Before you start the Exam, here are the rules</h3>
 
         <div class="row">
 
@@ -48,6 +48,8 @@
                     <h4 class="card-title">Rules :</h4>
                     <p class="card-text">
                         </p><ul style="list-style:decimal;">
+                            <li>If student press Esc key then paper is submitted and you will not able to give exam again..</li>
+                            <li>If student press cross button on the top appear when mouse hover on top then also paper is submitted and you will not able to give exam again..</li>
                             <li>All questions are multiple choice question.</li>
                             <li><span class="text-danger">Only one choice is correct.</span></li>
                             <li>Every question carry different marks
@@ -156,44 +158,34 @@
 
 
 <!-- <div class="jumbotron my-4">
-
   <form class="form" autocomplete="off" onsubmit="return saveAns()"  action="/student/calculate-marks">
     <h1 style="text-align: center;">{{course.course_name}}</h1>
     {% for q in questions%}
     <h3 class="text-info">{{ forloop.counter }}. {{q.question}}</h3><h4 style="text-align: right;">[Marks {{q.marks}}]</h4>
-
-
           <div class="form-check mx-4">
             <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option1}}" value="Option1">
             <label class="form-check-label" for="option1">
               {{q.option1}}
             </label>
           </div>
-
-
           <div class="form-check mx-4">
             <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option2}}" value="Option2">
             <label class="form-check-label" for="option2">
               {{q.option2}}
             </label>
           </div>
-
-
           <div class="form-check mx-4">
             <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option3}}" value="Option3">
             <label class="form-check-label" for="option3">
               {{q.option3}}
             </label>
           </div>
-
-
           <div class="form-check mx-4">
             <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option4}}" value="Option4">
             <label class="form-check-label" for="option4">
               {{q.option4}}
             </label>
           </div>
-
         {% endfor %}
         <input class="btn btn-info btn-lg"   type="submit" value="Submit">
     </form>
@@ -210,23 +202,32 @@
             }
         }
     }
-
     function setCookie(cname, cvalue, exdays) {
   var d = new Date();
   d.setTime(d.getTime() + (exdays*24*60*60*1000));
   var expires = "expires="+ d.toUTCString();
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
-
 </script>
-
 <br><br><br><br><br><br> -->
 {% endblock main %}
 {% block scripts %}
-<script type="text/javascript">
 
+
+<script type="text/javascript">
+var timer;
+    function preventBack() {
+        window.history.forward();
+    }
+
+    setTimeout("preventBack()", 0);
+
+    window.onunload = function () {
+        null;
+    };
 function startExamTime(){
   //Fullscreen
+
 
   function getFullscreenElement() {
             return document.fullscreenElement
@@ -247,6 +248,7 @@ function startExamTime(){
         }
 
         document.documentElement.requestFullscreen().catch(console.log);
+        navigator.keyboard.lock();
 
   document.getElementById('intro').style.display = 'none';
   document.getElementById('main-block').style.display = 'inherit';
@@ -260,7 +262,7 @@ function startExamTime(){
         var min = '00';
         var sec = "10";
 
-        var timer = setInterval(function(){
+        timer = setInterval(function(){
 
 
         if(sec==0)
@@ -320,6 +322,8 @@ function startExamTime(){
             document.getElementById('msg').style.display = 'block';
             clearInterval(timer);
             showMark();
+
+
         }
 
         h.innerHTML = hour;
@@ -351,14 +355,27 @@ function startExamTime(){
         });
 
         // restriction import here
-              function ieClicked() {
+        document.documentElement.addEventListener('fullscreenchange',(e)=>{
+            if(document.fullscreenElement)
+            {
+                console.log('in full screen');
+            }
+            else
+            {
+
+                showMark();
+
+            }
+        });
+
+ function ieClicked() {
             if (document.all) {
                 return false;
             }
         }
         function firefoxClicked(e) {
             if (document.layers || (document.getElementById && !document.all)) {
-                if (e.which == 1 || e.which == 2 || e.which == 3) {
+                if ( e.which == 2 || e.which == 3) {
                     return false;
                 }
             }
@@ -383,8 +400,19 @@ function startExamTime(){
             document.onclick = reEnable
         }
 
+        document.addEventListener('keydown', function (e) {
+
+            var charCode = e.charCode || e.keyCode || e.which;
+            if (charCode == 27){
+                alert("Escape is not allowed!");
+                showMark();
+                return false;
+            }
+        });
 
 }
+
+
 
     if({{total_questions}} == 0)
     {
@@ -468,6 +496,9 @@ function startExamTime(){
           document.getElementById('course_id').value = "{{course.id}}";
           document.getElementById('time_submitting').value = time_of_submit;
           document.getElementById('course_name').value = "{{course.course_name}}";
+
+          window.open("{% url 'student:view-result' %}","_self");
+
 
         }
     }
