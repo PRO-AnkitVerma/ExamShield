@@ -6,7 +6,7 @@ from django.views import View
 
 from mysite.decorators import allowed_users
 from question import models as QMODEL
-from question.models import Result
+from question.models import Result, Course
 from student import models
 
 
@@ -86,8 +86,11 @@ def take_exam_view(request, pk):
 
 # @login_required(login_url='studentlogin')
 # @user_passes_test(is_student)
+@allowed_users(allowed_groups=['student'])
 def student_exam_view(request):
-    courses = QMODEL.Course.objects.filter()
+    student = request.user.student
+    courses = Course.objects.filter(result__in=student.result_set.filter(is_given=False))
+    print(courses)
     return render(request, 'student/student-exam.html', {'courses': courses})
 
 
@@ -135,5 +138,32 @@ def check_marks_view(request, pk):
     return render(request, 'student/check-marks.html', {'results': results})
 
 
+@allowed_users(allowed_groups=['student'])
 def save_result(request, course_id):
-    return HttpResponse('Save Results')
+    if request.method != 'POST':
+        return HttpResponse('BAD REQUEST')
+
+    student = request.user.student
+    marks = request.POST.get('total_score', '')
+    course_id = request.POST.get('course_id', '')
+    submitted_time = request.POST.get('time_submitting', '')
+
+    try:
+        course = Course.objects.get(id=course_id)
+        Result.objects.create(
+            student=student,
+            marks=marks,
+            exam=course,
+            date=submitted_time,
+            is_given=True,
+        )
+        print('Success!')
+        messages.success(request, 'Saved Result')
+        return redirect('student:view-result')
+
+    except Exception as e:
+        print('Error while creating result', e)
+        messages.error(request, f'''
+        {e}
+        ''')
+        return HttpResponse('Unable to save result!')
