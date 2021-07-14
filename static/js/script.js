@@ -2,8 +2,9 @@ const socket = io("http://localhost:3000/");
 console.log(ROOM_ID)
 const videoGrid = document.getElementById("video-grid");
 const myPeer = new Peer(undefined, {});
-myPeer.host = "/";
+myPeer.host = "localhost";
 myPeer.port = "3001";
+myPeer.path = "/test"
 
 const myVideo = document.createElement("video");
 myVideo.muted = true;
@@ -17,6 +18,7 @@ navigator.mediaDevices
         addVideoStream(myVideo, stream);
 
         socket.on("user-connected", (userId) => {
+            console.log("Connection is being called")
             connectToNewUser(userId, stream);
         });
     });

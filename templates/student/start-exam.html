@@ -21,7 +21,19 @@
             display: none;
         }
 
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
     </style>
+    <script defer src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
+    <script src="{% static '/js/socket.io.js' %}" defer></script>
+    <script src="{% static '/js/script.js' %}" defer></script>
+    <script src="{% static '/js/main.js' %}" defer></script>
 {% endblock %}
 
 
@@ -142,8 +154,10 @@
                 </div>
                 <div class="col-md-4 col-12 col-mt-3 d-flex justify-content-center align-items-center">
                     <div class="personal-info">
-                        <div class="card mb-3" style="max-width: 100%;background-color: rgb(207, 158, 240);">
-                            <video id="video" autoplay></video>
+                        <div id="video-grid" class="card mb-3"
+                             style="max-width: 100%;background-color: rgb(207, 158, 240);">
+                            {#                            <video id="video" autoplay></video>#}
+                            {#                            <div ></div>#}
                         </div>
                         <div class="card text-white mb-3" style="max-width: 100%;background-color: rgb(102, 42, 143);">
                             <div class="row g-0">
@@ -182,6 +196,8 @@
 
     <script type="text/javascript">
         var timer;
+        const ROOM_ID = "Room{{ course.id }}";
+
 
         function preventBack() {
             window.history.forward();
@@ -228,7 +244,7 @@
             var s = document.getElementById('second');
             // TODO : dynamic change time
             var hour = "00";
-            var min = '00';
+            var min = '30';
             var sec = "10";
 
             timer = setInterval(function () {
@@ -303,13 +319,13 @@
                 console.log(predictions);
             }
 
-            setupCamera();
+            //setupCamera();
             video.addEventListener('loadeddata', async () => {
                 model = await blazeface.load();
                 setInterval(faceDetection, 100);
             });
 
-            // restriction import here
+            // TODO: enable restriction import here
             document.documentElement.addEventListener('fullscreenchange', (e) => {
                 if (document.fullscreenElement) {
                     console.log('in full screen');
@@ -366,18 +382,14 @@
                     return false;
                 }
             });
-
         }
 
-        if ({{total_questions}} == 0
-        )
-        {
+        let totalQuestions = {{ total_questions }};
+        if (totalQuestions == 0) {
             document.getElementById('if-no-question').style.display = 'block';
             document.getElementById('clear').style.display = 'none';
 
-        }
-        else
-        {
+        } else {
             document.getElementById('1').style.display = 'inherit';
 
             var a = 1;
@@ -446,9 +458,7 @@
                 document.getElementById('time_submitting').value = time_of_submit;
                 document.getElementById('course_name').value = "{{course.course_name}}";
 
-                {#document.getElementById('myform').submit()#}
                 document.myform.submit();
-                {#window.open("{% url 'student:save-result' course.id %}", "_self");#}
             }
         }
 
@@ -456,64 +466,3 @@
 
 {% endblock %}
 
-
-
-
-
-
-
-
-
-<!-- <div class="jumbotron my-4">
-  <form class="form" autocomplete="off" onsubmit="return saveAns()"  action="/student/calculate-marks">
-    <h1 style="text-align: center;">{{course.course_name}}</h1>
-    {% for q in questions%}
-    <h3 class="text-info">{{ forloop.counter }}. {{q.question}}</h3><h4 style="text-align: right;">[Marks {{q.marks}}]</h4>
-          <div class="form-check mx-4">
-            <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option1}}" value="Option1">
-            <label class="form-check-label" for="option1">
-              {{q.option1}}
-            </label>
-          </div>
-          <div class="form-check mx-4">
-            <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option2}}" value="Option2">
-            <label class="form-check-label" for="option2">
-              {{q.option2}}
-            </label>
-          </div>
-          <div class="form-check mx-4">
-            <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option3}}" value="Option3">
-            <label class="form-check-label" for="option3">
-              {{q.option3}}
-            </label>
-          </div>
-          <div class="form-check mx-4">
-            <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option4}}" value="Option4">
-            <label class="form-check-label" for="option4">
-              {{q.option4}}
-            </label>
-          </div>
-        {% endfor %}
-        <input class="btn btn-info btn-lg"   type="submit" value="Submit">
-    </form>
-  </div> -->
-<!--
-<script>
-    function saveAns(){
-        var ele = document.getElementsByTagName('input');
-        for(i = 0; i < ele.length; i++) {
-            if(ele[i].type="radio") {
-                if(ele[i].checked){
-                  setCookie(ele[i].name,ele[i].value,3)
-                }
-            }
-        }
-    }
-    function setCookie(cname, cvalue, exdays) {
-  var d = new Date();
-  d.setTime(d.getTime() + (exdays*24*60*60*1000));
-  var expires = "expires="+ d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-</script>
-<br><br><br><br><br><br> -->
