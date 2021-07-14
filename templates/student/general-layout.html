@@ -151,20 +151,20 @@
                                 <span> Assignments </span>
                             </a>
                             <ul>
-                                {#                                <li>#}
-                                {#                                    <a href="{% url 'assignment:submit-assignment' %}">#}
-                                {#                                        <i class="metismenu-icon"></i>#}
-                                {#                                        Upload Assignments#}
-                                {#                                    </a>#}
-                                {#                                </li>#}
                                 <li>
-                                    <a href="{% url 'assignment:student-view-assignments' %}">
+                                    <a href="{% url 'assignment:submit-assignment' %}">
+                                        <i class="metismenu-icon"></i>
+                                        Upload Assignments
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'assignment:view-assignment' %}">
                                         <i class="metismenu-icon">
                                         </i>View Assignments
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'assignment:student-view-all-returned-assignment-instances' %}">
+                                    <a href="#">
                                         <i class="metismenu-icon">
                                         </i>Return Assignments
                                     </a>
