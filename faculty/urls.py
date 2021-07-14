@@ -24,5 +24,6 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('faculty-video-conference/', views.video_conference, name='faculty-video-conference'),
+    path('faculty-viva/', views.faculty_viva_view, name='faculty-viva'),
 
 ]

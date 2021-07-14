@@ -52,3 +52,8 @@ def dashboard(request):
 @allowed_users(allowed_groups=['faculty'])
 def video_conference(request):
     return render(request, 'faculty/faculty-video-conference.html')
+
+
+@allowed_users(allowed_groups=['faculty'])
+def faculty_viva_view(request):
+    return render(request, 'faculty/faculty-viva.html')
