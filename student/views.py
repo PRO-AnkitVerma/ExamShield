@@ -92,14 +92,8 @@ def start_exam_view(request, pk):
     total_questions = questions.count()
     if request.method == 'POST':
         pass
-<<<<<<< HEAD
-    response = render(request, 'student/start_exam.html',
-=======
-    response = render(request, 'student/start-exam.html',
-                      {'course': course, 'questions': questions, 'total_questions': total_questions})
-    response = render(request, 'student/start-exam.html',
->>>>>>> e5f6f45c01df474ed9294a266d4b5c36d1de4c38
-                      {'course': course, 'questions': questions, 'total_questions': total_questions})
+    response = render(request, 'student/start_exam.html', context
+                    =  {'course': course, 'questions': questions, 'total_questions': total_questions})
     response.set_cookie('course_id', course.id)
     return response
 
@@ -161,9 +155,7 @@ def student_marks_view(request):
     return render(request, 'student/student_marks.html', {'courses': courses})
 
 
-<<<<<<< HEAD
-=======
+
 @allowed_users(allowed_groups=['student'])
->>>>>>> e5f6f45c01df474ed9294a266d4b5c36d1de4c38
 def dashboard(request):
     return render(request, 'student/dashboard.html')

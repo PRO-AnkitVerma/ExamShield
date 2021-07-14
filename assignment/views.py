@@ -72,9 +72,6 @@ def evaluate_assignment(request, pk):
 
 @allowed_users(allowed_groups=['student'])
 def submit_assignment_instance(request):
-<<<<<<< HEAD
-    return HttpResponse('Submitting  Assignment')
-=======
     student = request.user.student
     if request.method == 'GET':
         context = {
@@ -98,4 +95,3 @@ def student_view_all_given_assignments(request):
 
 def view_assignment_instance(request, assignment_instance_no):
     return HttpResponse('Viewing submitted AssignmentInstance')
->>>>>>> e5f6f45c01df474ed9294a266d4b5c36d1de4c38

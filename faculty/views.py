@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, HttpResponse, redirect
 from django.views import View
 
+from administrator.models import Institute
 from mysite.decorators import allowed_users
 from question import models as QMODEL
 from student import models as SMODEL

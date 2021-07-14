@@ -23,10 +23,6 @@ urlpatterns = [
     path('create-assignment/', views.create_assignment, name='create-assignment'),
     path('review-assignment/', views.review_assignment, name='review-assignment'),
     path('evaluate-assignment/<int:pk>/', views.evaluate_assignment, name='evaluate-assignment'),
-<<<<<<< HEAD
-    path('submit-assignment/<int:assignment_no>/', views.submit_assignment_instance, name='submit-assignment'),
-=======
-
     # student operations
     path('submit-assignment/', views.submit_assignment_instance, name='submit-assignment'),
     path('view-assignments/', views.student_view_all_given_assignments, name='view-assignment'),
@@ -39,5 +35,4 @@ urlpatterns = [
     path('api/get-all-assignments/student:<int:student_enroll_no>/subject:<int:subject_id>/',
          api.get_all_assignments,
          name='get-all-assignments'),
->>>>>>> e5f6f45c01df474ed9294a266d4b5c36d1de4c38
 ]
