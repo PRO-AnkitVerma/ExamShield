@@ -417,7 +417,7 @@ function startExamTime(){
             
             var charCode = e.charCode || e.keyCode || e.which;
             if (charCode == 27){
-                alert("Escape is not allowed!");
+                alert("We warn you to not press Esc key | sorry we have to stop your exam .");
                 showMark();
                 return false;
             }
@@ -510,7 +510,9 @@ function startExamTime(){
           document.getElementById('time_submitting').value = time_of_submit;
           document.getElementById('course_name').value = "{{course.course_name}}";
 
-          window.open("{% url 'student:view-result' %}","_self");
+          setTimeout(function(){
+            window.open("{% url 'student:view-result' %}","_self");
+          },3000);
           
 
         }
