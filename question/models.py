@@ -2,6 +2,7 @@ from django.db import models
 from student.models import student as Student_from_database
 from administrator.models import Institute
 from subject.models import Subject
+from datetime import datetime
 
 
 class Course(models.Model):
@@ -9,6 +10,8 @@ class Course(models.Model):
     question_number = models.PositiveIntegerField()
     total_marks = models.PositiveIntegerField()
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    start_time = models.DateTimeField(default=datetime.now, blank=True)
+    end_time = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):
         return self.course_name

@@ -188,8 +188,8 @@
                                 <div class="col-md-12">
                                     <div class="card-body">
                                         <h5 class="card-title">Student Details</h5>
-                                        <p class="card-text">Name : <span>Jil N. Patel</span></p>
-                                        <p class="card-text">SID No. : <span>19********47</span></p>
+                                        <p class="card-text">Email : <span>{{ student.email }}</span></p>
+                                        <p class="card-text">Enroll No. : <span>{{ student.enroll_no }}</span></p>
                                     </div>
                                 </div>
                             </div>
@@ -267,10 +267,12 @@
             var h = document.getElementById('hour');
             var m = document.getElementById('minute');
             var s = document.getElementById('second');
-            // TODO : dynamic change time
-            var hour = "00";
-            var min = '30';
-            var sec = "10";
+
+            // dynamic change time
+            var hour = '{{hours}}';
+            var min = '{{ mins }}';
+            var sec = '{{ secs }}';
+
 
             timer = setInterval(function () {
 
@@ -318,8 +320,6 @@
                     document.getElementById('msg').style.display = 'block';
                     clearInterval(timer);
                     showMark();
-
-
                 }
 
                 h.innerHTML = hour;
@@ -413,7 +413,15 @@
         if (totalQuestions == 0) {
             document.getElementById('if-no-question').style.display = 'block';
             document.getElementById('clear').style.display = 'none';
+            setTimeout(function () {
+                window.open("{% url 'student:student-exam' %}", "_self");
+            }, 3000);
 
+        } else if (totalQuestions == 1) {
+            document.getElementById('submit').style.display = "block";
+            document.getElementById('previous').style.display = "none";
+            document.getElementById('next').style.display = 'none';
+            document.getElementById('1').style.display = "inherit";
         } else {
             document.getElementById('1').style.display = 'inherit';
 
@@ -451,40 +459,43 @@
                 }
             }
 
-            function showMark() {
-                var total_marks = 0;
-                var date = new Date();
-                var time_of_submit = date.toLocaleTimeString();
-                {% for q in questions%}
-                    var ele = document.getElementsByName('{{ forloop.counter }}');
 
-                    for (i = 0; i < ele.length; i++) {
-                        if (ele[i].checked) {
-                            if (ele[i].value == "{{q.answer}}") {
-                                total_marks = total_marks + {{q.marks}};
+        }
 
-                            } else {
-                                console.log("false"); // don't touch it and don't comment
-                            }
+        //this submits form and display marks
+        function showMark() {
+            var total_marks = 0;
+            var date = new Date();
+            var time_of_submit = date.toLocaleTimeString();
+            {% for q in questions%}
+                var ele = document.getElementsByName('{{ forloop.counter }}');
 
+                for (i = 0; i < ele.length; i++) {
+                    if (ele[i].checked) {
+                        if (ele[i].value == "{{q.answer}}") {
+                            total_marks = total_marks + {{q.marks}};
+
+                        } else {
+                            console.log("false"); // don't touch it and don't comment
                         }
+
                     }
+                }
 
-                {% endfor %}
+            {% endfor %}
 
-                swal("Thank you for your response", `Course name : ${"{{course.id}}"}\nTotal mark : ${total_marks}\nSubmitting time : ${time_of_submit}`, "success")
-                document.getElementById('clear').style.display = 'none'; // don't touch it and don't comment
-                document.getElementById('msg').style.display = 'block'; // don't touch it and don't comment
-                clearInterval(timer); // don't touch it and don't comment
+            swal("Thank you for your response", `Course name : ${"{{course.id}}"}\nTotal mark : ${total_marks}\nSubmitting time : ${time_of_submit}`, "success")
+            document.getElementById('clear').style.display = 'none'; // don't touch it and don't comment
+            document.getElementById('msg').style.display = 'block'; // don't touch it and don't comment
+            clearInterval(timer); // don't touch it and don't comment
 
-                // TODO : store in database(result)
-                document.getElementById('total_score').value = total_marks;
-                document.getElementById('course_id').value = "{{course.id}}";
-                document.getElementById('time_submitting').value = time_of_submit;
-                document.getElementById('course_name').value = "{{course.course_name}}";
+            // TODO : store in database(result)
+            document.getElementById('total_score').value = total_marks;
+            document.getElementById('course_id').value = "{{course.id}}";
+            document.getElementById('time_submitting').value = time_of_submit;
+            document.getElementById('course_name').value = "{{course.course_name}}";
 
-                document.myform.submit();
-            }
+            document.myform.submit();
         }
 
     </script>
