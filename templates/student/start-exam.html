@@ -330,7 +330,7 @@
                 s.innerHTML = sec;
             }, 1000);
 
-
+            /*
             let video = document.getElementById('video');
             let model;
             const setupCamera = () => {
@@ -346,12 +346,16 @@
                 const predictions = await model.estimateFaces(video, true);
                 console.log(predictions);
             }
+            */
 
             //setupCamera();
+            /*
             video.addEventListener('loadeddata', async () => {
                 model = await blazeface.load();
                 setInterval(faceDetection, 100);
             });
+            */
+
 
             // TODO: enable restriction import here
             document.documentElement.addEventListener('fullscreenchange', (e) => {
