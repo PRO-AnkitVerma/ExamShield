@@ -59,4 +59,5 @@ function addVideoStream(video, stream) {
         videoGrid.appendChild(video);
     }
     ++counter;
+    
 }

@@ -1,10 +1,13 @@
-const socket = io.connect("http://localhost:3000/");
+const socket = io("https://boiling-scrubland-01865.herokuapp.com/");
+
 console.log(ROOM_ID)
 const videoGrid = document.getElementById("video-grid");
 const myPeer = new Peer(undefined, {});
-myPeer.host = "localhost";
-myPeer.port = "3001";
-myPeer.path = "/test"
+// myPeer.host = "localhost";
+myPeer.host = "boiling-scrubland-01865";
+
+// myPeer.port = "3001";
+// myPeer.path = "/test"
 
 const myVideo = document.createElement("video");
 myVideo.muted = true;
