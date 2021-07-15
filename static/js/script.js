@@ -51,7 +51,7 @@ function connectToNewUser(userId, stream) {
 }
 
 function addVideoStream(video, stream) {
-    if (counter === 2) {
+    if (counter <= 2) {
         video.srcObject = stream;
         video.addEventListener("loadedmetadata", () => {
             video.play();
@@ -59,5 +59,30 @@ function addVideoStream(video, stream) {
         videoGrid.appendChild(video);
     }
     ++counter;
-    
+
+    //Face Detection
+    const faceDetection = async () => {
+        const pred = await mod.estimateFaces(video, true);
+        if (pred.length == 1) {
+            // predict();
+            console.log('***************************************');
+        } else {
+            alert("Warning face not detect");
+            // let photoCounter = 1;
+            // Webcam.snap(function (url) {
+            //     if (photoCounter === 3) {
+            //         return;
+            //     }
+            //     document.getElementById('image').innerHTML = '<img src="' + url + '"/>';
+            //     ++photoCounter;
+            // });
+        }
+    }
+
+    video.addEventListener('loadeddata', async () => {
+        mod = await blazeface.load();
+
+        setInterval(faceDetection, 100);
+    });
+
 }
