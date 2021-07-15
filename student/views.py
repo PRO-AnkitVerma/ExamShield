@@ -6,6 +6,7 @@ from django.views import View
 
 from mysite.decorators import allowed_users
 from question import models as QMODEL
+from question.models import Result, Course
 from student import models
 
 
@@ -47,37 +48,16 @@ def student_dashboard_view(request):
         'total_course': QMODEL.Course.objects.all().count(),
         'total_question': QMODEL.Question.objects.all().count(),
     }
-    # return HttpResponse('Hello')
-    return render(request, 'student/dashboard.html')
-    # return render(request, 'student/dashboard.html', context=dict)
+    return render(request, 'student/dashboard.html', context={
+        'institute': request.user.student.institute.name
+    })
 
 
-# @login_required(login_url='studentlogin')
-# @user_passes_test(is_student)
-def view_result_view(request):
-    courses = QMODEL.Course.objects.all()
-    return render(request, 'student/view-result.html', {'courses': courses})
-
-
-# @login_required(login_url='studentlogin')
-# @user_passes_test(is_student)
-def check_marks_view(request, pk):
-    course = QMODEL.Course.objects.get(id=pk)
-    student = models.student.objects.get(user_id=request.user.id)
-    results = QMODEL.Result.objects.all().filter(exam=course).filter(student=student)
-    return render(request, 'student/check-marks.html', {'results': results})
-
-
-# @login_required(login_url='studentlogin')
-# @user_passes_test(is_student)
 def student_marks_view(request):
     courses = QMODEL.Course.objects.all()
     return render(request, 'student/student-marks.html', {'courses': courses})
 
 
-# @login_required(login_url='studentlogin')
-# @user_passes_test(is_student)
-# @csrf_exempt
 def start_exam_view(request, pk):
     course = QMODEL.Course.objects.get(id=pk)
     questions = QMODEL.Question.objects.all().filter(course=course)
@@ -85,10 +65,8 @@ def start_exam_view(request, pk):
     if request.method == 'POST':
         pass
     response = render(request, 'student/start-exam.html',
-                      {'course': course, 'questions': questions, 'total_questions': total_questions})
-    response = render(request, 'student/start-exam.html',
-                      {'course': course, 'questions': questions, 'total_questions': total_questions})
-    response.set_cookie('course_id', course.id)
+                      context={'course': course, 'questions': questions, 'total_questions': total_questions})
+    # response.set_cookie('course_id', course.id)
     return response
 
 
@@ -108,8 +86,11 @@ def take_exam_view(request, pk):
 
 # @login_required(login_url='studentlogin')
 # @user_passes_test(is_student)
+@allowed_users(allowed_groups=['student'])
 def student_exam_view(request):
-    courses = QMODEL.Course.objects.filter()
+    student = request.user.student
+    courses = Course.objects.filter(result__in=student.result_set.filter(is_given=False))
+    print(courses)
     return render(request, 'student/student-exam.html', {'courses': courses})
 
 
@@ -142,8 +123,10 @@ def calculate_marks_view(request):
 # @user_passes_test(is_student)
 def view_result_view(request):
     # TODO: remaining to filter out
-    courses = QMODEL.Course.objects.all()
-    return render(request, 'student/view-result.html', {'courses': courses})
+    result = Result.objects.all()
+    return render(request, 'student/view-result.html', context={
+        'result': result
+    })
 
 
 # @login_required(login_url='studentlogin')
@@ -155,13 +138,25 @@ def check_marks_view(request, pk):
     return render(request, 'student/check-marks.html', {'results': results})
 
 
-# @login_required(login_url='studentlogin')
-# @user_passes_test(is_student)
-def student_marks_view(request):
-    courses = QMODEL.Course.objects.all()
-    return render(request, 'student/student-marks.html', {'courses': courses})
-
-
 @allowed_users(allowed_groups=['student'])
-def dashboard(request):
-    return render(request, 'student/dashboard.html')
+def save_result(request, course_id):
+    if request.method != 'POST':
+        return HttpResponse('BAD REQUEST')
+
+    student = request.user.student
+    marks = request.POST.get('total_score', '')
+    course_id = request.POST.get('course_id', '')
+    submitted_time = request.POST.get('time_submitting', '')
+
+    try:
+        course = Course.objects.get(id=course_id)
+        Result.objects.create(
+            student=student,
+            marks=marks,
+            exam=course,
+            date=submitted_time,
+            is_given=True,
+        )
+        return redirect('student:view-result')
+    except Exception as e:
+        return HttpResponse('Unable to save result!')

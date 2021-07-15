@@ -129,7 +129,7 @@
                                 </a>
                                 <ul>
                                     <li>
-                                        <a href="#">
+                                        <a href="{% url 'faculty:faculty-viva' %}">
                                             Take Viva
                                         </a>
                                     </li>
@@ -139,6 +139,14 @@
                                             </i>Add Exam
                                         </a>
                                     </li>
+
+                                    <li>
+                                        <a href="{% url 'faculty:faculty-video-conference' %}">
+                                            <i class="metismenu-icon">
+                                            </i>Generate Room
+                                        </a>
+                                    </li>
+
 
                                 </ul>
                             </li>
@@ -185,6 +193,7 @@
                                             </i>All Subjects
                                         </a>
                                     </li>
+
 
                                 </ul>
                             </li>

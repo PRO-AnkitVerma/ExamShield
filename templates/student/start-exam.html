@@ -1,508 +1,493 @@
 {% extends  'base.html' %}
-{%load static%}
+{% load static %}
 {% block title %}ExamShield | Questions{% endblock %}
 {% block style %}
-<style>
-  *{
-      padding: 0;
-      margin: 0;
-      box-sizing: border-box;
-  }
-  body{
-      background-color: rgb(226, 213, 230);
-  }
-  .question div{
-      display: none;
-  }
-.main-block{
-  display: none;
-}
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
 
-</style>
+        body {
+            background-color: rgb(226, 213, 230);
+        }
+
+        .question div {
+            display: none;
+        }
+
+        .main-block {
+            display: none;
+        }
+
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+
+        #exam_id {
+            width: 76%;
+            color: rgb(38, 50, 56);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+            background: rgba(136, 126, 126, 0.04);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+            box-sizing: border-box;
+            border: 2px solid rgba(0, 0, 0, 0.02);
+            margin-bottom: 50px;
+            margin-left: 46px;
+            text-align: center;
+            margin-bottom: 27px;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+
+    </style>
+    <script defer src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
+    <script src="{% static '/js/socket.io.js' %}" defer></script>
+    <script src="{% static '/js/script.js' %}" defer></script>
+    <script src="{% static '/js/main.js' %}" defer></script>
 {% endblock %}
 
 
 {% block main %}
 
-<div id="intro" class="intro">
-    <div class="jumbotron">
+    <div id="intro" class="intro">
+        <div class="jumbotron">
 
-	      <h3 class="text-primary text-center">Before you start the Exam, here are the rules</h3>
+            <h3 class="text-primary text-center">Before you start the Exam, here are the rules</h3>
 
-        <div class="row">
+            <div class="row">
 
-            <div class="card border-info mx-4 my-4">
-                <div class="card-body text-info">
+                <div class="card border-info mx-4 my-4">
+                    <div class="card-body text-info">
 
-                    <h4 class="card-title">Exam Details :</h4>
-                    <p class="card-text">
-                        </p><ul style="list-style:decimal;">
-                            <li>Exam Name : {{course.course_name}}</li>
-                            <li>Total Question : {{total_questions}}</li>
-                            <li>Total Marks : {{total_marks}}</li>
+                        <h4 class="card-title">Exam Details :</h4>
+                        <p class="card-text">
+                        </p>
+                        <ul style="list-style:decimal;">
+                            <li>Exam Name : {{ course.course_name }}</li>
+                            <li>Total Question : {{ total_questions }}</li>
+                            <li>Total Marks : {{ total_marks }}</li>
                         </ul>
-                    <p></p>
+                        <p></p>
 
 
-
-                    <h4 class="card-title">Rules :</h4>
-                    <p class="card-text">
-                        </p><ul style="list-style:decimal;">
-                            <li>If student press Esc key then paper is submitted and you will not able to give exam again..</li>
-                            <li>If student press cross button on the top appear when mouse hover on top then also paper is submitted and you will not able to give exam again..</li>
+                        <h4 class="card-title">Rules :</h4>
+                        <p class="card-text">
+                        </p>
+                        <ul style="list-style:decimal;">
+                            <li>If student press Esc key then paper is submitted and you will not able to give exam
+                                again..
+                            </li>
+                            <li>If student press cross button on the top appear when mouse hover on top then also paper
+                                is submitted and you will not able to give exam again..
+                            </li>
                             <li>All questions are multiple choice question.</li>
                             <li><span class="text-danger">Only one choice is correct.</span></li>
                             <li>Every question carry different marks
                             </li>
 
                             <li>Try to answer as quickly as you can.</li>
-                            <li>If you press refresh or go back to the previous page, there will be a new question for you and the question you were on will be counted as attempted.</li>
+                            <li>If you press refresh or go back to the previous page, there will be a new question for
+                                you and the question you were on will be counted as attempted.
+                            </li>
                             <li>Questions are displayed randomly for every user.</li>
                             <li>You will be told your marks immediately when you submit the answer.</li>
                         </ul>
-                    <p></p>
-                      <button class="btn btn-primary" onclick="startExamTime()">Let's Start</button>
+                        <p></p>
+                        <input type="text" align="center" name="exam_id" id="exam_id" placeholder="Exam ID">
+                        <br/>
+                        <button class="btn btn-primary" onclick="startExamTime()">Let's Start</button>
+                    </div>
+                    <div class="card-footer">Best Of Luck</div>
                 </div>
-                <div class="card-footer">Best Of Luck</div>
             </div>
+
         </div>
 
     </div>
 
-</div>
-
-<div id="main-block" class="main-block">
-  <div class="container mt-5 p-3 text-white" style="background-color: rgb(102, 42, 143);">
-      <div class="row">
-          <div class="col-md-10 col-8">
-              <h2>{{course.course_name}}</h2>
-          </div>
-          <div class="col-md-2 col-4">
-              <button type="button" class="btn btn-primary">
-                  Timer : <span class="badge text-dark" style="background-color: white;"><span id="hour"></span> : <span id="minute"></span> : <span id="second"></span></span>
-                </button>
-          </div>
-      </div>
-  </div>
-  <div id="clear" class="container py-5 px-3" style="background-color: rgb(255, 255, 255);">
-      <div class="row">
-          <div class="col-md-8 col-12">
-            <form class="form" id="myform" method="post">
-              <div class="question">
-                {% for q in questions%}
-                  <div id="{{forloop.counter}}">
-                      <h3>{{ forloop.counter }}. {{q.question}} </h3><br>
-                      <input type="radio" name="{{ forloop.counter }}" id="{{q.option1}}" value="Option1">&nbsp;&nbsp; <label for="{{q.option1}}">{{q.option1}}</label><br><br>
-                      <input type="radio" name="{{ forloop.counter }}" id="{{q.option2}}" value="Option2">&nbsp;&nbsp; <label for="{{q.option2}}">{{q.option2}}</label><br><br>
-                      <input type="radio" name="{{ forloop.counter }}" id="{{q.option3}}" value="Option3">&nbsp;&nbsp; <label for="{{q.option3}}">{{q.option3}}</label><br><br>
-                      <input type="radio" name="{{ forloop.counter }}" id="{{q.option4}}" value="Option4">&nbsp;&nbsp; <label for="{{q.option4}}">{{q.option4}}</label><br><br>
-                      <!-- <h1>{{q.answer}}</h1> -->
-                  </div>
-                {% endfor %}
-                <input type="text" id="total_score" name="total_score" hidden>
-                <input type="text" id="course_id" name="course_id" hidden>
-                <input type="text" id="course_name" name="course_name" hidden>
-                <input type="text" id="time_submitting" name="time_submitting" hidden>
-              </div>
-            </form>
-              <div class="footer d-flex">
-                  <div>
-                      <button id="previous" class="btn btn-primary mx-2" onclick="pre()">Previous</button>
-                  </div>
-                  <div id="add_btn">
-                      <button id="next" class="btn text-white mx-2" style="background-color: rgb(102, 42, 143);" onclick="next()">Next</button>
-                      <button type="submit" id="submit" style="display: none;" class="btn btn-success mx-2" onclick="showMark()">Submit</button>
-                  </div>
-              </div>
-          </div>
-          <div class="col-md-4 col-12 col-mt-3 d-flex justify-content-center align-items-center">
-              <div class="personal-info">
-                  <div class="card mb-3" style="max-width: 100%;background-color: rgb(207, 158, 240);">
-                      <video id="video" autoplay></video>
-                  </div>
-                  <div class="card text-white mb-3" style="max-width: 100%;background-color: rgb(102, 42, 143);">
-                      <div class="row g-0">
-                        <div class="col-md-12">
-                          <div class="card-body">
-                            <h5 class="card-title">Student Details</h5>
-                            <p class="card-text">Name : <span>Jil N. Patel</span></p>
-                            <p class="card-text">SID No. : <span>19********47</span></p>
-                          </div>
+    <div id="main-block" class="main-block">
+        <div class="container mt-5 p-3 text-white" style="background-color: rgb(102, 42, 143);">
+            <div class="row">
+                <div class="col-md-10 col-8">
+                    <h2>{{ course.course_name }}</h2>
+                </div>
+                <div class="col-md-2 col-4">
+                    <button type="button" class="btn btn-primary">
+                        Timer : <span class="badge text-dark" style="background-color: white;"><span id="hour"></span> : <span
+                            id="minute"></span> : <span id="second"></span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="clear" class="container py-5 px-3" style="background-color: rgb(255, 255, 255);">
+            <div class="row">
+                <div class="col-md-8 col-12">
+                    <form class="form" id="myform" name="myform" method="post"
+                          action="{% url 'student:save-result' course.id %}">
+                        {% csrf_token %}
+                        <div class="question">
+                            {% for q in questions %}
+                                <div id="{{ forloop.counter }}">
+                                    <h3>{{ forloop.counter }}. {{ q.question }} </h3><br>
+                                    <input type="radio" name="{{ forloop.counter }}" id="{{ q.option1 }}"
+                                           value="Option1">&nbsp;&nbsp; <label
+                                        for="{{ q.option1 }}">{{ q.option1 }}</label><br><br>
+                                    <input type="radio" name="{{ forloop.counter }}" id="{{ q.option2 }}"
+                                           value="Option2">&nbsp;&nbsp; <label
+                                        for="{{ q.option2 }}">{{ q.option2 }}</label><br><br>
+                                    <input type="radio" name="{{ forloop.counter }}" id="{{ q.option3 }}"
+                                           value="Option3">&nbsp;&nbsp; <label
+                                        for="{{ q.option3 }}">{{ q.option3 }}</label><br><br>
+                                    <input type="radio" name="{{ forloop.counter }}" id="{{ q.option4 }}"
+                                           value="Option4">&nbsp;&nbsp; <label
+                                        for="{{ q.option4 }}">{{ q.option4 }}</label><br><br>
+                                    <!-- <h1>{{q.answer}}</h1> -->
+                                </div>
+                            {% endfor %}
+                            <input type="text" id="total_score" name="total_score" hidden>
+                            <input type="text" id="course_id" name="course_id" hidden>
+                            <input type="text" id="course_name" name="course_name" hidden>
+                            <input type="text" id="time_submitting" name="time_submitting" hidden>
                         </div>
-                      </div>
+                    </form>
+                    <div class="footer d-flex">
+                        <div>
+                            <button id="previous" class="btn btn-primary mx-2" onclick="pre()">Previous</button>
+                        </div>
+                        <div id="add_btn">
+                            <button id="next" class="btn text-white mx-2" style="background-color: rgb(102, 42, 143);"
+                                    onclick="next()">Next
+                            </button>
+                            <button type="submit" id="submit" style="display: none;" class="btn btn-success mx-2"
+                                    onclick="showMark()">Submit
+                            </button>
+                        </div>
                     </div>
-              </div>
-          </div>
-      </div>
-  </div>
-  <div class="container" id="msg" style="display: none;">
-      <div class="message">
-          <div class="alert alert-primary">
-              Result will be publised Soon ! Have a good day.
-          </div>
-      </div>
-  </div>
-  <div class="container" id="if-no-question" style="display: none;">
-      <div class="message">
-          <div class="alert alert-primary">
-              Sorry! There is no questions to show.
-          </div>
-      </div>
-  </div>
-</div>
+                </div>
+                <div class="col-md-4 col-12 col-mt-3 d-flex justify-content-center align-items-center">
+                    <div class="personal-info">
+                        <div id="video-grid" class="card mb-3"
+                             style="max-width: 100%;background-color: rgb(207, 158, 240);">
+                            {#                            <video id="video" autoplay></video>#}
+                            {#                            <div ></div>#}
+                        </div>
+                        <div class="card text-white mb-3" style="max-width: 100%;background-color: rgb(102, 42, 143);">
+                            <div class="row g-0">
+                                <div class="col-md-12">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Student Details</h5>
+                                        <p class="card-text">Name : <span>Jil N. Patel</span></p>
+                                        <p class="card-text">SID No. : <span>19********47</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container" id="msg" style="display: none;">
+            <div class="message">
+                <div class="alert alert-primary">
+                    Result will be publised Soon ! Have a good day.
+                </div>
+            </div>
+        </div>
+        <div class="container" id="if-no-question" style="display: none;">
+            <div class="message">
+                <div class="alert alert-primary">
+                    Sorry! There is no questions to show.
+                </div>
+            </div>
+        </div>
+    </div>
 
-
-
-
-
-
-
-<!-- <div class="jumbotron my-4">
-  <form class="form" autocomplete="off" onsubmit="return saveAns()"  action="/student/calculate-marks">
-    <h1 style="text-align: center;">{{course.course_name}}</h1>
-    {% for q in questions%}
-    <h3 class="text-info">{{ forloop.counter }}. {{q.question}}</h3><h4 style="text-align: right;">[Marks {{q.marks}}]</h4>
-          <div class="form-check mx-4">
-            <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option1}}" value="Option1">
-            <label class="form-check-label" for="option1">
-              {{q.option1}}
-            </label>
-          </div>
-          <div class="form-check mx-4">
-            <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option2}}" value="Option2">
-            <label class="form-check-label" for="option2">
-              {{q.option2}}
-            </label>
-          </div>
-          <div class="form-check mx-4">
-            <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option3}}" value="Option3">
-            <label class="form-check-label" for="option3">
-              {{q.option3}}
-            </label>
-          </div>
-          <div class="form-check mx-4">
-            <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option4}}" value="Option4">
-            <label class="form-check-label" for="option4">
-              {{q.option4}}
-            </label>
-          </div>
-        {% endfor %}
-        <input class="btn btn-info btn-lg"   type="submit" value="Submit">
-    </form>
-  </div> -->
-<!--
-<script>
-    function saveAns(){
-        var ele = document.getElementsByTagName('input');
-        for(i = 0; i < ele.length; i++) {
-            if(ele[i].type="radio") {
-                if(ele[i].checked){
-                  setCookie(ele[i].name,ele[i].value,3)
-                }
-            }
-        }
-    }
-    function setCookie(cname, cvalue, exdays) {
-  var d = new Date();
-  d.setTime(d.getTime() + (exdays*24*60*60*1000));
-  var expires = "expires="+ d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-</script>
-<br><br><br><br><br><br> -->
 {% endblock main %}
 {% block scripts %}
 
 
-<script type="text/javascript">
-var timer;
-    function preventBack() {
-        window.history.forward();
-    }
-
-    setTimeout("preventBack()", 0);
-
-    window.onunload = function () {
-        null;
-    };
-function startExamTime(){
-  //Fullscreen
+    <script type="text/javascript">
+        var timer;
+        {#const ROOM_ID = "Room{{ course.id }}";#}
+        const ROOM_ID = localStorage.getItem("exam_id");
 
 
-  function getFullscreenElement() {
-            return document.fullscreenElement
-                || document.webkitFullscreenElement
-                || document.mozFullscreenElement
-                || document.msFullscreenElement;
+        function preventBack() {
+            window.history.forward();
         }
 
+        setTimeout("preventBack()", 0);
 
-        function exitscreen() {
-            if (getFullscreenElement()) {
+        window.onunload = function () {
+            null;
+        };
 
-               document.exitFullscreen();
-               navigator.keyboard.unlock();
+        function startExamTime() {
+            localStorage.setItem('exam_id', document.getElementById('exam_id').value);
 
-
+            //Fullscreen
+            function getFullscreenElement
+            () {
+                return document.fullscreenElement
+                    || document.webkitFullscreenElement
+                    || document.mozFullscreenElement
+                    || document.msFullscreenElement;
             }
-        }
-
-        document.documentElement.requestFullscreen().catch(console.log);
-        navigator.keyboard.lock();
-
-  document.getElementById('intro').style.display = 'none';
-  document.getElementById('main-block').style.display = 'inherit';
-  // Timer
-
-        var h = document.getElementById('hour');
-        var m = document.getElementById('minute');
-        var s = document.getElementById('second');
-        // TODO : dynamic change time
-        var hour = "00";
-        var min = '00';
-        var sec = "10";
-
-        timer = setInterval(function(){
 
 
-        if(sec==0)
-        {
-            if(min=="01"){
-                min = "00";
-                sec = 60;
+            function exitscreen() {
+                if (getFullscreenElement()) {
 
-            }
-            else if(min=="00")
-            {
-                min="00";
-                if(hour=="00")
-                {
-                    min="00";
+                    document.exitFullscreen();
+                    navigator.keyboard.unlock();
+
+
                 }
-                else
-                {
-                    hour--;
-                    if(hour <=9)
-                    {
-                        hour = '0'+hour;
+            }
+
+            document.documentElement.requestFullscreen().catch(console.log);
+            navigator.keyboard.lock();
+
+            document.getElementById('intro').style.display = 'none';
+            document.getElementById('main-block').style.display = 'inherit';
+            // Timer
+
+            var h = document.getElementById('hour');
+            var m = document.getElementById('minute');
+            var s = document.getElementById('second');
+            // TODO : dynamic change time
+            var hour = "00";
+            var min = '30';
+            var sec = "10";
+
+            timer = setInterval(function () {
+
+
+                if (sec == 0) {
+                    if (min == "01") {
+                        min = "00";
+                        sec = 60;
+
+                    } else if (min == "00") {
+                        min = "00";
+                        if (hour == "00") {
+                            min = "00";
+                        } else {
+                            hour--;
+                            if (hour <= 9) {
+                                hour = '0' + hour;
+                            }
+                            min = "59";
+                            sec = 60;
+                        }
+                    } else {
+                        min--;
+                        if (min <= 9) {
+                            min = '0' + min;
+                        }
+                        sec = 60;
                     }
-                    min="59";
-                    sec=60;
+                } else {
+                    sec--;
+                    if (sec <= "9") {
+                        sec = '0' + sec;
+                    }
                 }
-            }
-            else{
-                min--;
-                if(min <=9)
-                {
-                    min= '0'+min;
+
+                if (hour == 0 && min == 0 && sec <= 40 && sec >= 0) {
+                    h.style.color = "red";
+                    m.style.color = "red";
+                    s.style.color = "red";
+
+
                 }
-                sec = 60;
+                if (hour == 0 && min == 0 && sec == 0) {
+                    document.getElementById('clear').style.display = 'none';
+                    document.getElementById('msg').style.display = 'block';
+                    clearInterval(timer);
+                    showMark();
+
+
+                }
+
+                h.innerHTML = hour;
+                m.innerHTML = min;
+                s.innerHTML = sec;
+            }, 1000);
+
+
+            let video = document.getElementById('video');
+            let model;
+            const setupCamera = () => {
+                navigator.mediaDevices.getUserMedia({
+                    video: {width: 120, height: 70},
+                    audio: false
+                }).then(stream => {
+                    video.srcObject = stream;
+                });
             }
-        }
-        else
-        {
-            sec--;
-            if(sec <="9")
-            {
-                sec = '0'+sec;
+
+            const faceDetection = async () => {
+                const predictions = await model.estimateFaces(video, true);
+                console.log(predictions);
             }
-        }
 
-        if(hour==0 && min==0 && sec<=40 && sec>=0)
-        {
-            h.style.color = "red";
-            m.style.color = "red";
-            s.style.color = "red";
-
-
-        }
-        if(hour==0 && min==0 && sec==0)
-        {
-            document.getElementById('clear').style.display = 'none';
-            document.getElementById('msg').style.display = 'block';
-            clearInterval(timer);
-            showMark();
-
-
-        }
-
-        h.innerHTML = hour;
-        m.innerHTML = min;
-        s.innerHTML = sec;
-        },1000);
-
-
-        let video = document.getElementById('video');
-        let model;
-        const setupCamera = () => {
-            navigator.mediaDevices.getUserMedia({
-                video:{width:120,height:70},
-                audio:false
-            }).then(stream=>{
-                video.srcObject = stream;
+            //setupCamera();
+            video.addEventListener('loadeddata', async () => {
+                model = await blazeface.load();
+                setInterval(faceDetection, 100);
             });
-        }
 
-        const faceDetection = async ()=>{
-            const predictions = await model.estimateFaces(video,true);
-            console.log(predictions);
-        }
+            // TODO: enable restriction import here
+            document.documentElement.addEventListener('fullscreenchange', (e) => {
+                if (document.fullscreenElement) {
+                    console.log('in full screen');
+                } else {
 
-        setupCamera();
-        video.addEventListener('loadeddata',async ()=>{
-        model = await blazeface.load();
-        setInterval(faceDetection,100);
-        });
+                    showMark();
 
-        // restriction import here
-        document.documentElement.addEventListener('fullscreenchange',(e)=>{
-            if(document.fullscreenElement)
-            {
-                console.log('in full screen');
-            }
-            else
-            {
+                }
+            });
 
-                showMark();
-
-            }
-        });
-
- function ieClicked() {
-            if (document.all) {
-                return false;
-            }
-        }
-        function firefoxClicked(e) {
-            if (document.layers || (document.getElementById && !document.all)) {
-                if ( e.which == 2 || e.which == 3) {
+            function ieClicked() {
+                if (document.all) {
                     return false;
                 }
             }
-        }
-        if (document.layers) {
-            document.captureEvents(Event.MOUSEDOWN);
-            document.onmousedown = firefoxClicked;
-        } else {
-            document.onmouseup = firefoxClicked;
-            document.oncontextmenu = ieClicked;
-        }
-        document.oncontextmenu = new Function("return false")
-        function disableselect(e) {
-            return false
-        }
-        function reEnable() {
-            return true
-        }
-        document.onselectstart = new Function("return false")
-        if (window.sidebar) {
-            document.onmousedown = disableselect
-            document.onclick = reEnable
-        }
 
-        document.addEventListener('keydown', function (e) {
-
-            var charCode = e.charCode || e.keyCode || e.which;
-            if (charCode == 27){
-                alert("Escape is not allowed!");
-                showMark();
-                return false;
-            }
-        });
-
-}
-
-
-
-    if({{total_questions}} == 0)
-    {
-      document.getElementById('if-no-question').style.display = 'block';
-      document.getElementById('clear').style.display = 'none';
-
-    }
-    else
-    {
-      document.getElementById('1').style.display= 'inherit';
-
-        var a=1;
-        if(a==1)
-        {
-
-            document.getElementById('previous').style.display = "none";
-        }
-
-        function next(){
-            if(a!={{total_questions}})
-            {
-            document.getElementById(a).style.display="none";
-            a++;
-            document.getElementById(a).style.display="inherit";
-
-            document.getElementById('previous').style.display = "block";
-            }
-            if(a=={{total_questions}})
-            {
-                document.getElementById('next').style.display='none';
-                document.getElementById('submit').style.display='block';
-
-            }
-        }
-        function pre(){
-            if(a!=1)
-            {
-            document.getElementById(a).style.display="none";
-            a--;
-            document.getElementById(a).style.display="inherit";
-            document.getElementById('next').style.display="block";
-            document.getElementById('submit').style.display="none";
-            }
-            if(a==1)
-            {
-                document.getElementById('previous').style.display = "none";
-            }
-        }
-        function showMark(){
-          var total_marks = 0;
-          var date = new Date();
-          var time_of_submit = date.toLocaleTimeString();
-          {% for q in questions%}
-                var ele = document.getElementsByName('{{ forloop.counter }}');
-
-                for(i = 0; i < ele.length; i++) {
-                    if(ele[i].checked)
-                    {
-                      if(ele[i].value == "{{q.answer}}")
-                      {
-                        total_marks = total_marks + {{q.marks}};
-
-                      }
-                      else
-                      {
-                        console.log("false"); // don't touch it and don't comment
-                      }
-
+            function firefoxClicked(e) {
+                if (document.layers || (document.getElementById && !document.all)) {
+                    if (e.which == 2 || e.which == 3) {
+                        return false;
                     }
                 }
+            }
 
-          {% endfor %}
+            if (document.layers) {
+                document.captureEvents(Event.MOUSEDOWN);
+                document.onmousedown = firefoxClicked;
+            } else {
+                document.onmouseup = firefoxClicked;
+                document.oncontextmenu = ieClicked;
+            }
+            document.oncontextmenu = new Function("return false")
 
-          swal("Thank you for your response",`Course name : ${"{{course.id}}"}\nTotal mark : ${total_marks}\nSubmitting time : ${time_of_submit}`,"success")
-          document.getElementById('clear').style.display = 'none'; // don't touch it and don't comment
-          document.getElementById('msg').style.display = 'block'; // don't touch it and don't comment
-          clearInterval(timer); // don't touch it and don't comment
+            function disableselect(e) {
+                return false
+            }
 
-          // TODO : store in database(result)
-          document.getElementById('total_score').value = total_marks;
-          document.getElementById('course_id').value = "{{course.id}}";
-          document.getElementById('time_submitting').value = time_of_submit;
-          document.getElementById('course_name').value = "{{course.course_name}}";
+            function reEnable() {
+                return true
+            }
 
-          window.open("{% url 'student:view-result' %}","_self");
+            document.onselectstart = new Function("return false")
+            if (window.sidebar) {
+                document.onmousedown = disableselect
+                document.onclick = reEnable
+            }
 
+            document.addEventListener('keydown', function (e) {
 
+                var charCode = e.charCode || e.keyCode || e.which;
+                if (charCode == 27) {
+                    alert("Escape is not allowed!");
+                    showMark();
+                    return false;
+                }
+            });
         }
-    }
 
-</script>
+        let totalQuestions = {{ total_questions }};
+        if (totalQuestions == 0) {
+            document.getElementById('if-no-question').style.display = 'block';
+            document.getElementById('clear').style.display = 'none';
+
+        } else {
+            document.getElementById('1').style.display = 'inherit';
+
+            var a = 1;
+            if (a == 1) {
+
+                document.getElementById('previous').style.display = "none";
+            }
+
+            function next() {
+                if (a !={{total_questions}}) {
+                    document.getElementById(a).style.display = "none";
+                    a++;
+                    document.getElementById(a).style.display = "inherit";
+
+                    document.getElementById('previous').style.display = "block";
+                }
+                if (a =={{total_questions}}) {
+                    document.getElementById('next').style.display = 'none';
+                    document.getElementById('submit').style.display = 'block';
+
+                }
+            }
+
+            function pre() {
+                if (a != 1) {
+                    document.getElementById(a).style.display = "none";
+                    a--;
+                    document.getElementById(a).style.display = "inherit";
+                    document.getElementById('next').style.display = "block";
+                    document.getElementById('submit').style.display = "none";
+                }
+                if (a == 1) {
+                    document.getElementById('previous').style.display = "none";
+                }
+            }
+
+            function showMark() {
+                var total_marks = 0;
+                var date = new Date();
+                var time_of_submit = date.toLocaleTimeString();
+                {% for q in questions%}
+                    var ele = document.getElementsByName('{{ forloop.counter }}');
+
+                    for (i = 0; i < ele.length; i++) {
+                        if (ele[i].checked) {
+                            if (ele[i].value == "{{q.answer}}") {
+                                total_marks = total_marks + {{q.marks}};
+
+                            } else {
+                                console.log("false"); // don't touch it and don't comment
+                            }
+
+                        }
+                    }
+
+                {% endfor %}
+
+                swal("Thank you for your response", `Course name : ${"{{course.id}}"}\nTotal mark : ${total_marks}\nSubmitting time : ${time_of_submit}`, "success")
+                document.getElementById('clear').style.display = 'none'; // don't touch it and don't comment
+                document.getElementById('msg').style.display = 'block'; // don't touch it and don't comment
+                clearInterval(timer); // don't touch it and don't comment
+
+                // TODO : store in database(result)
+                document.getElementById('total_score').value = total_marks;
+                document.getElementById('course_id').value = "{{course.id}}";
+                document.getElementById('time_submitting').value = time_of_submit;
+                document.getElementById('course_name').value = "{{course.course_name}}";
+
+                document.myform.submit();
+            }
+        }
+
+    </script>
 
 {% endblock %}
+

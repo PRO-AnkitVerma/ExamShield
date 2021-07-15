@@ -6,9 +6,10 @@ from subject.models import Subject
 class CourseForm(forms.ModelForm):
     subjectID = forms.ModelChoiceField(queryset=Subject.objects.all(), empty_label="subject Name",
                                        to_field_name="id")
+
     class Meta:
-        model=Course
-        fields=['course_name','question_number','total_marks']
+        model = Course
+        fields = ['course_name', 'question_number', 'total_marks']
 
 
 class QuestionForm(forms.ModelForm):
@@ -23,4 +24,3 @@ class QuestionForm(forms.ModelForm):
         widgets = {
             'question': forms.Textarea(attrs={'rows': 3, 'cols': 50})
         }
-

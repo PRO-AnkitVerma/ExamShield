@@ -4,10 +4,10 @@ from utils.form_helper import create_attributes
 
 
 class SubjectForm(forms.ModelForm):
-        class Meta:
-            model = Subject
-            fields = [
-                'code',
-                'name',
+    class Meta:
+        model = Subject
+        fields = [
+            'code',
+            'name',
 
-            ]
+        ]

@@ -1,0 +1,37 @@
+{% extends  'faculty/general-layout.html' %}
+{% load static %}
+{% block title %}ExamShield | Generate Room
+{% endblock %}
+{% block app-main %}
+
+    <script>
+        let ROOM_ID;
+        if (localStorage.getItem('exam_id') === 'undefined') {
+            ROOM_ID = undefined;
+        } else {
+            ROOM_ID = localStorage.getItem('exam_id');
+        }
+
+        function onGenerateRoom() {
+            localStorage.setItem('exam_id', document.getElementById('room').value);
+            location.reload();
+        }
+
+    </script>
+
+    <script defer src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
+    <script src="{% static '/js/socket.io.js' %}" defer></script>
+    <script src="{% static '/js/script.js' %}" defer></script>
+    <script src="{% static '/js/main.js' %}" defer></script>
+
+    <div class="faculty-video-conference">
+        <p class="sign" align="center">Generate Room</p>
+        <input type="text" align="center" name="room" id="room" placeholder="Room ID">
+        <button id="generate" align="center" name="generate" class="done" onclick="onGenerateRoom()">Generate</button>
+
+        <div id="video-grid" class="card mb-3"
+             style="max-width: 100%;background-color: rgb(207, 158, 240);">
+        </div>
+
+    </div>
+{% endblock %}

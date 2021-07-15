@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-3v@hoyy!al@dycs5s^+!wcurkie^^m7uchys4=t@j=l9z35ap9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'question.apps.QuestionConfig',
     'subject.apps.SubjectConfig',
     'assignment.apps.AssignmentConfig',
+
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -56,6 +58,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'ExamShield.urls'
@@ -143,3 +148,11 @@ MESSAGE_TAGS = {
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# for X FRAME OPTIONS
+X_FRAME_OPTIONS = 'ALLOWALL'
+
+XS_SHARING_ALLOWED_METHODS = ['POST', 'GET', 'OPTIONS', 'PUT', 'DELETE']
+
+# CORS Enable
+CORS_ORIGIN_ALLOW_ALL = True

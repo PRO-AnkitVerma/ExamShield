@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import user_passes_test, login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
@@ -6,6 +7,7 @@ from question import models as QMODEL
 # from django import forms as QFORM
 from question.forms import CourseForm, QuestionForm
 from question.models import Course
+from faculty.models import faculty as Faculty
 from subject.models import Subject
 
 
@@ -19,10 +21,6 @@ def is_faculty(user):
 
 def is_student(user):
     return user.groups.filter(name='student').exists()
-
-
-def admin_course_view(request):
-    return render(request, 'quiz/admin_course.html')
 
 
 @allowed_users(allowed_groups=['faculty'])
@@ -51,6 +49,8 @@ def faculty_question_view(request):
 @allowed_users(allowed_groups=['faculty'])
 def faculty_add_question_view(request):
     questionForm = QuestionForm()
+    questionForm.fields["courseID"].queryset = Course.objects.filter(subject__faculty=request.user.faculty)
+
     if request.method == 'POST':
         questionForm = QuestionForm(request.POST)
         if questionForm.is_valid():
@@ -58,6 +58,8 @@ def faculty_add_question_view(request):
             course = QMODEL.Course.objects.get(id=request.POST.get('courseID'))
             question.course = course
             question.save()
+
+
 
         else:
             print("form is invalid")
@@ -75,7 +77,7 @@ def faculty_view_question_view(request):
 @allowed_users(allowed_groups=['faculty'])
 def see_question_view(request, pk):
     questions = QMODEL.Question.objects.all().filter(course_id=pk)
-    return render(request, 'question/see-question.html', {'questions': questions})
+    return render(request, 'quiz/see-question.html', {'questions': questions})
 
 
 @allowed_users(allowed_groups=['faculty'])
@@ -93,7 +95,6 @@ def faculty_view_exam(request):
 
 @allowed_users(allowed_groups=['faculty'])
 def faculty_add_exam_view(request):
-    # TODO: Here on exam to question
     if request.method == 'GET':
         return render(request, 'quiz/faculty-add-exam.html', context={
             'courseForm': CourseForm(),
@@ -101,20 +102,20 @@ def faculty_add_exam_view(request):
         })
 
     if request.method == 'POST':
-        subject_id = request.POST.get('subject_id', '')
         courseForm = CourseForm(request.POST)
+
+        subject_id = request.POST.get('subjectID', '')
 
         # exam data is valid
         if courseForm.is_valid() and subject_id:
             course = courseForm.save(commit=False)
             course.subject = Subject.objects.get(id=subject_id)
             course.save()
+
             return render(request, 'quiz/faculty-add-question.html', context={'courseForm': courseForm})
 
-        # invalid data passed!
         return render(request, 'quiz/faculty-add-exam.html', context={
             'courseForm': courseForm,
             'subjects': Subject.objects.filter(faculty=request.user.faculty),
         })
-
     return HttpResponse('BAD REQUEST!')
