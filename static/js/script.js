@@ -17,6 +17,17 @@ navigator.mediaDevices
     .then((stream) => {
         addVideoStream(myVideo, stream);
 
+        //TODO: add face detection here!
+        /*
+        myPeer.on('call', call => {
+            call.answer(stream);
+            const video = document.createElement('video');
+            call.on('stream', userVideoStream => {
+                // addVideoStream(video, userVideoStream);
+                console.log('ok');
+            });
+        });
+        */
         socket.on("user-connected", (userId) => {
             console.log("Connection is being called")
             connectToNewUser(userId, stream);

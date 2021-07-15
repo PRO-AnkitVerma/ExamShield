@@ -66,16 +66,19 @@ def start_exam_view(request, pk):
     course = get_object_or_404(Course, id=pk)
 
     # can't give exam if exam is over!
-    time_left = course.end_time - datetime.now()
-    if time_left <= timedelta(microseconds=0):
-        messages.info(request, f'Exam for {course.course_name} is over!')
-        return redirect('student:student-exam')
+    # time_left = course.end_time - datetime.now()
+    # if time_left <= timedelta(microseconds=0):
+    #     messages.info(request, f'Exam for {course.course_name} is over!')
+    #     return redirect('student:student-exam')
 
     # can't give same exam twice!
-    student = request.user.student
-    if student.result_set.filter(exam=course):
-        messages.info(request, f'You have already given exam for {course.course_name}!')
-        return redirect('student:student-exam')
+    # student = request.user.student
+    # if student.result_set.filter(exam=course):
+    #     messages.info(request, f'You have already given exam for {course.course_name}!')
+    #     return redirect('student:student-exam')
+
+    # for testing purpose only
+    time_left = timedelta(minutes=3)
 
     # getting time left in req format
     hours, mins, secs = str(time_left).split()[-1].split(':')
@@ -185,3 +188,8 @@ def save_result(request, course_id):
         return redirect('student:view-result')
     except Exception as e:
         return HttpResponse('Unable to save result!')
+
+
+@allowed_users(allowed_groups=['student'])
+def student_viva_view(request):
+    return render(request, 'student/student-viva.html')
