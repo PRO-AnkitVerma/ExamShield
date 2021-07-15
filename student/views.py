@@ -53,6 +53,7 @@ def student_dashboard_view(request):
     })
 
 
+
 def student_marks_view(request):
     courses = QMODEL.Course.objects.all()
     return render(request, 'student/student-marks.html', {'courses': courses})
@@ -62,10 +63,13 @@ def start_exam_view(request, pk):
     course = QMODEL.Course.objects.get(id=pk)
     questions = QMODEL.Question.objects.all().filter(course=course)
     total_questions = questions.count()
+    student_name=request.user.student.email
+    student_enroll=request.user.student.enroll_no
     if request.method == 'POST':
         pass
     response = render(request, 'student/start-exam.html',
-                      context={'course': course, 'questions': questions, 'total_questions': total_questions})
+                      context={'course': course, 'student_name': student_name , 'student_enroll':student_enroll,
+                               'questions': questions, 'total_questions': total_questions})
     # response.set_cookie('course_id', course.id)
     return response
 
