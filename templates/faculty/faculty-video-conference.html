@@ -25,12 +25,18 @@
     <script src="{% static '/js/main.js' %}" defer></script>
 
     <div class="faculty-video-conference">
+        <div class="row">
+            <div class="col-md-8 col-12">
         <p class="sign" align="center">Generate Room</p>
         <input type="text" align="center" name="room" id="room" placeholder="Room ID">
-        <button id="generate" align="center" name="generate" class="done" onclick="onGenerateRoom()">Generate</button>
+        <button id="generate" align="center" name="generate" class="generate" onclick="onGenerateRoom()" style="margin-left:190px;">Generate</button>
+            </div>
+             <div class="col-md-4 col-12 col-mt-3 d-flex justify-content-center align-items-center">
 
         <div id="video-grid" class="card mb-3"
-             style="max-width: 100%;background-color: rgb(207, 158, 240);">
+             style="max-width: 100%;background-color: rgb(207, 158, 240); margin-top: 25px; padding:5px;">
+        </div>
+             </div>
         </div>
 
     </div>
