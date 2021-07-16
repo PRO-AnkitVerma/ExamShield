@@ -10,6 +10,9 @@ class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
         fields = ['course_name', 'start_time', 'end_time', 'room_id']
+        labels = {
+            'course_name': 'Exam name',
+        }
 
 
 
