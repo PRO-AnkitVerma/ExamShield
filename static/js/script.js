@@ -66,16 +66,11 @@ function addVideoStream(video, stream) {
         if (pred.length == 1) {
             // predict();
             console.log('***************************************');
+            document.getElementById('face_detection').style.display = 'none';
+
         } else {
-            //alert("Warning face not detect");
-            // let photoCounter = 1;
-            // Webcam.snap(function (url) {
-            //     if (photoCounter === 3) {
-            //         return;
-            //     }
-            //     document.getElementById('image').innerHTML = '<img src="' + url + '"/>';
-            //     ++photoCounter;
-            // });
+            //TODO: Add face detect!
+            document.getElementById('face_detection').style.display = 'block';
         }
     }
 

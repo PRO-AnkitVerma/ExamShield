@@ -12,6 +12,11 @@
             <div><b>Subject:</b> {{ assignment.subject.name }}</div>
             <div><b>Due:</b> {{ assignment.deadline }}</div>
             <div><b>Total Marks:</b> {{ assignment.total_marks }}</div>
+            <div><b>Reference:</b>
+                {% if assignment.reference %}
+                    <a href="{{ assignment.reference.url }}">{{ assignment.reference_name }}</a>
+                {% endif %}
+            </div>
 
             <table class="table table-hover" id="dev-table">
                 <thead>
@@ -31,8 +36,13 @@
                             </a>
                         </td>
                         <td>{{ assignment_instance.submit_time }}</td>
-                        <td>{{ assignment.subject.marks }}</td>
-                        <td>{{ assignment.subject.reviewed }}</td>
+                        <td>{{ assignment_instance.marks }}/{{ assignment.total_marks }}</td>
+                        <td>{% if assignment_instance.reviewed %}
+                            <i class="fas fa-check"></i>
+                        {% else %}
+                            <i class="fas fa-times"></i>
+                        {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>

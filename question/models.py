@@ -2,14 +2,13 @@ from django.db import models
 from student.models import student as Student_from_database
 from administrator.models import Institute
 from subject.models import Subject
-from datetime import datetime
+from datetime import datetime, timedelta
 from utils.random_password import generate_random_password
 
 
 class Course(models.Model):
     course_name = models.CharField(max_length=50)
     question_number = models.PositiveIntegerField()
-    total_marks = models.PositiveIntegerField()
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     start_time = models.DateTimeField(default=datetime.now, blank=True)
     end_time = models.DateTimeField(default=datetime.now, blank=True)
@@ -17,6 +16,28 @@ class Course(models.Model):
 
     def __str__(self):
         return self.course_name
+
+    @property
+    def total_marks(self):
+        return sum([question.marks for question in Question.objects.filter(course=self)])
+
+    @property
+    def time_left(self):
+        return self.end_time - datetime.now()
+
+    @property
+    def exam_time(self):
+        return self.end_time - self.start_time
+
+    @property
+    def status(self):
+        if self.time_left <= timedelta(microseconds=0):
+            return 'Finished'
+
+        if self.time_left > self.exam_time:
+            return 'Upcoming'
+
+        return 'Ongoing'
 
 
 class Question(models.Model):

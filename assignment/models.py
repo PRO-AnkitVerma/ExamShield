@@ -13,9 +13,15 @@ class Assignment(models.Model):
     assigned_date = models.DateTimeField(auto_now=True)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     total_marks = models.IntegerField(default=0)
+    reference = models.FileField(
+        upload_to=f'reference/', null=True, blank=True)
 
     def __str__(self):
         return f'Assignment-{self.no}@{self.subject.institute}'
+
+    @property
+    def reference_name(self):
+        return self.reference.name.split('/')[-1]
 
 
 class AssignmentInstance(models.Model):
@@ -30,3 +36,7 @@ class AssignmentInstance(models.Model):
 
     def __str__(self):
         return f'{self.student.enroll_no}-{self.assignment}'
+
+    @property
+    def file_name(self):
+        return self.file_uploaded.name.split('/')[-1]

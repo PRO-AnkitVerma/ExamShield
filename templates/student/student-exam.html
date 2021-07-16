@@ -14,16 +14,31 @@
                 <tr>
 
                     <th>Exam Name</th>
+                    <th>Subject</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
 
-                    <th>Take Exam</th>
+                    <th>Status</th>
                 </tr>
                 </thead>
-                {% for t in courses %}
+                {% for course in courses %}
                     <tr>
 
-                        <td> {{ t.course_name }}</td>
+                        <td> {{ course.course_name }}</td>
+                        <td> {{ course.subject.name }}</td>
+                        <td> {{ course.start_time }}</td>
+                        <td> {{ course.end_time }}</td>
 
-                        <td><a href="{% url 'student:start-exam' t.id %}">here</a></td>
+                        <td>
+                            {% if course.status == 'Ongoing' %}
+                                <a href="{% url 'student:start-exam' course.id %}" class="text-success">On Going</a>
+                            {% elif course.status == 'Upcoming' %}
+                                <a href="#" class="text-info">Upcoming</a>
+                            {% else %}
+                                <a href="#" class="text-danger">Finished</a>
+                            {% endif %}
+                        </td>
+
                     </tr>
                 {% endfor %}
             </table>

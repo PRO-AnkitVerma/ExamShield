@@ -14,7 +14,7 @@
                     <th>Course Name</th>
                     <th>Total Question</th>
                     <th>Total Marks</th>
-                    <th>Delete</th>
+                    {#                    <th>Delete</th>#}
                 </tr>
                 </thead>
                 {% for course in courses %}
@@ -24,10 +24,10 @@
                         <td>{{ course.question_number }}</td>
                         <td>{{ course.total_marks }}</td>
 
-                        <td><a class="btn btn-danger btn-xs" href="#">
-                            <span class="glyphicon glyphicon-trash">
-                            </span>
-                        </a></td>
+                        {#                        <td><a class="btn btn-danger btn-xs" href="#">#}
+                        {#                            <span class="glyphicon glyphicon-trash">#}
+                        {#                            </span>#}
+                        {#                        </a></td>#}
                     </tr>
                 {% endfor %}
             </table>

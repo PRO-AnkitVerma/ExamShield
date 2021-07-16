@@ -52,7 +52,7 @@
                                     <div class="btn-group">
                                         <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                            class="p-0 btn">
-                                            Faculty@{{ user.username }}
+                                            {{ user.username }}
                                             <i class="fas fa-user ml-2 opacity-8"></i>
                                         </a>
                                         <div tabindex="-1" role="menu" aria-hidden="true"
@@ -110,15 +110,15 @@
                     <div class="app-sidebar__inner">
                         <ul class="vertical-nav-menu">
                             <li class="app-sidebar__heading"><a
-                                    href="#">Dashboards</a></li>
+                                    href="{% url 'faculty:dashboard' %}">Dashboards</a></li>
 
-                            <li class="app-sidebar__heading">MANAGE ACTIVITY</li>
-                            <li>
-                                <a href="#">
-                                    <span><i class="fas fa-eye"></i></span>&nbsp;
-                                    <span> Activity </span>
-                                </a>
-                            </li>
+                            {#                            <li class="app-sidebar__heading">MANAGE ACTIVITY</li>#}
+                            {#                            <li>#}
+                            {#                                <a href="#">#}
+                            {#                                    <span><i class="fas fa-eye"></i></span>&nbsp;#}
+                            {#                                    <span> Activity </span>#}
+                            {#                                </a>#}
+                            {#                            </li>#}
 
                             <li class="app-sidebar__heading">MANAGE EXAMINATIONS</li>
                             <li>
@@ -136,14 +136,14 @@
                                     <li>
                                         <a href="{% url 'question:faculty-exam' %}">
                                             <i class="metismenu-icon">
-                                            </i>Add Exam
+                                            </i>Exam
                                         </a>
                                     </li>
 
                                     <li>
                                         <a href="{% url 'faculty:faculty-video-conference' %}">
                                             <i class="metismenu-icon">
-                                            </i>Generate Room
+                                            </i>Generate Room for Exam
                                         </a>
                                     </li>
 

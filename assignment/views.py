@@ -20,7 +20,7 @@ def create_assignment(request):
         return render(request, 'assignment/create-assignment.html', context=context)
 
     if request.method == 'POST':
-        assignment_form = AssignmentForm(data=request.POST)
+        assignment_form = AssignmentForm(request.POST, request.FILES)
         subject_id = request.POST.get('subject', '')
 
         # data is valid then save the assignment
@@ -87,7 +87,7 @@ def review_assignment_instance(request, assignment_instance_id):
 @allowed_users(allowed_groups=['faculty'])
 def faculty_view_all_assignment_instances(request, assignment_id):
     assignment = get_object_or_404(Assignment, id=assignment_id)
-    assignment_instances = AssignmentInstance.objects.filter(assignment=assignment)
+    assignment_instances = AssignmentInstance.objects.filter(assignment=assignment).order_by('-submit_time')
     context = {
         'assignment': assignment,
         'assignment_instances': assignment_instances,

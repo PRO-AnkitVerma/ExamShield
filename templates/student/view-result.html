@@ -12,18 +12,24 @@
                 <tr>
 
                     <th>Exam Name</th>
+                    <th>Subject</th>
 
-                    <th>View Marks</th>
+                    <th>Marks Scored</th>
+                    <th>Date</th>
+
                 </tr>
                 </thead>
-                {% for t in result %}
+                {% for result in results %}
                     <tr>
 
-                        <td> {{ t.exam.course_name }}</td>
-                        <td> {{ t.marks }}</td>
+                        <td> {{ result.exam.course_name }}</td>
+                        <td> {{ result.exam.subject.name }}</td>
+                        <td> {{ result.marks }}/{{ result.exam.total_marks }}</td>
+                        <td> {{ result.date }}</td>
 
-                        <td><a class="btn btn-danger btn-xs" href="{% url 'student:check-marks' t.id %}"><span
-                                class="glyphicon glyphicon-eye-open"></span></a></td>
+
+                        {#                        <td><a class="btn btn-danger btn-xs" href="{% url 'student:check-marks' t.id %}"><span#}
+                        {#                                class="glyphicon glyphicon-eye-open"></span></a></td>#}
                     </tr>
                 {% endfor %}
             </table>

@@ -17,6 +17,7 @@ def all_subjects(request):
     return render(request, 'faculty/all-subjects.html', {'subjects': subjects})
 
 
+@allowed_users(allowed_groups=['faculty'])
 def add_subject(request):
     subjectForm = SubjectForm(request.POST)
 
