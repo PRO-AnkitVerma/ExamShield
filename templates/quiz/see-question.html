@@ -5,26 +5,30 @@
 
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h6 class="panel-title">Questions</h6>
+                <h6 class="panel-title">Questions - {{ course.course_name }} | {{ course.subject.name }}</h6>
             </div>
             <table class="table table-hover" id="dev-table">
                 <thead>
                 <tr>
-
                     <th>Question</th>
-
                     <th>Marks</th>
-                    {#          <th>Delete Question</th>#}
                 </tr>
                 </thead>
                 {% for c in questions %}
                     <tr>
-
-                        <td> {{ c.question }}</td>
-
+                        <td>
+                            <div>
+                                <b>{{ c.question }}</b>
+                                <ol start="1">
+                                    <li>{{ c.option1 }}</li>
+                                    <li>{{ c.option2 }}</li>
+                                    <li>{{ c.option3 }}</li>
+                                    <li>{{ c.option4 }}</li>
+                                </ol>
+                                <i>Answer: {{ c.answer }}</i>
+                            </div>
+                        </td>
                         <td>{{ c.marks }}</td>
-                        {#        <td><a class="btn btn-primary btn-xs" href="#"><span class="glyphicon glyphicon-trash"></span></a></td>#}
-
                     </tr>
                 {% endfor %}
             </table>

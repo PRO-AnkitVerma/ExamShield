@@ -6,6 +6,7 @@ from django.views import View
 
 from mysite.decorators import allowed_users
 from question import models as QMODEL
+from question.models import Course
 from student import models as SMODEL
 from django import forms as QFORM
 
@@ -51,7 +52,12 @@ def dashboard(request):
 
 @allowed_users(allowed_groups=['faculty'])
 def video_conference(request):
-    return render(request, 'faculty/faculty-video-conference.html')
+    faculty = request.user.faculty
+    courses = Course.objects.filter(subject__faculty=faculty).order_by('-start_time')
+    context = {
+        'courses': courses,
+    }
+    return render(request, 'faculty/faculty-video-conference.html', context=context)
 
 
 @allowed_users(allowed_groups=['faculty'])

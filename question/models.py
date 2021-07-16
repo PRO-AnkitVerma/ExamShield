@@ -8,14 +8,17 @@ from utils.random_password import generate_random_password
 
 class Course(models.Model):
     course_name = models.CharField(max_length=50)
-    question_number = models.PositiveIntegerField()
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     start_time = models.DateTimeField(default=datetime.now, blank=True)
     end_time = models.DateTimeField(default=datetime.now, blank=True)
-    room_id = models.CharField(default=f'room-{generate_random_password(5)}', max_length=10, null=False, blank=True)
+    room_id = models.CharField(default='room123', max_length=10, null=False, blank=False)
 
     def __str__(self):
         return self.course_name
+
+    @property
+    def question_number(self):
+        return Question.objects.filter(course=self).count()
 
     @property
     def total_marks(self):
