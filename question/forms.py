@@ -25,6 +25,4 @@ class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = ['marks', 'question', 'option1', 'option2', 'option3', 'option4', 'answer']
-        widgets = {
-            'question': forms.Textarea(attrs={'rows': 3, 'cols': 50})
-        }
+
