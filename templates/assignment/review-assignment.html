@@ -14,9 +14,12 @@
         {% if already_reviewed %}
             <div><b>Marks:</b> {{ assignment_instance.marks }}</div>
         {% endif %}
-        <div><b>File Uploaded:</b> <a href="{{ assignment_instance.file_uploaded.url }}">File Uploaded</a></div>
+        <div><b>File Uploaded:</b>
+            <a href="{{ assignment_instance.file_uploaded.url }}">{{ assignment_instance.file_name }}</a>
+        </div>
 
-        <form class="form1" method="POST" action="{% url 'assignment:review-assignment-instance' assignment.id %}">
+        <form class="form1" method="POST"
+              action="{% url 'assignment:review-assignment-instance' assignment_instance.id %}">
             <div class="form-group">
                 {% csrf_token %}
 

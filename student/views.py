@@ -78,7 +78,7 @@ def start_exam_view(request, pk):
         return redirect('student:student-exam')
 
     # for testing purpose only
-    time_left = timedelta(minutes=3)
+    # time_left = timedelta(minutes=3)
 
     # getting time left in req format
     hours, mins, secs = str(time_left).split()[-1].split(':')

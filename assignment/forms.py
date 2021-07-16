@@ -7,8 +7,11 @@ from utils.form_helper import create_attributes
 class AssignmentForm(forms.ModelForm):
     class Meta:
         model = Assignment
-        fields = ['no', 'question', 'total_marks', 'deadline']
-
+        fields = ['no', 'question', 'total_marks', 'deadline', 'reference']
+        labels = {
+            'no': 'Assignment No',
+            'question': 'Assignment Title',
+        }
         widgets = {
             'no': forms.NumberInput(
                 attrs={
@@ -21,7 +24,7 @@ class AssignmentForm(forms.ModelForm):
             'question': forms.TextInput(
                 attrs={
                     **create_attributes(
-                        placeholder='Assignment Name',
+                        placeholder='Assignment Title',
                     )
                 }
             ),
