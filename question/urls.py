@@ -25,6 +25,8 @@ urlpatterns = [
     path('question/faculty-add-exam/', views.faculty_add_exam_view, name='faculty-add-exam'),
     path('faculty-view-exam/', views.faculty_view_exam_view, name='faculty-view-exam'),
     path('delete-exam/<int:pk>/', views.delete_exam_view, name='faculty-delete-exam'),
+    path('faculty-see-all-student-results/<int:course_id>/', views.faculty_see_all_student_results,
+         name='faculty-see-all-student-results'),
 
     # question urls
     path('faculty-question/', views.faculty_question_view, name='faculty-question'),

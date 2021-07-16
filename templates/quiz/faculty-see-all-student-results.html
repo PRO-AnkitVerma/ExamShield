@@ -1,18 +1,18 @@
-{% extends  'student/general-layout.html' %}
+{% extends  'faculty/general-layout.html' %}
 
 {% block app-main %}
     <div class="view-result">
 
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h6 class="panel-title">View Marks</h6>
+                <h6 class="panel-title">View Student Results - {{ course.course_name }} | {{ course.subject.name }}</h6>
             </div>
             <table class="table table-hover" id="dev-table">
                 <thead>
                 <tr>
 
-                    <th>Exam Name</th>
-                    <th>Subject</th>
+                    <th>Student Enroll</th>
+                    <th>Student Email</th>
                     <th>Marks Scored</th>
                     <th>Date</th>
 
@@ -21,8 +21,8 @@
                 {% for result in results %}
                     <tr>
 
-                        <td> {{ result.exam.course_name }}</td>
-                        <td> {{ result.exam.subject.name }}</td>
+                        <td> {{ result.student.enroll_no }}</td>
+                        <td> {{ result.student.email }}</td>
                         <td> {{ result.marks }}/{{ result.exam.total_marks }}</td>
                         <td> {{ result.date }}</td>
 
