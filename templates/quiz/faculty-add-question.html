@@ -2,19 +2,16 @@
 
 {% block app-main %}
 
-<div class="faculty-add-question">
+    <div class="faculty-add-question">
         <p class="sign" align="center">Add Question</p>
-           <form method="POST" class="form1">
+        <form method="POST" class="form1">
 
-        {% csrf_token %}
-        <div class="form-group">
-            {{ questionForm.as_p }}
-
-        </div>
-
-
-        <button type="submit" class="add">ADD</button>
-    </form>
+            {% csrf_token %}
+            <div class="form-group">
+                {{ questionForm.as_p }}
+            </div>
+            <button type="submit" class="add">ADD</button>
+        </form>
     </div>
 
 {% endblock %}
