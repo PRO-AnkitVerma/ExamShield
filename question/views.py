@@ -64,7 +64,7 @@ def faculty_add_question_view(request):
 
 @allowed_users(allowed_groups=['faculty'])
 def faculty_view_question_view(request):
-    courses = QMODEL.Course.objects.all()
+    courses = QMODEL.Course.objects.filter(subject__faculty=request.user.faculty).order_by('-start_time')
     return render(request, 'quiz/faculty-view-question.html', {'courses': courses})
 
 
