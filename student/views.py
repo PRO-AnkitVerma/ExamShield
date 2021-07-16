@@ -66,16 +66,16 @@ def start_exam_view(request, pk):
     course = get_object_or_404(Course, id=pk)
 
     # can't give exam if exam is over!
-    # time_left = course.end_time - datetime.now()
-    # if time_left <= timedelta(microseconds=0):
-    #     messages.info(request, f'Exam for {course.course_name} is over!')
-    #     return redirect('student:student-exam')
+    time_left = course.end_time - datetime.now()
+    if time_left <= timedelta(microseconds=0):
+        messages.info(request, f'Exam for {course.course_name} is over!')
+        return redirect('student:student-exam')
 
     # can't give same exam twice!
-    # student = request.user.student
-    # if student.result_set.filter(exam=course):
-    #     messages.info(request, f'You have already given exam for {course.course_name}!')
-    #     return redirect('student:student-exam')
+    student = request.user.student
+    if student.result_set.filter(exam=course):
+        messages.info(request, f'You have already given exam for {course.course_name}!')
+        return redirect('student:student-exam')
 
     # for testing purpose only
     time_left = timedelta(minutes=3)
@@ -121,7 +121,7 @@ def take_exam_view(request, pk):
 @allowed_users(allowed_groups=['student'])
 def student_exam_view(request):
     student = request.user.student
-    courses = Course.objects.filter(subject__institute=student.institute)
+    courses = Course.objects.filter(subject__institute=student.institute).order_by('-start_time')
     return render(request, 'student/student-exam.html', {'courses': courses})
 
 
@@ -152,9 +152,9 @@ def calculate_marks_view(request):
 @allowed_users(allowed_groups=['student'])
 def view_result_view(request):
     student = request.user.student
-    result = Result.objects.filter(student=student)
+    results = Result.objects.filter(student=student).order_by('-date')
     return render(request, 'student/view-result.html', context={
-        'result': result
+        'results': results
     })
 
 
