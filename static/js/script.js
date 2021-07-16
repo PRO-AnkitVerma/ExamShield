@@ -67,7 +67,7 @@ function addVideoStream(video, stream) {
             // predict();
             console.log('***************************************');
         } else {
-            alert("Warning face not detect");
+            //alert("Warning face not detect");
             // let photoCounter = 1;
             // Webcam.snap(function (url) {
             //     if (photoCounter === 3) {
