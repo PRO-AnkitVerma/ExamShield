@@ -35,4 +35,7 @@ urlpatterns = [
 
     # save result
     path('save-result/<int:course_id>/', views.save_result, name='save-result'),
+
+    # viva
+    path('student-viva/', views.student_viva_view, name='student-viva'),
 ]

@@ -52,10 +52,21 @@
 
 
     </style>
+    <!-- socket -->
     <script defer src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="{% static '/js/socket.io.js' %}" defer></script>
     <script src="{% static '/js/script.js' %}" defer></script>
     <script src="{% static '/js/main.js' %}" defer></script>
+    <!--Face detection cdn links-->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"
+            integrity="sha512-dQIiHSl2hr3NWKKLycPndtpbh5iaHLo6MwrXm7F0FM5e+kL2U16oE9uIwPHUl6fQBeCthiEuV/rzP3MiAB8Vfw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
 {% endblock %}
 
 
@@ -105,9 +116,12 @@
                             <li>You will be told your marks immediately when you submit the answer.</li>
                         </ul>
                         <p></p>
-                        <input type="text" align="center" name="exam_id" id="exam_id" placeholder="Exam ID">
+                        <input type="text" align="center" name="exam_id" id="exam_id" placeholder="Exam ID"
+                               value="{{ course.room_id }}" readonly>
                         <br/>
-                        <button class="btn btn-primary" onclick="startExamTime()" style="margin-left: 616px;">Let's Start</button>
+                        <button class="btn btn-primary" onclick="startExamTime()" style="margin-left: 616px;">Let's
+                            Start
+                        </button>
                     </div>
                     <div class="card-footer">Best Of Luck</div>
                 </div>
@@ -188,8 +202,8 @@
                                 <div class="col-md-12">
                                     <div class="card-body">
                                         <h5 class="card-title">Student Details</h5>
-                                        <p class="card-text">Name : <span>{{student_name}}</span></p>
-                                        <p class="card-text">SID No. : <span>{{student_enroll}}</span></p>
+                                        <p class="card-text">Email : <span>{{ student.email }}</span></p>
+                                        <p class="card-text">Enroll No. : <span>{{ student.enroll_no }}</span></p>
                                     </div>
                                 </div>
                             </div>
@@ -267,10 +281,12 @@
             var h = document.getElementById('hour');
             var m = document.getElementById('minute');
             var s = document.getElementById('second');
-            // TODO : dynamic change time
-            var hour = "00";
-            var min = '30';
-            var sec = "10";
+
+            // dynamic change time
+            var hour = '{{hours}}';
+            var min = '{{ mins }}';
+            var sec = '{{ secs }}';
+
 
             timer = setInterval(function () {
 
@@ -318,8 +334,6 @@
                     document.getElementById('msg').style.display = 'block';
                     clearInterval(timer);
                     showMark();
-
-
                 }
 
                 h.innerHTML = hour;
@@ -327,7 +341,7 @@
                 s.innerHTML = sec;
             }, 1000);
 
-
+            /*
             let video = document.getElementById('video');
             let model;
             const setupCamera = () => {
@@ -343,12 +357,16 @@
                 const predictions = await model.estimateFaces(video, true);
                 console.log(predictions);
             }
+            */
 
             //setupCamera();
+            /*
             video.addEventListener('loadeddata', async () => {
                 model = await blazeface.load();
                 setInterval(faceDetection, 100);
             });
+            */
+
 
             // TODO: enable restriction import here
             document.documentElement.addEventListener('fullscreenchange', (e) => {
@@ -413,7 +431,15 @@
         if (totalQuestions == 0) {
             document.getElementById('if-no-question').style.display = 'block';
             document.getElementById('clear').style.display = 'none';
+            setTimeout(function () {
+                window.open("{% url 'student:student-exam' %}", "_self");
+            }, 3000);
 
+        } else if (totalQuestions == 1) {
+            document.getElementById('submit').style.display = "block";
+            document.getElementById('previous').style.display = "none";
+            document.getElementById('next').style.display = 'none';
+            document.getElementById('1').style.display = "inherit";
         } else {
             document.getElementById('1').style.display = 'inherit';
 
@@ -451,40 +477,43 @@
                 }
             }
 
-            function showMark() {
-                var total_marks = 0;
-                var date = new Date();
-                var time_of_submit = date.toLocaleTimeString();
-                {% for q in questions%}
-                    var ele = document.getElementsByName('{{ forloop.counter }}');
 
-                    for (i = 0; i < ele.length; i++) {
-                        if (ele[i].checked) {
-                            if (ele[i].value == "{{q.answer}}") {
-                                total_marks = total_marks + {{q.marks}};
+        }
 
-                            } else {
-                                console.log("false"); // don't touch it and don't comment
-                            }
+        //this submits form and display marks
+        function showMark() {
+            var total_marks = 0;
+            var date = new Date();
+            var time_of_submit = date.toLocaleTimeString();
+            {% for q in questions%}
+                var ele = document.getElementsByName('{{ forloop.counter }}');
 
+                for (i = 0; i < ele.length; i++) {
+                    if (ele[i].checked) {
+                        if (ele[i].value == "{{q.answer}}") {
+                            total_marks = total_marks + {{q.marks}};
+
+                        } else {
+                            console.log("false"); // don't touch it and don't comment
                         }
+
                     }
+                }
 
-                {% endfor %}
+            {% endfor %}
 
-                swal("Thank you for your response", `Course name : ${"{{course.id}}"}\nTotal mark : ${total_marks}\nSubmitting time : ${time_of_submit}`, "success")
-                document.getElementById('clear').style.display = 'none'; // don't touch it and don't comment
-                document.getElementById('msg').style.display = 'block'; // don't touch it and don't comment
-                clearInterval(timer); // don't touch it and don't comment
+            swal("Thank you for your response", `Course name : ${"{{course.id}}"}\nTotal mark : ${total_marks}\nSubmitting time : ${time_of_submit}`, "success")
+            document.getElementById('clear').style.display = 'none'; // don't touch it and don't comment
+            document.getElementById('msg').style.display = 'block'; // don't touch it and don't comment
+            clearInterval(timer); // don't touch it and don't comment
 
-                // TODO : store in database(result)
-                document.getElementById('total_score').value = total_marks;
-                document.getElementById('course_id').value = "{{course.id}}";
-                document.getElementById('time_submitting').value = time_of_submit;
-                document.getElementById('course_name').value = "{{course.course_name}}";
+            // TODO : store in database(result)
+            document.getElementById('total_score').value = total_marks;
+            document.getElementById('course_id').value = "{{course.id}}";
+            document.getElementById('time_submitting').value = time_of_submit;
+            document.getElementById('course_name').value = "{{course.course_name}}";
 
-                document.myform.submit();
-            }
+            document.myform.submit();
         }
 
     </script>

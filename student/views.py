@@ -1,7 +1,10 @@
+from datetime import datetime, timedelta
+from random import shuffle
+
 from django.contrib import auth, messages
-from django.contrib.auth.decorators import user_passes_test, login_required
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 
 from mysite.decorators import allowed_users
@@ -38,44 +41,71 @@ def logout(request):
 
 
 def is_student(user):
-    # TODO: ask about this group!
     return user.groups.filter(name='STUDENT').exists()
 
 
+@allowed_users(allowed_groups=['student'])
 def student_dashboard_view(request):
-    dict = {
+    context = {
 
         'total_course': QMODEL.Course.objects.all().count(),
         'total_question': QMODEL.Question.objects.all().count(),
+        'institute': request.user.student.institute.name,
     }
-    return render(request, 'student/dashboard.html', context={
-        'institute': request.user.student.institute.name
-    })
+    return render(request, 'student/dashboard.html', context=context)
 
 
-
+@allowed_users(allowed_groups=['student'])
 def student_marks_view(request):
     courses = QMODEL.Course.objects.all()
     return render(request, 'student/student-marks.html', {'courses': courses})
 
 
+@allowed_users(allowed_groups=['student'])
 def start_exam_view(request, pk):
-    course = QMODEL.Course.objects.get(id=pk)
-    questions = QMODEL.Question.objects.all().filter(course=course)
+    course = get_object_or_404(Course, id=pk)
+
+    # can't give exam if exam is over!
+    # time_left = course.end_time - datetime.now()
+    # if time_left <= timedelta(microseconds=0):
+    #     messages.info(request, f'Exam for {course.course_name} is over!')
+    #     return redirect('student:student-exam')
+
+    # can't give same exam twice!
+    # student = request.user.student
+    # if student.result_set.filter(exam=course):
+    #     messages.info(request, f'You have already given exam for {course.course_name}!')
+    #     return redirect('student:student-exam')
+
+    # for testing purpose only
+    time_left = timedelta(minutes=3)
+
+    # getting time left in req format
+    hours, mins, secs = str(time_left).split()[-1].split(':')
+    hours = '0' + hours if len(hours) == 1 else hours
+    mins = '0' + mins if len(mins) == 1 else mins
+    secs = '0' + secs if len(secs) == 1 else secs
+
+    questions = QMODEL.Question.objects.filter(course=course)
     total_questions = questions.count()
-    student_name=request.user.student.email
-    student_enroll=request.user.student.enroll_no
-    if request.method == 'POST':
-        pass
-    response = render(request, 'student/start-exam.html',
-                      context={'course': course, 'student_name': student_name , 'student_enroll':student_enroll,
-                               'questions': questions, 'total_questions': total_questions})
-    # response.set_cookie('course_id', course.id)
-    return response
+
+    # shuffling questions
+    questions = list(questions)
+    shuffle(questions)
+
+    context = {
+        'course': course,
+        'questions': questions,
+        'total_questions': total_questions,
+        'hours': hours,
+        'mins': mins,
+        'secs': secs,
+        'student': request.user.student,
+    }
+    return render(request, 'student/start-exam.html', context=context)
 
 
-# @login_required(login_url='studentlogin')
-# @user_passes_test(is_student)
+@allowed_users(allowed_groups=['student'])
 def take_exam_view(request, pk):
     course = QMODEL.Course.objects.get(id=pk)
     total_questions = QMODEL.Question.objects.all().filter(course=course).count()
@@ -88,18 +118,14 @@ def take_exam_view(request, pk):
                   {'course': course, 'total_questions': total_questions, 'total_marks': total_marks})
 
 
-# @login_required(login_url='studentlogin')
-# @user_passes_test(is_student)
 @allowed_users(allowed_groups=['student'])
 def student_exam_view(request):
     student = request.user.student
-    courses = Course.objects.filter(result__in=student.result_set.filter(is_given=False))
-    print(courses)
+    courses = Course.objects.filter(subject__institute=student.institute)
     return render(request, 'student/student-exam.html', {'courses': courses})
 
 
-# @login_required(login_url='studentlogin')
-# @user_passes_test(is_student)
+@allowed_users(allowed_groups=['student'])
 def calculate_marks_view(request):
     if request.COOKIES.get('course_id') is not None:
         course_id = request.COOKIES.get('course_id')
@@ -123,18 +149,16 @@ def calculate_marks_view(request):
         return HttpResponseRedirect('view-result')
 
 
-# @login_required(login_url='studentlogin')
-# @user_passes_test(is_student)
+@allowed_users(allowed_groups=['student'])
 def view_result_view(request):
-    # TODO: remaining to filter out
-    result = Result.objects.all()
+    student = request.user.student
+    result = Result.objects.filter(student=student)
     return render(request, 'student/view-result.html', context={
         'result': result
     })
 
 
-# @login_required(login_url='studentlogin')
-# @user_passes_test(is_student)
+@allowed_users(allowed_groups=['student'])
 def check_marks_view(request, pk):
     course = QMODEL.Course.objects.get(id=pk)
     student = models.student.objects.get(user_id=request.user.id)
@@ -149,7 +173,7 @@ def save_result(request, course_id):
 
     student = request.user.student
     marks = request.POST.get('total_score', '')
-    course_id = request.POST.get('course_id', '')
+    course_id = course_id
     submitted_time = request.POST.get('time_submitting', '')
 
     try:
@@ -164,3 +188,8 @@ def save_result(request, course_id):
         return redirect('student:view-result')
     except Exception as e:
         return HttpResponse('Unable to save result!')
+
+
+@allowed_users(allowed_groups=['student'])
+def student_viva_view(request):
+    return render(request, 'student/student-viva.html')

@@ -1,13 +1,10 @@
-from django.contrib.auth.decorators import user_passes_test, login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
 from mysite.decorators import allowed_users
 from question import models as QMODEL
-# from django import forms as QFORM
 from question.forms import CourseForm, QuestionForm
 from question.models import Course
-from faculty.models import faculty as Faculty
 from subject.models import Subject
 
 
@@ -58,9 +55,6 @@ def faculty_add_question_view(request):
             course = QMODEL.Course.objects.get(id=request.POST.get('courseID'))
             question.course = course
             question.save()
-
-
-
         else:
             print("form is invalid")
         return HttpResponseRedirect('/question/faculty-view-question')

@@ -83,14 +83,20 @@
 
     <script>
         let ROOM_ID;
-        if (localStorage.getItem('exam_id') === 'undefined') {
+        console.log("===================================================")
+        console.log(localStorage.getItem('exam_id'))
+        console.log("===================================================")
+        if (localStorage.getItem('exam_id') === 'undefined' || localStorage.getItem('exam_id') === '') {
             ROOM_ID = undefined;
         } else {
             ROOM_ID = localStorage.getItem('exam_id');
         }
 
         function onGenerateRoom() {
-            localStorage.setItem('exam_id', document.getElementById('room').value);
+            console.log("===================================================")
+            console.log(`${document.getElementById('room_id').value}`)
+            console.log("===================================================")
+            localStorage.setItem('exam_id', document.getElementById('room_id').value);
             location.reload();
         }
 
@@ -104,7 +110,8 @@
     <div class="faculty-video-conference">
         <p class="sign" align="center">Generate Room</p>
         <input type="text" align="center" name="room_id" id="room_id" placeholder="Room ID">
-        <button id="generate" align="center" name="generate" class="generate" onclick="onGenerateRoom()">Generate</button>
+        <button id="generate" align="center" name="generate" class="generate" onclick="onGenerateRoom()">Generate
+        </button>
 
 
 

@@ -9,7 +9,7 @@ class CourseForm(forms.ModelForm):
 
     class Meta:
         model = Course
-        fields = ['course_name', 'question_number', 'total_marks']
+        fields = ['course_name', 'question_number', 'total_marks', 'start_time', 'end_time', 'room_id']
 
 
 class QuestionForm(forms.ModelForm):
