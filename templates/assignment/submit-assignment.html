@@ -11,6 +11,13 @@
         <div><b>Total Marks:</b> {{ assignment.total_marks }}</div>
         <div><b>Reference:</b> <a href="{{ assignment.reference.url }}">{{ assignment.reference_name }}</a></div>
 
+        {% if uploaded_assignment %}
+            <br/>
+            <div><b>Your Work:</b> <a
+                    href="{{ uploaded_assignment.file_uploaded.url }}">{{ uploaded_assignment.file_name }}</a>
+            </div>
+        {% endif %}
+
 
         <form class="form1" method="POST" action="{% url 'assignment:submit-assignment' assignment.id %}"
               enctype="multipart/form-data">
