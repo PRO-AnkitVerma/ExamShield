@@ -10,6 +10,10 @@ class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
         fields = ['course_name', 'start_time', 'end_time', 'room_id']
+        labels = {
+            'course_name': 'Exam name',
+        }
+
 
 
 class QuestionForm(forms.ModelForm):
@@ -21,6 +25,4 @@ class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = ['marks', 'question', 'option1', 'option2', 'option3', 'option4', 'answer']
-        widgets = {
-            'question': forms.Textarea(attrs={'rows': 3, 'cols': 50})
-        }
+

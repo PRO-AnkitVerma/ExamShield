@@ -76,12 +76,6 @@
 
 {% block main %}
 
-    <div class="mx-auto my-2" id="face_detection">
-        <div class="alert alert-danger text-center">
-            your face is not detact.
-        </div>
-    </div>
-
     <div id="intro" class="intro">
         <div class="jumbotron">
 
@@ -98,7 +92,7 @@
                         <ul style="list-style:decimal;">
                             <li>Exam Name : {{ course.course_name }}</li>
                             <li>Total Question : {{ total_questions }}</li>
-                            <li>Total Marks : {{ total_marks }}</li>
+                            <li>Total Marks : {{ course.total_marks }}</li>
                         </ul>
                         <p></p>
 

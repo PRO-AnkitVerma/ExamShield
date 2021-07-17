@@ -110,13 +110,15 @@ def faculty_view_all_given_assignments(request):
 def submit_assignment_instance(request, assignment_id):
     assignment = get_object_or_404(Assignment, id=assignment_id)
     student = request.user.student
+    assignment_instance = AssignmentInstance.objects.filter(assignment=assignment)
 
     if request.method == 'GET':
         context = {
             'assignment': assignment,
             'assignment_instance_form': AssignmentInstanceForm(),
             'student': student,
-            'already_submitted': AssignmentInstance.objects.filter(assignment=assignment).exists()
+            'already_submitted': assignment_instance.exists(),
+            'uploaded_assignment': assignment_instance[0] if assignment_instance else None
         }
 
         if context['already_submitted']:

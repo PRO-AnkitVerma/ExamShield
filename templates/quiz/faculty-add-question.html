@@ -1,17 +1,17 @@
 {% extends  'faculty/general-layout.html' %}
 
 {% block app-main %}
-    <form method="POST" class="form1">
 
-        {% csrf_token %}
-        <div class="form-group">
-            {{ questionForm.as_p }}
+    <div class="faculty-add-question">
+        <p class="sign" align="center">Add Question</p>
+        <form method="POST" class="form1">
 
-        </div>
-
-
-        <button type="submit" class="btn btn-primary">ADD</button>
-    </form>
-    <br><br><br>
+            {% csrf_token %}
+            <div class="form-group">
+                {{ questionForm.as_p }}
+            </div>
+            <button type="submit" class="add">ADD</button>
+        </form>
+    </div>
 
 {% endblock %}

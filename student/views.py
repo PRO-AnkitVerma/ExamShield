@@ -84,7 +84,7 @@ def start_exam_view(request, pk):
     hours, mins, secs = str(time_left).split()[-1].split(':')
     hours = '0' + hours if len(hours) == 1 else hours
     mins = '0' + mins if len(mins) == 1 else mins
-    secs = '0' + secs if len(secs) == 1 else secs
+    secs = '00'
 
     questions = QMODEL.Question.objects.filter(course=course)
     total_questions = questions.count()
